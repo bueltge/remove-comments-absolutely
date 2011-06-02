@@ -4,7 +4,7 @@
  * Plugin URI: http://bueltge.de/
  * Text Domain: remove_comments_absolute
  * Domain Path: /languages
- * Description: Deactivate comments functions and remove areas absolute form the WordPress install
+ * Description: Deactivate comments functions and remove areas absolute from the WordPress install
  * Author: Frank Bültge
  * Version: 0.0.1
  * Licence: GPLv2
@@ -46,9 +46,9 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		/**
 		 * Handler for the action 'init'. Instantiates this class.
 		 * 
-		 * @access public
-		 * @since 0.0.1
-		 * @return $classobj
+		 * @access  public
+		 * @since   0.0.1
+		 * @return  object $classobj
 		 */
 		public function get_object () {
 			
@@ -59,8 +59,16 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			return self :: $classobj;
 		}
 		
-		// set the status on posts and pages - is_singular ()
-		public function set_comment_status( $posts ) {
+		/**
+		 * Set the status on posts and pages - is_singular ()
+		 * 
+		 * @access  public
+		 * @since   0.0.1
+		 * @uses    is_singular
+		 * @param   string $posts
+		 * $return  string $posts
+		 */
+		public function set_comment_status ( $posts ) {
 			
 			if ( ! empty( $posts ) && is_singular() ) {
 				$posts[0]->comment_status = 'closed';
@@ -70,8 +78,17 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			return $posts;
 		}
 		
-		public function close_comments( $open, $post_id ) {
-			// if ! open, than back
+		/**
+		 * Close comments, if open
+		 * 
+		 * @access  public
+		 * @since   0.0.1
+		 * @param   string | boolean $open
+		 * @param   string | integer $post_id
+		 * $return  string $posts
+		 */
+		public function close_comments ( $open, $post_id ) {
+			// if not open, than back
 			if ( ! $open )
 				return $open;
 			
@@ -82,6 +99,17 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			return $open;
 		}
 		
+		/**
+		 * Change options for dont use comments
+		 * Remove meta boxes on edit pages
+		 * Remove support on all post types for comments
+		 * Remove menu-entries
+		 * 
+		 * @access  public
+		 * @since   0.0.1
+		 * @uses    update_option, get_post_types, remove_meta_box, remove_post_type_support
+		 * $return  void
+		 */
 		public function remove_comments () {
 			// int values
 			foreach ( array( 'comments_notify', 'default_pingback_flag' ) as $option )
@@ -108,14 +136,28 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			unset( $GLOBALS['submenu']['options-general.php'][25] );
 		}
 		
-		// add class for last menu entry
-		function add_menu_classes ($menu) {
-			$mc = count($menu);
-			echo $mc;
+		/**
+		 * Add class for last menu entry with no 20
+		 * 
+		 * @access  public
+		 * @since   0.0.1
+		 * @param   array string $menu
+		 * $return  array string $menu
+		 */
+		function add_menu_classes ( $menu ) {
+			
 			$menu[20][4] .= ' menu-top-last';
+			
 			return $menu;
 		}
 		
+		/**
+		 * Remove areas for comments in backend via JS
+		 * 
+		 * @access  public
+		 * @since   0.0.1
+		 * $return  string with js
+		 */
 		public function remove_comments_areas () {
 			?>
 			<script type="text/javascript">
@@ -128,6 +170,14 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			<?php
 		}
 		
+		/**
+		 * Remove comment entry in Admin Bar
+		 * 
+		 * @access  public
+		 * @since   0.0.1
+		 * @uses    remove_menu
+		 * $return  void
+		 */
 		public function admin_bar_render () {
 			// remove entry in admin bar
 			$GLOBALS['wp_admin_bar'] -> remove_menu( 'comments' );
