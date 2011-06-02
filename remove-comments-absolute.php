@@ -36,6 +36,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			add_filter( 'pings_open', array( $this, 'close_comments', 10, 2 ) );
 			
 			add_action( 'admin_init', array( $this, 'remove_comments' ) );
+			add_filter( 'add_menu_classes', array( $this, 'add_menu_classes' ) );
 			
 			add_action( 'admin_head', array( $this, 'remove_comments_areas' ) );
 			
@@ -101,9 +102,18 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			}
 			// remove dashboard meta box for recents comments
 			remove_meta_box( 'dashboard_recent_comments', 'dashboard', 'normal' );
-			
+			// unset comments
+			unset( $GLOBALS['menu'][25] );
 			// unset menuentry Discussion
 			unset( $GLOBALS['submenu']['options-general.php'][25] );
+		}
+		
+		// add class for last menu entry
+		function add_menu_classes ($menu) {
+			$mc = count($menu);
+			echo $mc;
+			$menu[20][4] .= ' menu-top-last';
+			return $menu;
 		}
 		
 		public function remove_comments_areas () {
