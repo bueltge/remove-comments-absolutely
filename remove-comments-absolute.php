@@ -1,10 +1,10 @@
 <?php
 /**
- * Plugin Name: Remove Comments Absolute
+ * Plugin Name: Remove Comments Absolutely
  * Plugin URI: http://bueltge.de/
  * Text Domain: remove_comments_absolute
  * Domain Path: /languages
- * Description: Deactivate comments functions and remove areas absolute from the WordPress install
+ * Description: Deactivate comments functions and remove areas absolutely from the WordPress install
  * Author: Frank Bültge
  * Version: 0.0.1
  * Licence: GPLv2
@@ -66,7 +66,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @since   0.0.1
 		 * @uses    is_singular
 		 * @param   string $posts
-		 * $return  string $posts
+		 * @return  string $posts
 		 */
 		public function set_comment_status ( $posts ) {
 			
@@ -85,7 +85,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @since   0.0.1
 		 * @param   string | boolean $open
 		 * @param   string | integer $post_id
-		 * $return  string $posts
+		 * @eturn  string $posts
 		 */
 		public function close_comments ( $open, $post_id ) {
 			// if not open, than back
@@ -108,7 +108,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @access  public
 		 * @since   0.0.1
 		 * @uses    update_option, get_post_types, remove_meta_box, remove_post_type_support
-		 * $return  void
+		 * @return  void
 		 */
 		public function remove_comments () {
 			// int values
@@ -142,7 +142,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @access  public
 		 * @since   0.0.1
 		 * @param   array string $menu
-		 * $return  array string $menu
+		 * @return  array string $menu
 		 */
 		function add_menu_classes ( $menu ) {
 			
