@@ -125,8 +125,9 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 				remove_meta_box( 'commentstatusdiv', $post_type, 'normal' );
 				// remove trackbacks
 				remove_meta_box( 'trackbacksdiv', $post_type, 'normal' );
-				// remove all commnts from tabels
+				// remove all comments/trackbacks from tabels
 				remove_post_type_support( $post_type, 'comments' );
+				remove_post_type_support( $post_type, 'trackbacks' );
 			}
 			// remove dashboard meta box for recents comments
 			remove_meta_box( 'dashboard_recent_comments', 'dashboard', 'normal' );
