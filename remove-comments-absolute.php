@@ -131,10 +131,17 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			}
 			// remove dashboard meta box for recents comments
 			remove_meta_box( 'dashboard_recent_comments', 'dashboard', 'normal' );
-			// unset comments
-			unset( $GLOBALS['menu'][25] );
-			// unset menuentry Discussion
-			unset( $GLOBALS['submenu']['options-general.php'][25] );
+			
+			// Remove menu entries with WP 3.1 and higher
+			if ( function_exists( 'remove_menu_page' ) ) {
+				remove_menu_page( 'edit-comments.php' );
+				remove_submenu_page( 'options-general.php', 'options-discussion.php' );
+			} else {
+				// unset comments
+				unset( $GLOBALS['menu'][25] );
+				// unset menuentry Discussion
+				unset( $GLOBALS['submenu']['options-general.php'][25] );
+			}
 		}
 		
 		/**
