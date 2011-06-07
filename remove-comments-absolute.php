@@ -6,11 +6,11 @@
  * Domain Path: /languages
  * Description: Deactivate comments functions and remove areas absolutely from the WordPress install
  * Author: Frank Bültge
- * Version: 0.0.1
+ * Version: 0.0.2
  * Licence: GPLv2
  * Author URI: http://bueltge.de
  * Upgrade Check: none
- * Last Change: 01.06.2011
+ * Last Change: 07.06.2011
  */
 
 if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
@@ -32,8 +32,8 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			
 			add_filter( 'the_posts', array( $this, 'set_comment_status' ) );
 			
-			add_filter( 'comments_open', array( $this, 'close_comments', 10, 2 ) );
-			add_filter( 'pings_open', array( $this, 'close_comments', 10, 2 ) );
+			add_filter( 'comments_open', array( $this, 'close_comments'), 10, 2 );
+			add_filter( 'pings_open', array( $this, 'close_comments'), 10, 2 );
 			
 			add_action( 'admin_init', array( $this, 'remove_comments' ) );
 			add_filter( 'add_menu_classes', array( $this, 'add_menu_classes' ) );
