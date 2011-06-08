@@ -30,18 +30,18 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 */
 		public function __construct () {
 			
-			add_filter( 'the_posts', 					array( $this, 'set_comment_status' ) );
+			add_filter( 'the_posts',                  array( $this, 'set_comment_status' ) );
 			
-			add_filter( 'comments_open', 				array( $this, 'close_comments'), 10, 2 );
-			add_filter( 'pings_open', 					array( $this, 'close_comments'), 10, 2 );
+			add_filter( 'comments_open',              array( $this, 'close_comments'), 10, 2 );
+			add_filter( 'pings_open',                 array( $this, 'close_comments'), 10, 2 );
 			
-			add_action( 'admin_init', 					array( $this, 'remove_comments' ) );
-			add_action( 'admin_menu', 					array( $this, 'remove_menu_items' ) );
-			add_filter( 'add_menu_classes', 			array( $this, 'add_menu_classes' ) );
+			add_action( 'admin_init',                 array( $this, 'remove_comments' ) );
+			add_action( 'admin_menu',                 array( $this, 'remove_menu_items' ) );
+			add_filter( 'add_menu_classes',           array( $this, 'add_menu_classes' ) );
 			
-			add_action( 'admin_head', 					array( $this, 'remove_comments_areas' ) );
+			add_action( 'admin_head',                 array( $this, 'remove_comments_areas' ) );
 			
-			add_action( 'wp_before_admin_bar_render', 	array( $this, 'admin_bar_render' ) );
+			add_action( 'wp_before_admin_bar_render', array( $this, 'admin_bar_render' ) );
 		}
 		
 		/**
