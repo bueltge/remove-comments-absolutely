@@ -6,11 +6,11 @@
  * Domain Path: /languages
  * Description: Deactivate comments functions and remove areas absolutely from the WordPress install
  * Author: Frank Bültge
- * Version: 0.0.2
+ * Version: 0.0.3
  * Licence: GPLv2
  * Author URI: http://bueltge.de
  * Upgrade Check: none
- * Last Change: 07.06.2011
+ * Last Change: 08.06.2011
  */
 
 if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
@@ -25,7 +25,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * 
 		 * @access  public
 		 * @since   0.0.1
-		 * @uses    add_filter, add_action
+		 * @uses	add_filter, add_action
 		 * @return  void
 		 */
 		public function __construct () {
@@ -36,6 +36,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			add_filter( 'pings_open', array( $this, 'close_comments'), 10, 2 );
 			
 			add_action( 'admin_init', array( $this, 'remove_comments' ) );
+			add_action( 'admin_menu', array( $this, 'remove_menu_items' ) );
 			add_filter( 'add_menu_classes', array( $this, 'add_menu_classes' ) );
 			
 			add_action( 'admin_head', array( $this, 'remove_comments_areas' ) );
@@ -64,7 +65,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * 
 		 * @access  public
 		 * @since   0.0.1
-		 * @uses    is_singular
+		 * @uses	is_singular
 		 * @param   string $posts
 		 * @return  string $posts
 		 */
@@ -107,7 +108,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * 
 		 * @access  public
 		 * @since   0.0.1
-		 * @uses    update_option, get_post_types, remove_meta_box, remove_post_type_support
+		 * @uses	update_option, get_post_types, remove_meta_box, remove_post_type_support
 		 * @return  void
 		 */
 		public function remove_comments () {
@@ -131,7 +132,17 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			}
 			// remove dashboard meta box for recents comments
 			remove_meta_box( 'dashboard_recent_comments', 'dashboard', 'normal' );
-			
+		}
+		
+		/**
+		 * Remove menu-entries
+		 * 
+		 * @access  public
+		 * @since   0.0.3
+		 * @uses	remove_meta_box, remove_post_type_support
+		 * @return  void
+		 */
+		public function remove_menu_items () {
 			// Remove menu entries with WP 3.1 and higher
 			if ( function_exists( 'remove_menu_page' ) ) {
 				remove_menu_page( 'edit-comments.php' );
@@ -183,7 +194,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * 
 		 * @access  public
 		 * @since   0.0.1
-		 * @uses    remove_menu
+		 * @uses	remove_menu
 		 * $return  void
 		 */
 		public function admin_bar_render () {
