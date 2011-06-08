@@ -25,7 +25,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * 
 		 * @access  public
 		 * @since   0.0.1
-		 * @uses	add_filter, add_action
+		 * @uses    add_filter, add_action
 		 * @return  void
 		 */
 		public function __construct () {
@@ -65,7 +65,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * 
 		 * @access  public
 		 * @since   0.0.1
-		 * @uses	is_singular
+		 * @uses    is_singular
 		 * @param   string $posts
 		 * @return  string $posts
 		 */
@@ -108,7 +108,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * 
 		 * @access  public
 		 * @since   0.0.1
-		 * @uses	update_option, get_post_types, remove_meta_box, remove_post_type_support
+		 * @uses    update_option, get_post_types, remove_meta_box, remove_post_type_support
 		 * @return  void
 		 */
 		public function remove_comments () {
@@ -139,7 +139,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * 
 		 * @access  public
 		 * @since   0.0.3
-		 * @uses	remove_meta_box, remove_post_type_support
+		 * @uses    remove_meta_box, remove_post_type_support
 		 * @return  void
 		 */
 		public function remove_menu_items () {
@@ -194,7 +194,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * 
 		 * @access  public
 		 * @since   0.0.1
-		 * @uses	remove_menu
+		 * @uses    remove_menu
 		 * $return  void
 		 */
 		public function admin_bar_render () {
