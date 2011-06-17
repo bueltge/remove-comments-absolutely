@@ -1,16 +1,16 @@
 <?php
 /**
  * Plugin Name: Remove Comments Absolutely
- * Plugin URI: http://bueltge.de/
+ * Plugin URI: http://wpengineer.com/2230/removing-comments-absolutely-wordpress/
  * Text Domain: remove_comments_absolute
  * Domain Path: /languages
  * Description: Deactivate comments functions and remove areas absolutely from the WordPress install
  * Author: Frank Bültge
- * Version: 0.0.3
+ * Version: 0.0.4
  * Licence: GPLv2
- * Author URI: http://bueltge.de
+ * Author URI: http://bueltge.de/
  * Upgrade Check: none
- * Last Change: 08.06.2011
+ * Last Change: 17.06.2011
  */
 
 if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
@@ -42,6 +42,10 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			add_action( 'admin_head',                 array( $this, 'remove_comments_areas' ) );
 			
 			add_action( 'wp_before_admin_bar_render', array( $this, 'admin_bar_render' ) );
+			
+			// remove comment feed
+			remove_action( 'wp_head', 'feed_links', 2 );
+			add_action( 'wp_head', array( $this, 'feed_links' ), 2 );
 		}
 		
 		/**
@@ -202,6 +206,33 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			$GLOBALS['wp_admin_bar'] -> remove_menu( 'comments' );
 		}
 		
+		/**
+		 * Display the links to the general feeds, without comments
+		 * 
+		 * @access  public
+		 * @since   0.0.4
+		 * @uses    current_theme_supports, wp_parse_args, feed_content_type, get_bloginfo, esc_attr, get_feed_link, _x, __
+		 * @param   array $args Optional arguments
+		 * @return  string
+		 */
+		public function feed_links( $args = array() ) {
+			
+			if ( ! current_theme_supports('automatic-feed-links') )
+				return;
+		
+			$defaults = array(
+				/* translators: Separator between blog name and feed type in feed links */
+				'separator'	=> _x( '&raquo;', 'feed link' ),
+				/* translators: 1: blog title, 2: separator (raquo) */
+				'feedtitle'	=> __( '%1$s %2$s Feed' ),
+			);
+		
+			$args = wp_parse_args( $args, $defaults );
+		
+			echo '<link rel="alternate" type="' . feed_content_type() . '" title="' . 
+				esc_attr(sprintf( $args['feedtitle'], get_bloginfo('name'), $args['separator'] )) . 
+				'" href="' . get_feed_link() . "\" />\n";
+		}
 	
 	} // end class
 
