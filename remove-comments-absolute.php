@@ -186,7 +186,8 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			<script type="text/javascript">
 			//<![CDATA[
 			jQuery(document).ready( function($) {
-				$( '.table_discussion' ).remove( ":contains('Discussion')" );
+				$( 'div.table_discussion' ).css( 'display', 'none' );
+				$( 'div.musubtable' ).css( "display", "block" );
 			});
 			//]]>
 			</script>
