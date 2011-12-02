@@ -1,16 +1,16 @@
 <?php
 /**
- * Plugin Name: Remove Comments Absolutely
- * Plugin URI: http://wpengineer.com/2230/removing-comments-absolutely-wordpress/
- * Text Domain: remove_comments_absolute
- * Domain Path: /languages
- * Description: Deactivate comments functions and remove areas absolutely from the WordPress install
- * Author: Frank Bültge
- * Version: 0.0.4
- * Licence: GPLv2
- * Author URI: http://bueltge.de/
+ * Plugin Name:   Remove Comments Absolutely
+ * Plugin URI:    http://wpengineer.com/2230/removing-comments-absolutely-wordpress/
+ * Text Domain:   remove_comments_absolute
+ * Domain Path:   /languages
+ * Description:   Deactivate comments functions and remove areas absolutely from the WordPress install
+ * Author:        Frank Bültge
+ * Version:       0.0.5
+ * Licence:       GPLv2
+ * Author URI:    http://bueltge.de/
  * Upgrade Check: none
- * Last Change: 17.06.2011
+ * Last Change:   02.12.2011
  */
 
 if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
@@ -186,7 +186,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			<script type="text/javascript">
 			//<![CDATA[
 			jQuery(document).ready( function($) {
-				$( '.table_discussion' ).remove();
+				$( '.table_discussion' ).remove( ":contains('Discussion')" );
 			});
 			//]]>
 			</script>
@@ -237,4 +237,3 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 	} // end class
 
 } // end if class exists
-?>
