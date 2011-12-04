@@ -203,6 +203,9 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * $return  void
 		 */
 		public function admin_bar_render () {
+			// remove comment item in blog -list for "My Sites" in Admin Bar
+			if ( isset( $GLOBALS['blog_id'] ) )
+				$GLOBALS['wp_admin_bar'] -> remove_menu( 'blog-' . $GLOBALS['blog_id'] . '-c' );
 			// remove entry in admin bar
 			$GLOBALS['wp_admin_bar'] -> remove_menu( 'comments' );
 		}
