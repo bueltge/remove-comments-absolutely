@@ -6,11 +6,11 @@
  * Domain Path:   /languages
  * Description:   Deactivate comments functions and remove areas absolutely from the WordPress install
  * Author:        Frank Bültge
- * Version:       0.0.5
- * Licence:       GPLv2
+ * Version:       0.0.6
+ * Licence:       GPLv3
  * Author URI:    http://bueltge.de/
  * Upgrade Check: none
- * Last Change:   02.12.2011
+ * Last Change:   20.12.2011
  */
 
 if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
@@ -169,7 +169,8 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 */
 		function add_menu_classes ( $menu ) {
 			
-			$menu[20][4] .= ' menu-top-last';
+			if ( isset( $menu[20][4] ) )
+				$menu[20][4] .= ' menu-top-last';
 			
 			return $menu;
 		}
