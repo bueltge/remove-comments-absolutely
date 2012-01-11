@@ -6,11 +6,10 @@
  * Domain Path:   /languages
  * Description:   Deactivate comments functions and remove areas absolutely from the WordPress install
  * Author:        Frank Bültge
- * Version:       0.0.6
+ * Version:       0.0.7
  * Licence:       GPLv3
  * Author URI:    http://bueltge.de/
  * Upgrade Check: none
- * Last Change:   20.12.2011
  */
 
 if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
@@ -28,7 +27,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @uses    add_filter, add_action
 		 * @return  void
 		 */
-		public function __construct () {
+		public function __construct() {
 			
 			add_filter( 'the_posts',                  array( $this, 'set_comment_status' ) );
 			
@@ -43,6 +42,9 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			
 			add_action( 'wp_before_admin_bar_render', array( $this, 'admin_bar_render' ) );
 			
+			// remove string on frontend in Theme
+			add_filter( 'gettext', array( $this, 'remove_theme_string' ), 20, 3 );
+			
 			// remove comment feed
 			remove_action( 'wp_head', 'feed_links', 2 );
 			add_action( 'wp_head', array( $this, 'feed_links' ), 2 );
@@ -55,7 +57,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @since   0.0.1
 		 * @return  object $classobj
 		 */
-		public function get_object () {
+		public function get_object() {
 			
 			if ( NULL === self :: $classobj ) {
 				self :: $classobj = new self;
@@ -73,7 +75,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @param   string $posts
 		 * @return  string $posts
 		 */
-		public function set_comment_status ( $posts ) {
+		public function set_comment_status( $posts ) {
 			
 			if ( ! empty( $posts ) && is_singular() ) {
 				$posts[0]->comment_status = 'closed';
@@ -92,7 +94,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @param   string | integer $post_id
 		 * @eturn  string $posts
 		 */
-		public function close_comments ( $open, $post_id ) {
+		public function close_comments( $open, $post_id ) {
 			// if not open, than back
 			if ( ! $open )
 				return $open;
@@ -115,7 +117,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @uses    update_option, get_post_types, remove_meta_box, remove_post_type_support
 		 * @return  void
 		 */
-		public function remove_comments () {
+		public function remove_comments() {
 			// int values
 			foreach ( array( 'comments_notify', 'default_pingback_flag' ) as $option )
 				update_option( $option, 0 );
@@ -146,7 +148,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @uses    remove_meta_box, remove_post_type_support
 		 * @return  void
 		 */
-		public function remove_menu_items () {
+		public function remove_menu_items() {
 			// Remove menu entries with WP 3.1 and higher
 			if ( function_exists( 'remove_menu_page' ) ) {
 				remove_menu_page( 'edit-comments.php' );
@@ -167,7 +169,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @param   array string $menu
 		 * @return  array string $menu
 		 */
-		function add_menu_classes ( $menu ) {
+		function add_menu_classes( $menu ) {
 			
 			if ( isset( $menu[20][4] ) )
 				$menu[20][4] .= ' menu-top-last';
@@ -182,7 +184,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @since   0.0.1
 		 * $return  string with js
 		 */
-		public function remove_comments_areas () {
+		public function remove_comments_areas() {
 			?>
 			<script type="text/javascript">
 			//<![CDATA[
@@ -203,7 +205,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @uses    remove_menu
 		 * $return  void
 		 */
-		public function admin_bar_render () {
+		public function admin_bar_render() {
 			// remove comment item in blog -list for "My Sites" in Admin Bar
 			if ( isset( $GLOBALS['blog_id'] ) )
 				$GLOBALS['wp_admin_bar'] -> remove_menu( 'blog-' . $GLOBALS['blog_id'] . '-c' );
@@ -238,7 +240,27 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 				esc_attr(sprintf( $args['feedtitle'], get_bloginfo('name'), $args['separator'] )) . 
 				'" href="' . get_feed_link() . "\" />\n";
 		}
-	
+		
+		/**
+		 * On posts where comments are closed, the plugin will remove the text 'Comments are closed.'
+		 * 
+		 * @access  public
+		 * @since   0.0.7
+		 * @uses    get_translations_for_domain
+		 * @return  string empty
+		 */
+		public function remove_theme_string( $translation, $text, $domain ) {
+			
+			if ( is_admin() )
+				return $translation;
+			
+			$translations = &get_translations_for_domain( $domain );
+			if ( 'Comments are closed.' === $text )
+				return '';
+			
+			return $translation;
+		}
+		
 	} // end class
 
 } // end if class exists
