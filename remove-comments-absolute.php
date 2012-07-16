@@ -6,7 +6,7 @@
  * Domain Path:   /languages
  * Description:   Deactivate comments functions and remove areas absolutely from the WordPress install
  * Author:        Frank Bültge
- * Version:       0.0.7
+ * Version:       0.0.8
  * Licence:       GPLv3
  * Author URI:    http://bueltge.de/
  * Upgrade Check: none
@@ -48,6 +48,9 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			// remove comment feed
 			remove_action( 'wp_head', 'feed_links', 2 );
 			add_action( 'wp_head', array( $this, 'feed_links' ), 2 );
+			
+			// remove default comment widget
+			add_action( 'widgets_init', array( $this, 'unregister_default_wp_widgets' ), 1 );
 		}
 		
 		/**
@@ -229,9 +232,9 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		
 			$defaults = array(
 				/* translators: Separator between blog name and feed type in feed links */
-				'separator'	=> _x( '&raquo;', 'feed link' ),
+				'separator' => _x( '&raquo;', 'feed link' ),
 				/* translators: 1: blog title, 2: separator (raquo) */
-				'feedtitle'	=> __( '%1$s %2$s Feed' ),
+				'feedtitle' => __( '%1$s %2$s Feed' ),
 			);
 		
 			$args = wp_parse_args( $args, $defaults );
@@ -239,6 +242,18 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			echo '<link rel="alternate" type="' . feed_content_type() . '" title="' . 
 				esc_attr(sprintf( $args['feedtitle'], get_bloginfo('name'), $args['separator'] )) . 
 				'" href="' . get_feed_link() . "\" />\n";
+		}
+		
+		/**
+		 * Unregister default comment widget
+		 * 
+		 * @since   07/16/2012
+		 * @param   void
+		 * @return  void
+		 */
+		public function unregister_default_wp_widgets() {
+			
+			unregister_widget('WP_Widget_Recent_Comments');
 		}
 		
 		/**
