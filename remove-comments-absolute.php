@@ -38,7 +38,8 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			add_action( 'admin_menu',                 array( $this, 'remove_menu_items' ) );
 			add_filter( 'add_menu_classes',           array( $this, 'add_menu_classes' ) );
 			
-			add_action( 'admin_head',                 array( $this, 'remove_comments_areas' ) );
+			// remove items in dashboard
+			add_action( 'admin_footer-index.php',                 array( $this, 'remove_comments_areas' ) );
 			
 			add_action( 'wp_before_admin_bar_render', array( $this, 'admin_bar_render' ) );
 			
@@ -51,6 +52,9 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			
 			// remove default comment widget
 			add_action( 'widgets_init', array( $this, 'unregister_default_wp_widgets' ), 1 );
+			
+			// remove comment options in profile page
+			add_action( 'personal_options', array( $this, 'remove_profile_items' ) );
 		}
 		
 		/**
@@ -190,12 +194,12 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		public function remove_comments_areas() {
 			?>
 			<script type="text/javascript">
-			//<![CDATA[
-			jQuery(document).ready( function($) {
-				$( 'div.table_discussion' ).css( 'display', 'none' );
-				$( 'div.musubtable' ).css( "display", "block" );
-			});
-			//]]>
+				//<![CDATA[
+				jQuery(document).ready( function($) {
+					$( 'div.table_discussion' ).remove();
+					$( 'div.musubtable' ).remove();
+				});
+				//]]>
 			</script>
 			<?php
 		}
@@ -254,6 +258,18 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		public function unregister_default_wp_widgets() {
 			
 			unregister_widget('WP_Widget_Recent_Comments');
+		}
+		
+		public function remove_profile_items() {
+			?>
+			<script type="text/javascript">
+				//<![CDATA[
+				jQuery(document).ready( function($){
+					$('#your-profile .form-table tr:nth-child(3)').remove();
+				});
+				//]]>
+			</script>
+			<?php
 		}
 		
 		/**
