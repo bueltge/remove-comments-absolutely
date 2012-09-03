@@ -6,7 +6,7 @@
  * Domain Path:   /languages
  * Description:   Deactivate comments functions and remove areas absolutely from the WordPress install
  * Author:        Frank Bültge
- * Version:       0.0.8
+ * Version:       1.0.0
  * Licence:       GPLv3
  * Author URI:    http://bueltge.de/
  * Upgrade Check: none
@@ -39,22 +39,23 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			add_filter( 'add_menu_classes',           array( $this, 'add_menu_classes' ) );
 			
 			// remove items in dashboard
-			add_action( 'admin_footer-index.php',                 array( $this, 'remove_comments_areas' ) );
+			add_action( 'admin_footer-index.php',     array( $this, 'remove_comments_areas' ) );
 			
+			// chane admin bar items
 			add_action( 'wp_before_admin_bar_render', array( $this, 'admin_bar_render' ) );
 			
 			// remove string on frontend in Theme
-			add_filter( 'gettext', array( $this, 'remove_theme_string' ), 20, 3 );
+			add_filter( 'gettext',                    array( $this, 'remove_theme_string' ), 20, 3 );
 			
 			// remove comment feed
-			remove_action( 'wp_head', 'feed_links', 2 );
-			add_action( 'wp_head', array( $this, 'feed_links' ), 2 );
+			remove_action( 'wp_head',                 'feed_links', 2 );
+			add_action( 'wp_head',                    array( $this, 'feed_links' ), 2 );
 			
 			// remove default comment widget
-			add_action( 'widgets_init', array( $this, 'unregister_default_wp_widgets' ), 1 );
+			add_action( 'widgets_init',               array( $this, 'unregister_default_wp_widgets' ), 1 );
 			
 			// remove comment options in profile page
-			add_action( 'personal_options', array( $this, 'remove_profile_items' ) );
+			add_action( 'personal_options',           array( $this, 'remove_profile_items' ) );
 		}
 		
 		/**
@@ -260,6 +261,13 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			unregister_widget('WP_Widget_Recent_Comments');
 		}
 		
+		/**
+		 * Remove options for Keyboard Shortcuts on profile page
+		 * 
+		 * @since   09/03/2012
+		 * @param   void
+		 * @return  void
+		 */
 		public function remove_profile_items() {
 			?>
 			<script type="text/javascript">
