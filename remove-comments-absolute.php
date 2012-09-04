@@ -29,33 +29,36 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 */
 		public function __construct() {
 			
-			add_filter( 'the_posts',                  array( $this, 'set_comment_status' ) );
+			// remove update check
+			add_filter( 'site_transient_update_plugins', array( $this, 'remove_update_nag' ) );
 			
-			add_filter( 'comments_open',              array( $this, 'close_comments'), 10, 2 );
-			add_filter( 'pings_open',                 array( $this, 'close_comments'), 10, 2 );
+			add_filter( 'the_posts',                     array( $this, 'set_comment_status' ) );
 			
-			add_action( 'admin_init',                 array( $this, 'remove_comments' ) );
-			add_action( 'admin_menu',                 array( $this, 'remove_menu_items' ) );
-			add_filter( 'add_menu_classes',           array( $this, 'add_menu_classes' ) );
+			add_filter( 'comments_open',                 array( $this, 'close_comments'), 10, 2 );
+			add_filter( 'pings_open',                    array( $this, 'close_comments'), 10, 2 );
+			
+			add_action( 'admin_init',                    array( $this, 'remove_comments' ) );
+			add_action( 'admin_menu',                    array( $this, 'remove_menu_items' ) );
+			add_filter( 'add_menu_classes',              array( $this, 'add_menu_classes' ) );
 			
 			// remove items in dashboard
-			add_action( 'admin_footer-index.php',     array( $this, 'remove_comments_areas' ) );
+			add_action( 'admin_footer-index.php',        array( $this, 'remove_comments_areas' ) );
 			
 			// chane admin bar items
-			add_action( 'wp_before_admin_bar_render', array( $this, 'admin_bar_render' ) );
+			add_action( 'wp_before_admin_bar_render',    array( $this, 'admin_bar_render' ) );
 			
 			// remove string on frontend in Theme
-			add_filter( 'gettext',                    array( $this, 'remove_theme_string' ), 20, 3 );
+			add_filter( 'gettext',                       array( $this, 'remove_theme_string' ), 20, 3 );
 			
 			// remove comment feed
-			remove_action( 'wp_head',                 'feed_links', 2 );
-			add_action( 'wp_head',                    array( $this, 'feed_links' ), 2 );
+			remove_action( 'wp_head',                    'feed_links', 2 );
+			add_action( 'wp_head',                       array( $this, 'feed_links' ), 2 );
 			
 			// remove default comment widget
-			add_action( 'widgets_init',               array( $this, 'unregister_default_wp_widgets' ), 1 );
+			add_action( 'widgets_init',                  array( $this, 'unregister_default_wp_widgets' ), 1 );
 			
 			// remove comment options in profile page
-			add_action( 'personal_options',           array( $this, 'remove_profile_items' ) );
+			add_action( 'personal_options',              array( $this, 'remove_profile_items' ) );
 		}
 		
 		/**
@@ -72,6 +75,23 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			}
 			
 			return self :: $classobj;
+		}
+		
+		/**
+		 * Disable plugin update notifications
+		 * 
+		 * @param  unknown_type $value
+		 * @since  1.0.0  04/02/2012
+		 * @link   http://dd32.id.au/2011/03/01/disable-plugin-update-notification-for-a-specific-plugin-in-wordpress-3-1/
+		 * @param  array string $value
+		 * @return array string $value
+		 */
+		public function remove_update_nag( $value ) {
+			
+			if ( isset( $value ) && is_object( $value ) )
+				unset( $value->response[ plugin_basename( __FILE__ ) ] );
+			
+			return $value;
 		}
 		
 		/**
@@ -103,12 +123,13 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @eturn  string $posts
 		 */
 		public function close_comments( $open, $post_id ) {
+			
 			// if not open, than back
 			if ( ! $open )
 				return $open;
 			
 			$post = get_post( $post_id );
-			if ( $post -> post_type ) // all post types
+			if ( $post->post_type ) // all post types
 				return FALSE;
 			
 			return $open;
@@ -126,6 +147,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @return  void
 		 */
 		public function remove_comments() {
+			
 			// int values
 			foreach ( array( 'comments_notify', 'default_pingback_flag' ) as $option )
 				update_option( $option, 0 );
@@ -144,6 +166,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 				remove_post_type_support( $post_type, 'comments' );
 				remove_post_type_support( $post_type, 'trackbacks' );
 			}
+			
 			// remove dashboard meta box for recents comments
 			remove_meta_box( 'dashboard_recent_comments', 'dashboard', 'normal' );
 		}
@@ -157,6 +180,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @return  void
 		 */
 		public function remove_menu_items() {
+			
 			// Remove menu entries with WP 3.1 and higher
 			if ( function_exists( 'remove_menu_page' ) ) {
 				remove_menu_page( 'edit-comments.php' );
@@ -214,11 +238,12 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * $return  void
 		 */
 		public function admin_bar_render() {
+			
 			// remove comment item in blog -list for "My Sites" in Admin Bar
 			if ( isset( $GLOBALS['blog_id'] ) )
-				$GLOBALS['wp_admin_bar'] -> remove_menu( 'blog-' . $GLOBALS['blog_id'] . '-c' );
+				$GLOBALS['wp_admin_bar']->remove_menu( 'blog-' . $GLOBALS['blog_id'] . '-c' );
 			// remove entry in admin bar
-			$GLOBALS['wp_admin_bar'] -> remove_menu( 'comments' );
+			$GLOBALS['wp_admin_bar']->remove_menu( 'comments' );
 		}
 		
 		/**
@@ -232,21 +257,26 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 */
 		public function feed_links( $args = array() ) {
 			
-			if ( ! current_theme_supports('automatic-feed-links') )
-				return;
+			if ( ! current_theme_supports( 'automatic-feed-links' ) )
+				return NULL;
 		
 			$defaults = array(
-				/* translators: Separator between blog name and feed type in feed links */
-				'separator' => _x( '&raquo;', 'feed link' ),
-				/* translators: 1: blog title, 2: separator (raquo) */
-				'feedtitle' => __( '%1$s %2$s Feed' ),
+				// translators: Separator between blog name and feed type in feed links
+				'separator' => _x( '&raquo;', 'feed link', 'remove_comments_absolute' ),
+				// translators: 1: blog title, 2: separator (raquo)
+				'feedtitle' => __( '%1$s %2$s Feed', 'remove_comments_absolute' ),
 			);
 		
 			$args = wp_parse_args( $args, $defaults );
 		
 			echo '<link rel="alternate" type="' . feed_content_type() . '" title="' . 
-				esc_attr(sprintf( $args['feedtitle'], get_bloginfo('name'), $args['separator'] )) . 
-				'" href="' . get_feed_link() . "\" />\n";
+				esc_attr(
+					sprintf(
+						$args['feedtitle'],
+						get_bloginfo('name'),
+						$args['separator']
+					)
+				) . '" href="' . get_feed_link() . '"/>' . "\n";
 		}
 		
 		/**
