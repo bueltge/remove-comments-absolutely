@@ -221,8 +221,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			<script type="text/javascript">
 				//<![CDATA[
 				jQuery(document).ready( function($) {
-					$( 'div.table_discussion' ).remove();
-					$( 'div.musubtable' ).remove();
+					$( 'div.table_discussion:first' ).remove();
 				});
 				//]]>
 			</script>
