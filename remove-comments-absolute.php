@@ -130,7 +130,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			
 			$post = get_post( $post_id );
 			if ( $post->post_type ) // all post types
-				return FALSE;
+				return 'closed'; // @see http://codex.wordpress.org/Option_Reference#Discussion
 			
 			return $open;
 		}
