@@ -14,6 +14,9 @@ Plugin and I'm able to immediately „switch off“ the functions and comment ar
 Also see the [post](http://wpengineer.com/2230/removing-comments-absolutely-wordpress/) 
 about the idea.
 
+### Screenshots
+ 1. [Different areas on the dashboard, there will be removed](https://raw.github.com/bueltge/Remove-Comments-Absolutely/master/screenshot-1.png)
+ 2. [Remove commets areas in edit post page](https://raw.github.com/bueltge/Remove-Comments-Absolutely/master/screenshot-2.png)
 
 ## Other Notes
 ### Bugs, technical hints or contribute
