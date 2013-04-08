@@ -46,6 +46,8 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			
 			// change admin bar items
 			add_action( 'wp_before_admin_bar_render',    array( $this, 'admin_bar_render' ) );
+			if ( is_multisite() && is_plugin_active_for_network( plugin_basename( __FILE__ ) ) )
+				add_action( 'admin_bar_menu',                array( $this, 'remove_network_comment_items' ), 500 );
 			
 			// remove string on frontend in Theme
 			add_filter( 'gettext',                       array( $this, 'remove_theme_string' ), 20, 3 );
@@ -245,11 +247,30 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 */
 		public function admin_bar_render() {
 			
+			if ( ! is_admin_bar_showing() )
+				return NULL;
+			
 			// remove comment item in blog -list for "My Sites" in Admin Bar
 			if ( isset( $GLOBALS['blog_id'] ) )
 				$GLOBALS['wp_admin_bar']->remove_menu( 'blog-' . $GLOBALS['blog_id'] . '-c' );
 			// remove entry in admin bar
 			$GLOBALS['wp_admin_bar']->remove_menu( 'comments' );
+		}
+		
+		/**
+		 * Remove comments item on network admin bar
+		 * 
+		 * @since   04/08/2013
+		 * @param   $wp_admin_bar  Array
+		 * @return  void
+		 */
+		public function remove_network_comment_items( $wp_admin_bar ) {
+			
+			if ( ! is_admin_bar_showing() )
+				return NULL;
+			
+			foreach( (array) $wp_admin_bar->user->blogs as $blog )
+				$wp_admin_bar->remove_menu( 'blog-' . $blog->userblog_id . '-c' );
 		}
 		
 		/**
