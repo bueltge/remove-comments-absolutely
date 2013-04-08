@@ -9,7 +9,6 @@
  * Version:       1.0.1
  * Licence:       GPLv3
  * Author URI:    http://bueltge.de/
- * Upgrade Check: none
  */
 
 if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
