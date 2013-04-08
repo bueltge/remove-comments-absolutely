@@ -178,7 +178,6 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * 
 		 * @access  public
 		 * @since   0.0.1
-		 * @uses    update_option, get_post_types, remove_meta_box, remove_post_type_support
 		 * @return  void
 		 */
 		public function remove_comments() {
