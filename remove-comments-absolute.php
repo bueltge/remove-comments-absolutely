@@ -6,7 +6,7 @@
  * Domain Path:   /languages
  * Description:   Deactivate comments functions and remove areas absolutely from the WordPress install
  * Author:        Frank Bültge
- * Version:       1.0.1
+ * Version:       1.1.0
  * Licence:       GPLv3
  * Author URI:    http://bueltge.de/
  */
@@ -46,7 +46,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			// change admin bar items
 			add_action( 'wp_before_admin_bar_render',    array( $this, 'admin_bar_render' ) );
 			if ( is_multisite() && is_plugin_active_for_network( plugin_basename( __FILE__ ) ) )
-				add_action( 'admin_bar_menu',                array( $this, 'remove_network_comment_items' ), 500 );
+				add_action( 'admin_bar_menu',            array( $this, 'remove_network_comment_items' ), 500 );
 			
 			// remove string on frontend in Theme
 			add_filter( 'gettext',                       array( $this, 'remove_theme_string' ), 20, 3 );
@@ -141,6 +141,36 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		}
 		
 		/**
+		 * Close comments hard in database
+		 * 
+		 * @since   08/04/2013
+		 * @return  void
+		 */
+		private function close_comments_in_db() {
+			global $wpdb;
+			
+			$types = get_post_types();
+			$bits = implode( ', ', array_pad( array(), count( $types ), '%s' ) );
+			$wpdb->query( $wpdb->prepare(
+				"UPDATE `$wpdb->posts` 
+				SET `comment_status` = 'closed', ping_status = 'closed' 
+				WHERE `post_type` 
+				IN ( $bits )",
+			$types ) );
+		}
+		
+		/**
+		 * Return default closed comment status
+		 * 
+		 * @since   04/08/2013
+		 * @return  String
+		 */
+		public function __return_closed() {
+			
+			return 'closed';
+		}
+		
+		/**
 		 * Change options for dont use comments
 		 * Remove meta boxes on edit pages
 		 * Remove support on all post types for comments
@@ -154,12 +184,15 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		public function remove_comments() {
 			
 			// int values
-			foreach ( array( 'comments_notify', 'default_pingback_flag' ) as $option )
-				update_option( $option, 0 );
+			foreach ( array( 'comments_notify', 'default_pingback_flag' ) as $option ) {
+				add_filter( 'pre_option_' . $option, __return_zero() );
+				//update_option( $option, 1 );
+			}
 			// string false
-			foreach ( array( 'default_comment_status', 'default_ping_status' ) as $option )
-				update_option( $option, 'false' );
-			
+			foreach ( array( 'default_comment_status', 'default_ping_status' ) as $option ) {
+				add_filter( 'pre_option_' . $option, array( $this, '__return_closed' ) );
+				//update_option( $option, 'closed' );
+			}
 			// all post types
 			// alternative define an array( 'post', 'page' )
 			foreach ( get_post_types() as $post_type ) {
