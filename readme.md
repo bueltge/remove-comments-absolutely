@@ -28,15 +28,6 @@ you can thank me and leave a
 for the time I've spent writing and supporting this plugin. 
 And I really don't want to know how many hours of my life this plugin has already eaten ;)
 
-### Translations
-The plugin comes with various translations, please refer to the 
-[WordPress Codex](http://codex.wordpress.org/Installing_WordPress_in_Your_Language "Installing WordPress in Your Language") 
-for more information about activating the translation. 
-If you want to help to translate the plugin to your language, 
-please have a look at the .pot file which contains all defintions and may be used with a 
-[gettext](http://www.gnu.org/software/gettext/) editor like [Poedit](http://www.poedit.net/) (Windows) 
-or the plugin [Localization](http://wordpress.org/extend/plugins/codestyling-localization/) for WordPress.
-
 ### Contact & Feedback
 The plugin is designed and developed by me ([Frank Bültge](http://bueltge.de))
 
