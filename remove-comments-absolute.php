@@ -126,7 +126,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @since   0.0.1
 		 * @param   string | boolean $open
 		 * @param   string | integer $post_id
-		 * @eturn  string $posts
+		 * @return  string $posts
 		 */
 		public function close_comments( $open, $post_id ) {
 			
@@ -136,7 +136,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			
 			$post = get_post( $post_id );
 			if ( $post->post_type ) // all post types
-				return 'closed'; // @see http://codex.wordpress.org/Option_Reference#Discussion
+				return FALSE; // @see http://codex.wordpress.org/Option_Reference#Discussion
 			
 			return $open;
 		}
