@@ -34,8 +34,8 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			
 			add_filter( 'the_posts',                     array( $this, 'set_comment_status' ) );
 			
-			add_filter( 'comments_open',                 array( $this, 'close_comments'), 10, 2 );
-			add_filter( 'pings_open',                    array( $this, 'close_comments'), 10, 2 );
+			add_filter( 'comments_open',                 array( $this, 'close_comments'), 20, 2 );
+			add_filter( 'pings_open',                    array( $this, 'close_comments'), 20, 2 );
 			
 			add_action( 'admin_init',                    array( $this, 'remove_comments' ) );
 			add_action( 'admin_menu',                    array( $this, 'remove_menu_items' ) );
@@ -44,7 +44,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			// remove items in dashboard
 			add_action( 'admin_footer-index.php',        array( $this, 'remove_comments_areas' ) );
 			
-			// chane admin bar items
+			// change admin bar items
 			add_action( 'wp_before_admin_bar_render',    array( $this, 'admin_bar_render' ) );
 			
 			// remove string on frontend in Theme
@@ -52,7 +52,10 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			
 			// remove comment feed
 			remove_action( 'wp_head',                    'feed_links', 2 );
+			remove_action( 'wp_head',                    'feed_links_extra', 3 );
 			add_action( 'wp_head',                       array( $this, 'feed_links' ), 2 );
+			add_action( 'wp_head',                       array( $this, 'feed_links_extra' ), 3 );
+			add_action( 'template_redirect',             array( $this, 'filter_query' ), 9 );
 			
 			// remove default comment widget
 			add_action( 'widgets_init',                  array( $this, 'unregister_default_wp_widgets' ), 1 );
@@ -162,9 +165,11 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 				remove_meta_box( 'commentstatusdiv', $post_type, 'normal' );
 				// remove trackbacks
 				remove_meta_box( 'trackbacksdiv', $post_type, 'normal' );
-				// remove all comments/trackbacks from tabels
-				remove_post_type_support( $post_type, 'comments' );
-				remove_post_type_support( $post_type, 'trackbacks' );
+				// remove all comments/trackbacks from tables
+				if ( post_type_supports( $post_type, 'comments' ) ) {
+					remove_post_type_support( $post_type, 'comments' );
+					remove_post_type_support( $post_type, 'trackbacks' );
+				}
 			}
 			
 			// remove dashboard meta box for recents comments
@@ -276,6 +281,80 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 						$args['separator']
 					)
 				) . '" href="' . get_feed_link() . '"/>' . "\n";
+		}
+		
+		/**
+		 * Display the links to the extra feeds such as category feeds.
+		 * Copy from WP default, but without comment feed; no filter available
+		 *
+		 * @since 04/08/2013
+		 * @param array $args Optional arguments.
+		 */
+		public function feed_links_extra( $args = array() ) {
+			
+			$defaults = array(
+				/* translators: Separator between blog name and feed type in feed links */
+				'separator'   => _x('&raquo;', 'feed link'),
+				/* translators: 1: blog name, 2: separator(raquo), 3: category name */
+				'cattitle'    => __('%1$s %2$s %3$s Category Feed'),
+				/* translators: 1: blog name, 2: separator(raquo), 3: tag name */
+				'tagtitle'    => __('%1$s %2$s %3$s Tag Feed'),
+				/* translators: 1: blog name, 2: separator(raquo), 3: author name  */
+				'authortitle' => __('%1$s %2$s Posts by %3$s Feed'),
+				/* translators: 1: blog name, 2: separator(raquo), 3: search phrase */
+				'searchtitle' => __('%1$s %2$s Search Results for &#8220;%3$s&#8221; Feed'),
+				/* translators: 1: blog name, 2: separator(raquo), 3: post type name */
+				'posttypetitle' => __('%1$s %2$s %3$s Feed'),
+			);
+			
+			$args = wp_parse_args( $args, $defaults );
+			
+			if ( is_category() ) {
+				$term = get_queried_object();
+		
+				$title = sprintf( $args['cattitle'], get_bloginfo('name'), $args['separator'], $term->name );
+				$href = get_category_feed_link( $term->term_id );
+			} elseif ( is_tag() ) {
+				$term = get_queried_object();
+		
+				$title = sprintf( $args['tagtitle'], get_bloginfo('name'), $args['separator'], $term->name );
+				$href = get_tag_feed_link( $term->term_id );
+			} elseif ( is_author() ) {
+				$author_id = intval( get_query_var('author') );
+		
+				$title = sprintf( $args['authortitle'], get_bloginfo('name'), $args['separator'], get_the_author_meta( 'display_name', $author_id ) );
+				$href = get_author_feed_link( $author_id );
+			} elseif ( is_search() ) {
+				$title = sprintf( $args['searchtitle'], get_bloginfo('name'), $args['separator'], get_search_query( false ) );
+				$href = get_search_feed_link();
+			} elseif ( is_post_type_archive() ) {
+				$title = sprintf( $args['posttypetitle'], get_bloginfo('name'), $args['separator'], post_type_archive_title( '', false ) );
+				$href = get_post_type_archive_feed_link( get_queried_object()->name );
+			}
+		
+			if ( isset($title) && isset($href) )
+				echo '<link rel="alternate" type="' . feed_content_type() . '" title="' . esc_attr( $title ) . '" href="' . esc_url( $href ) . '" />' . "\n";
+		
+		}
+		
+		/**
+		 * Redirect on comment feed, set status 301
+		 * 
+		 * @since   04/08/2013
+		 * @param   void
+		 * @return  void
+		 */
+		public function filter_query() {
+			
+			if ( ! is_comment_feed() )
+				return NULL;
+			
+			if ( isset( $_GET['feed'] ) ) {
+				wp_redirect( remove_query_arg( 'feed' ), 301 );
+				exit;
+			}
+			// redirect_canonical will do the rest
+			set_query_var( 'feed', '' );
 		}
 		
 		/**
