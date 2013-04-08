@@ -56,6 +56,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			add_action( 'wp_head',                       array( $this, 'feed_links' ), 2 );
 			add_action( 'wp_head',                       array( $this, 'feed_links_extra' ), 3 );
 			add_action( 'template_redirect',             array( $this, 'filter_query' ), 9 );
+			add_filter( 'wp_headers',                    array( $this, 'filter_wp_headers' ) );
 			
 			// remove default comment widget
 			add_action( 'widgets_init',                  array( $this, 'unregister_default_wp_widgets' ), 1 );
@@ -162,14 +163,15 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			// alternative define an array( 'post', 'page' )
 			foreach ( get_post_types() as $post_type ) {
 				// comment status
-				remove_meta_box( 'commentstatusdiv', $post_type, 'normal' );
+				//remove_meta_box( 'commentstatusdiv', $post_type, 'normal' );
 				// remove trackbacks
-				remove_meta_box( 'trackbacksdiv', $post_type, 'normal' );
+				/*remove_meta_box( 'trackbacksdiv', $post_type, 'normal' );
 				// remove all comments/trackbacks from tables
 				if ( post_type_supports( $post_type, 'comments' ) ) {
 					remove_post_type_support( $post_type, 'comments' );
 					remove_post_type_support( $post_type, 'trackbacks' );
 				}
+				*/
 			}
 			
 			// remove dashboard meta box for recents comments
@@ -355,6 +357,20 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			}
 			// redirect_canonical will do the rest
 			set_query_var( 'feed', '' );
+		}
+		
+		/**
+		 * Unset additional HTTP headers for pingback
+		 * 
+		 * @since   04/07/2013
+		 * @param   $headers  Array
+		 * @return  $headers  Array
+		 */
+		public function filter_wp_headers( $headers ) {
+			
+			unset( $headers['X-Pingback'] );
+			
+			return $headers;
 		}
 		
 		/**
