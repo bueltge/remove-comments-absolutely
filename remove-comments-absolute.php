@@ -126,7 +126,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @since   0.0.1
 		 * @param   string | boolean $open
 		 * @param   string | integer $post_id
-		 * @return  string $posts
+		 * @eturn  string $posts
 		 */
 		public function close_comments( $open, $post_id ) {
 			
@@ -136,7 +136,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			
 			$post = get_post( $post_id );
 			if ( $post->post_type ) // all post types
-				return FALSE; // @see http://codex.wordpress.org/Option_Reference#Discussion
+				return FALSE; // 'closed' don`t work; @see http://codex.wordpress.org/Option_Reference#Discussion
 			
 			return $open;
 		}
@@ -165,15 +165,14 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			// alternative define an array( 'post', 'page' )
 			foreach ( get_post_types() as $post_type ) {
 				// comment status
-				//remove_meta_box( 'commentstatusdiv', $post_type, 'normal' );
+				remove_meta_box( 'commentstatusdiv', $post_type, 'normal' );
 				// remove trackbacks
-				/*remove_meta_box( 'trackbacksdiv', $post_type, 'normal' );
+				remove_meta_box( 'trackbacksdiv', $post_type, 'normal' );
 				// remove all comments/trackbacks from tables
 				if ( post_type_supports( $post_type, 'comments' ) ) {
 					remove_post_type_support( $post_type, 'comments' );
 					remove_post_type_support( $post_type, 'trackbacks' );
 				}
-				*/
 			}
 			
 			// remove dashboard meta box for recents comments
