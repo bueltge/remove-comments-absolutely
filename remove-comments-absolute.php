@@ -45,8 +45,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			
 			// change admin bar items
 			add_action( 'wp_before_admin_bar_render',    array( $this, 'admin_bar_render' ) );
-			if ( is_multisite() && is_plugin_active_for_network( plugin_basename( __FILE__ ) ) )
-				add_action( 'admin_bar_menu',            array( $this, 'remove_network_comment_items' ), 500 );
+			add_action( 'admin_bar_menu',                array( $this, 'remove_network_comment_items' ), 500 );
 			
 			// remove string on frontend in Theme
 			add_filter( 'gettext',                       array( $this, 'remove_theme_string' ), 20, 3 );
@@ -299,8 +298,14 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			if ( ! is_admin_bar_showing() )
 				return NULL;
 			
-			foreach( (array) $wp_admin_bar->user->blogs as $blog )
-				$wp_admin_bar->remove_menu( 'blog-' . $blog->userblog_id . '-c' );
+			if ( ! function_exists( 'is_plugin_active_for_network' ) )
+				require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
+			
+			if ( is_multisite() && is_plugin_active_for_network( plugin_basename( __FILE__ ) ) ) {
+			
+				foreach( (array) $wp_admin_bar->user->blogs as $blog )
+					$wp_admin_bar->remove_menu( 'blog-' . $blog->userblog_id . '-c' );
+			}
 		}
 		
 		/**
