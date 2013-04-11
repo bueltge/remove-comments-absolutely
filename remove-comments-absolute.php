@@ -6,7 +6,7 @@
  * Domain Path:   /languages
  * Description:   Deactivate comments functions and remove areas absolutely from the WordPress install
  * Author:        Frank Bültge
- * Version:       1.1.0
+ * Version:       1.1.1
  * Licence:       GPLv3
  * Author URI:    http://bueltge.de/
  */
