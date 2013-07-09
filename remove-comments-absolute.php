@@ -72,7 +72,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @since   0.0.1
 		 * @return  object $classobj
 		 */
-		public function get_object() {
+		public static function get_object() {
 			
 			if ( NULL === self :: $classobj ) {
 				self :: $classobj = new self;
