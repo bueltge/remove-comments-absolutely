@@ -473,7 +473,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			if ( is_admin() )
 				return $translation;
 			
-			$translations = &get_translations_for_domain( $domain );
+			$translations = get_translations_for_domain( $domain );
 			if ( 'Comments are closed.' === $text )
 				return '';
 			
