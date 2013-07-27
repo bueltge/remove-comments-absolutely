@@ -183,7 +183,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			
 			// int values
 			foreach ( array( 'comments_notify', 'default_pingback_flag' ) as $option ) {
-				add_filter( 'pre_option_' . $option, __return_zero() );
+				add_filter( 'pre_option_' . $option, '__return_zero' );
 				//update_option( $option, 1 );
 			}
 			// string false
