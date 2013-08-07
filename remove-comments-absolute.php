@@ -41,7 +41,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			add_filter( 'add_menu_classes',              array( $this, 'add_menu_classes' ) );
 			
 			// remove items in dashboard
-			add_action( 'admin_footer-index.php',        array( $this, 'remove_comments_areas' ) );
+			add_action( 'admin_footer-index.php',        array( $this, 'remove_dashboard_comments_areas' ) );
 			
 			// change admin bar items
 			add_action( 'wp_before_admin_bar_render',    array( $this, 'admin_bar_render' ) );
@@ -248,17 +248,20 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		}
 		
 		/**
-		 * Remove areas for comments in backend via JS
+		 * Remove comment related elements from the admin dashboard via JS
 		 * 
 		 * @access  public
 		 * @since   0.0.1
 		 * $return  string with js
 		 */
-		public function remove_comments_areas() {
+		public function remove_dashboard_comments_areas() {
 			?>
 			<script type="text/javascript">
 				//<![CDATA[
 				jQuery(document).ready( function($) {
+					// Welcome screen
+					$( '.welcome-comments' ).remove();
+					// 'Right Now' dashboard widget
 					$( 'div.table_discussion:first' ).remove();
 				});
 				//]]>
