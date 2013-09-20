@@ -63,6 +63,9 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			
 			// remove comment options in profile page
 			add_action( 'personal_options',              array( $this, 'remove_profile_items' ) );
+			
+			// replace xmlrpc methods
+			add_filter( 'xmlrpc_methods',                array( $this, 'xmlrpc_replace_methods' ) );
 		}
 		
 		/**
@@ -481,6 +484,45 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 				return '';
 			
 			return $translation;
+		}
+		
+		/**
+		 * Replace comment related XML_RPC methods.
+		 * 
+		 * @access  public
+		 * @since   
+		 * @return  array
+		 */
+		public function xmlrpc_replace_methods( $methods ) {
+
+			$comment_methods = array(
+				'wp.getCommentCount',
+				'wp.getComment',
+				'wp.getComments',
+				'wp.deleteComment',
+				'wp.editComment',
+				'wp.newComment',
+				'wp.getCommentStatusList'
+			);
+
+			foreach( $comment_methods as $method_name ) {
+				if ( isset( $methods[$method_name] ) ) {
+					$methods[$method_name] = array( $this, 'xmlrpc_placeholder_method' );
+				}
+			}
+		
+			return $methods;
+		}
+		
+		/**
+		 * XML_RPC placeholder method.
+		 * 
+		 * @access  public
+		 * @since   
+		 * @return  object
+		 */
+		public function xmlrpc_placeholder_method() {
+			return new IXR_Error( 403, __( 'Comments are disabled on this site.', 'remove_comments_absolute' ) );
 		}
 		
 	} // end class
