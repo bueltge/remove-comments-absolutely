@@ -6,8 +6,8 @@
  * Domain Path:   /languages
  * Description:   Deactivate comments functions and remove areas absolutely from the WordPress install
  * Author:        Frank Bültge
- * Version:       1.1.2
- * Licence:       GPLv3
+ * Version:       1.1.3
+ * License:       GPLv3
  * Author URI:    http://bueltge.de/
  */
 
@@ -490,11 +490,11 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * Replace comment related XML_RPC methods.
 		 * 
 		 * @access  public
-		 * @since   
+		 * @since   09/21/2013
 		 * @return  array
 		 */
 		public function xmlrpc_replace_methods( $methods ) {
-
+			
 			$comment_methods = array(
 				'wp.getCommentCount',
 				'wp.getComment',
@@ -506,11 +506,12 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			);
 
 			foreach( $comment_methods as $method_name ) {
-				if ( isset( $methods[$method_name] ) ) {
+				
+				if ( isset( $methods[$method_name] ) )
 					$methods[$method_name] = array( $this, 'xmlrpc_placeholder_method' );
-				}
+				
 			}
-		
+			
 			return $methods;
 		}
 		
@@ -518,10 +519,11 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * XML_RPC placeholder method.
 		 * 
 		 * @access  public
-		 * @since   
+		 * @since   09/21/2013
 		 * @return  object
 		 */
 		public function xmlrpc_placeholder_method() {
+			
 			return new IXR_Error( 403, __( 'Comments are disabled on this site.', 'remove_comments_absolute' ) );
 		}
 		
