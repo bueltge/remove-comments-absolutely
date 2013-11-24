@@ -6,25 +6,25 @@
  * Domain Path:   /languages
  * Description:   Deactivate comments functions and remove areas absolutely from the WordPress install
  * Author:        Frank Bültge
- * Version:       1.1.3
- * License:       GPLv3
+ * Version:       1.2.0
+ * License:       GPLv2
  * Author URI:    http://bueltge.de/
  */
 
 if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 	add_action( 'plugins_loaded', array( 'Remove_Comments_Absolute', 'get_object' ) );
-	
+
 	class Remove_Comments_Absolute {
 		
 		static private $classobj = NULL;
-		
+
 		/**
 		 * Constructor, init on defined hooks of WP and include second class
-		 * 
+		 *
 		 * @access  public
 		 * @since   0.0.1
 		 * @uses    add_filter, add_action
-		 * @return  void
+		 * @return \Remove_Comments_Absolute
 		 */
 		public function __construct() {
 			
@@ -44,11 +44,11 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			add_action( 'admin_footer-index.php',        array( $this, 'remove_dashboard_comments_areas' ) );
 			
 			// change admin bar items
-			add_action( 'wp_before_admin_bar_render',    array( $this, 'admin_bar_render' ) );
-			add_action( 'admin_bar_menu',                array( $this, 'remove_network_comment_items' ), 500 );
+			add_action( 'admin_bar_menu',                array( $this, 'remove_admin_bar_comment_items' ), 999 );
+			add_action( 'admin_bar_menu',                array( $this, 'remove_network_comment_items' ), 999 );
 			
 			// remove string on frontend in Theme
-			add_filter( 'gettext',                       array( $this, 'remove_theme_string' ), 20, 3 );
+			add_filter( 'gettext',                       array( $this, 'remove_theme_string' ), 20, 2 );
 			
 			// remove comment feed
 			remove_action( 'wp_head',                    'feed_links', 2 );
@@ -77,25 +77,26 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 */
 		public static function get_object() {
 			
-			if ( NULL === self :: $classobj ) {
-				self :: $classobj = new self;
+			if ( NULL === self::$classobj ) {
+				self::$classobj = new self;
 			}
 			
-			return self :: $classobj;
+			return self::$classobj;
 		}
-		
+
 		/**
 		 * Disable plugin update notifications
-		 * 
-		 * @param  unknown_type $value
+		 *
 		 * @since  1.0.0  04/02/2012
 		 * @link   http://dd32.id.au/2011/03/01/disable-plugin-update-notification-for-a-specific-plugin-in-wordpress-3-1/
-		 * @param  array string $value
-		 * @return array string $value
+		 * @param  array|string $value
+		 * @return array|string $value
 		 */
 		public function remove_update_nag( $value ) {
-			
-			if ( isset( $value ) && is_object( $value ) )
+
+			if ( isset( $value->response[ plugin_basename( __FILE__ ) ] )
+				&& ! empty( $value->response[ plugin_basename( __FILE__ ) ] )
+			)
 				unset( $value->response[ plugin_basename( __FILE__ ) ] );
 			
 			return $value;
@@ -111,23 +112,23 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @return  string $posts
 		 */
 		public function set_comment_status( $posts ) {
-			
+
 			if ( ! empty( $posts ) && is_singular() ) {
 				$posts[0]->comment_status = 'closed';
-				$posts[0]->post_status = 'closed';
+				$posts[0]->ping_status    = 'closed';
 			}
 			
 			return $posts;
 		}
-		
+
 		/**
 		 * Close comments, if open
-		 * 
+		 *
 		 * @access  public
 		 * @since   0.0.1
-		 * @param   string | boolean $open
-		 * @param   string | integer $post_id
-		 * @eturn  string $posts
+		 * @param   string|boolean $open
+		 * @param   string|integer $post_id
+		 * @return  bool|string $open
 		 */
 		public function close_comments( $open, $post_id ) {
 			
@@ -140,25 +141,6 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 				return FALSE; // 'closed' don`t work; @see http://codex.wordpress.org/Option_Reference#Discussion
 			
 			return $open;
-		}
-		
-		/**
-		 * Close comments hard in database
-		 * 
-		 * @since   08/04/2013
-		 * @return  void
-		 */
-		private function close_comments_in_db() {
-			global $wpdb;
-			
-			$types = get_post_types();
-			$bits = implode( ', ', array_pad( array(), count( $types ), '%s' ) );
-			$wpdb->query( $wpdb->prepare(
-				"UPDATE `$wpdb->posts` 
-				SET `comment_status` = 'closed', ping_status = 'closed' 
-				WHERE `post_type` 
-				IN ( $bits )",
-			$types ) );
 		}
 		
 		/**
@@ -266,6 +248,10 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 					$( '.welcome-comments' ).remove();
 					// 'Right Now' dashboard widget
 					$( 'div.table_discussion:first' ).remove();
+					// 'Right Now' dashbaord widget since WP version 3.8
+					$( 'div#dash-right-now' ).find( '.comment-count').remove();
+					// 'Activity' dashboard widget, since WP version 3.8
+					$( 'div#dashboard_activity').find( '#latest-comments' ).remove();
 				});
 				//]]>
 			</script>
@@ -280,37 +266,40 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @uses    remove_menu
 		 * $return  void
 		 */
-		public function admin_bar_render() {
+		public function remove_admin_bar_comment_items( $wp_admin_bar ) {
 			
 			if ( ! is_admin_bar_showing() )
 				return NULL;
 			
 			// remove comment item in blog -list for "My Sites" in Admin Bar
 			if ( isset( $GLOBALS['blog_id'] ) )
-				$GLOBALS['wp_admin_bar']->remove_menu( 'blog-' . $GLOBALS['blog_id'] . '-c' );
+				$wp_admin_bar->remove_node( 'blog-' . $GLOBALS['blog_id'] . '-c' );
 			// remove entry in admin bar
-			$GLOBALS['wp_admin_bar']->remove_menu( 'comments' );
+			$wp_admin_bar->remove_node( 'comments' );
 		}
-		
+
 		/**
 		 * Remove comments item on network admin bar
-		 * 
-		 * @since   04/08/2013
-		 * @param   $wp_admin_bar  Array
-		 * @return  void
+		 *
+		 * @since    04/08/2013
+		 * @internal param Array $wp_admin_bar
+		 * @return   void
 		 */
-		public function remove_network_comment_items( $wp_admin_bar ) {
+		public function remove_network_comment_items() {
 			
 			if ( ! is_admin_bar_showing() )
 				return NULL;
-			
+
+			global $wp_admin_bar;
+
 			if ( ! function_exists( 'is_plugin_active_for_network' ) )
 				require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
 			
 			if ( is_multisite() && is_plugin_active_for_network( plugin_basename( __FILE__ ) ) ) {
 			
-				foreach( (array) $wp_admin_bar->user->blogs as $blog )
-					$wp_admin_bar->remove_menu( 'blog-' . $blog->userblog_id . '-c' );
+				foreach( (array) $wp_admin_bar->user->blogs as $blog ) {
+					$wp_admin_bar->remove_node( 'blog-' . $blog->userblog_id . '-c' );
+				}
 			}
 		}
 		
@@ -375,17 +364,17 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			
 			if ( is_category() ) {
 				$term = get_queried_object();
-		
+
 				$title = sprintf( $args['cattitle'], get_bloginfo('name'), $args['separator'], $term->name );
 				$href = get_category_feed_link( $term->term_id );
 			} elseif ( is_tag() ) {
 				$term = get_queried_object();
-		
+
 				$title = sprintf( $args['tagtitle'], get_bloginfo('name'), $args['separator'], $term->name );
 				$href = get_tag_feed_link( $term->term_id );
 			} elseif ( is_author() ) {
 				$author_id = intval( get_query_var('author') );
-		
+
 				$title = sprintf( $args['authortitle'], get_bloginfo('name'), $args['separator'], get_the_author_meta( 'display_name', $author_id ) );
 				$href = get_author_feed_link( $author_id );
 			} elseif ( is_search() ) {
@@ -459,7 +448,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			<script type="text/javascript">
 				//<![CDATA[
 				jQuery(document).ready( function($) {
-					$('#your-profile .form-table').first().find( 'tr:nth-child(3)' ).remove();
+					$('#your-profile').find('.form-table').first().find( 'tr:nth-child(3)' ).remove();
 				} );
 				//]]>
 			</script>
@@ -469,20 +458,18 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		/**
 		 * On posts where comments are closed, the plugin will remove the text 'Comments are closed.'
 		 *
-		 * @access  public
-		 * @since   0.0.7
-		 * @uses    get_translations_for_domain
-		 * @param   $translation
-		 * @param   $text
-		 * @param   $domain
-		 * @return  string empty
+		 * @access   public
+		 * @since    0.0.7
+		 * @uses     get_translations_for_domain
+		 * @param    $translation
+		 * @param    $text
+		 * @return   string empty
 		 */
-		public function remove_theme_string( $translation, $text, $domain ) {
+		public function remove_theme_string( $translation, $text ) {
 			
 			if ( is_admin() )
 				return $translation;
-			
-			$translations = get_translations_for_domain( $domain );
+
 			if ( 'Comments are closed.' === $text )
 				return '';
 			
@@ -532,5 +519,5 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		}
 		
 	} // end class
-	
+
 } // end if class exists
