@@ -173,7 +173,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		}
 		
 		/**
-		 * Change options for dont use comments
+		 * Change options for don't use comments
 		 * Remove meta boxes on edit pages
 		 * Remove support on all post types for comments
 		 * Remove menu-entries
@@ -420,13 +420,13 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			// redirect_canonical will do the rest
 			set_query_var( 'feed', '' );
 		}
-		
+
 		/**
 		 * Unset additional HTTP headers for pingback
-		 * 
+		 *
 		 * @since   04/07/2013
-		 * @param   $headers  Array
-		 * @return  $headers  Array
+		 * @param   Array $headers
+		 * @return  Array $headers
 		 */
 		public function filter_wp_headers( $headers ) {
 			
@@ -465,13 +465,16 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			</script>
 			<?php
 		}
-		
+
 		/**
 		 * On posts where comments are closed, the plugin will remove the text 'Comments are closed.'
-		 * 
+		 *
 		 * @access  public
 		 * @since   0.0.7
 		 * @uses    get_translations_for_domain
+		 * @param   $translation
+		 * @param   $text
+		 * @param   $domain
 		 * @return  string empty
 		 */
 		public function remove_theme_string( $translation, $text, $domain ) {
@@ -485,13 +488,14 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			
 			return $translation;
 		}
-		
+
 		/**
 		 * Replace comment related XML_RPC methods.
-		 * 
+		 *
 		 * @access  public
 		 * @since   09/21/2013
-		 * @return  array
+		 * @param   array $methods
+		 * @return  array $methods
 		 */
 		public function xmlrpc_replace_methods( $methods ) {
 			
@@ -528,5 +532,5 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		}
 		
 	} // end class
-
+	
 } // end if class exists
