@@ -1,0 +1,21 @@
+{
+    "name": "bueltge/Remove-Comments-Absolutely",
+    "description": "Deactivate comments functions and remove areas absolutely from the WordPress install",
+    "license": "GPL 2+",
+    "version": "1.2.0",
+    "keywords": ["wordpress", "plugin", "comments"],
+    "homepage": "https://github.com/bueltge/Remove-Comments-Absolutely",
+    "type": "wordpress-plugin",
+    "authors": [
+        {
+            "name": "Frank Bültge",
+            "email": "frank@bueltge.de",
+            "homepage": "http://bueltge.de",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">5.2.4",
+        "composer/installers": "~1.0"
+    }
+}
