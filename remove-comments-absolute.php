@@ -168,6 +168,8 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 */
 		public function remove_comments() {
 			
+			global $pagenow;
+
 			// int values
 			foreach ( array( 'comments_notify', 'default_pingback_flag' ) as $option ) {
 				add_filter( 'pre_option_' . $option, '__return_zero' );
@@ -192,11 +194,10 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 				}
 			}
 			// all comments pages
-			foreach ( array( 'comment.php', 'edit-comments.php', 'moderation.php', 'options-discussion.php' ) as $comments_page ) {
-				if ( basename( $_SERVER['PHP_SELF'] ) == $comments_page ) {
-					wp_redirect( admin_url() );
-					exit;
-				}
+			$comment_pages = array( 'comment.php', 'edit-comments.php', 'moderation.php', 'options-discussion.php' );
+			if ( in_array( $pagenow, $comment_pages ) ) {
+				wp_die( __( 'Comments are disabled on this site.', 'remove_comments_absolute' ), '', array( 'response' => 403 ) );
+				exit;
 			}
 
 			// remove dashboard meta box for recents comments
