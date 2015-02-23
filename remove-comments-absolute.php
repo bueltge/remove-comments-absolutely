@@ -160,6 +160,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * Remove meta boxes on edit pages
 		 * Remove support on all post types for comments
 		 * Remove menu-entries
+		 * Disallow comments pages direct access
 		 * 
 		 * @access  public
 		 * @since   0.0.1
@@ -167,6 +168,8 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 */
 		public function remove_comments() {
 			
+			global $pagenow;
+
 			// int values
 			foreach ( array( 'comments_notify', 'default_pingback_flag' ) as $option ) {
 				add_filter( 'pre_option_' . $option, '__return_zero' );
@@ -190,7 +193,13 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 					remove_post_type_support( $post_type, 'trackbacks' );
 				}
 			}
-			
+			// all comments pages
+			$comment_pages = array( 'comment.php', 'edit-comments.php', 'moderation.php', 'options-discussion.php' );
+			if ( in_array( $pagenow, $comment_pages ) ) {
+				wp_die( __( 'Comments are disabled on this site.', 'remove_comments_absolute' ), '', array( 'response' => 403 ) );
+				exit;
+			}
+
 			// remove dashboard meta box for recents comments
 			remove_meta_box( 'dashboard_recent_comments', 'dashboard', 'normal' );
 		}
