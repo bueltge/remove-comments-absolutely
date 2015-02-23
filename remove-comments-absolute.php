@@ -162,8 +162,8 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			}
 
 			$post = get_post( $post_id );
-			if ( $post->post_type ) // all post types
-			{
+			// all post types
+			if ( $post->post_type ) {
 				return FALSE;
 			} // 'closed' don`t work; @see http://codex.wordpress.org/Option_Reference#Discussion
 
@@ -176,7 +176,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @since   04/08/2013
 		 * @return  String
 		 */
-		public function __return_closed() {
+		public function return_closed() {
 
 			return 'closed';
 		}
@@ -203,7 +203,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			}
 			// string false
 			foreach ( array( 'default_comment_status', 'default_ping_status' ) as $option ) {
-				add_filter( 'pre_option_' . $option, array( $this, '__return_closed' ) );
+				add_filter( 'pre_option_' . $option, array( $this, 'return_closed' ) );
 				//update_option( $option, 'closed' );
 			}
 			// all post types
