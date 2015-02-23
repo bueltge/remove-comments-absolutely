@@ -160,6 +160,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * Remove meta boxes on edit pages
 		 * Remove support on all post types for comments
 		 * Remove menu-entries
+		 * Disalow comments pages direct access
 		 * 
 		 * @access  public
 		 * @since   0.0.1
@@ -190,7 +191,14 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 					remove_post_type_support( $post_type, 'trackbacks' );
 				}
 			}
-			
+			// all comments pages
+			foreach ( array( 'comment.php', 'edit-comments.php', 'moderation.php', 'options-discussion.php' ) as $comments_page ) {
+				if ( basename( $_SERVER['PHP_SELF'] ) == $comments_page ) {
+					wp_redirect( admin_url() );
+					exit;
+				}
+			}
+
 			// remove dashboard meta box for recents comments
 			remove_meta_box( 'dashboard_recent_comments', 'dashboard', 'normal' );
 		}
