@@ -471,7 +471,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 
 			if ( isset( $_GET[ 'feed' ] ) ) {
 				wp_redirect( remove_query_arg( 'feed' ), 301 );
-				exit;
+				exit();
 			}
 			// redirect_canonical will do the rest
 			set_query_var( 'feed', '' );
@@ -572,7 +572,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 				'wp.deleteComment',
 				'wp.editComment',
 				'wp.newComment',
-				'wp.getCommentStatusList'
+				'wp.getCommentStatusList',
 			);
 
 			foreach ( $comment_methods as $method_name ) {
