@@ -160,7 +160,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * Remove meta boxes on edit pages
 		 * Remove support on all post types for comments
 		 * Remove menu-entries
-		 * Disalow comments pages direct access
+		 * Disallow comments pages direct access
 		 * 
 		 * @access  public
 		 * @since   0.0.1
