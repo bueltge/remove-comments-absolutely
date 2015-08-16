@@ -1,5 +1,7 @@
 <?php
 /**
+ * This is plugin for WordPress to remove the comment functions and his views.
+ *
  * Plugin Name: Remove Comments Absolutely
  * Plugin URI:  http://wpengineer.com/2230/removing-comments-absolutely-wordpress/
  * Text Domain: remove_comments_absolute
@@ -146,7 +148,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @since  0.0.1
 		 * @uses   is_singular
 		 *
-		 * @param  string $posts
+		 * @param string $posts
 		 *
 		 * @return string $posts
 		 */
@@ -200,6 +202,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 
 		/**
 		 * Change options for don't use comments.
+		 *
 		 * Remove meta boxes on edit pages.
 		 * Remove support on all post types for comments.
 		 * Remove menu-entries.
@@ -322,8 +325,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @access  public
 		 * @since   0.0.1
 		 *
-		 * @param  $wp_admin_bar
-		 * $return  void
+		 * @param WP_Admin_Bar $wp_admin_bar WP_Admin_Bar instance, passed by reference.
 		 *
 		 * @return null
 		 */
@@ -385,7 +387,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 				return NULL;
 			}
 
-			$defaults = array(
+			$defaults = [
 				// Translators: Separator between blog name and feed type in feed links.
 				'separator' => _x(
 					'&raquo;',
@@ -394,7 +396,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 				),
 				// Translators: 1: blog title, 2: separator (raquo).
 				'feedtitle' => __( '%1$s %2$s Feed', 'remove_comments_absolute' ),
-			);
+			];
 
 			$args = wp_parse_args( $args, $defaults );
 
@@ -547,8 +549,8 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @access public
 		 * @since  0.0.7
 		 *
-		 * @param  $translation
-		 * @param  $text
+		 * @param string $translation Translated text.
+		 * @param string $text        Text to translate.
 		 *
 		 * @return string empty
 		 */
