@@ -1,42 +1,59 @@
 <?php
 /**
- * Plugin Name:   Remove Comments Absolutely
- * Plugin URI:    http://wpengineer.com/2230/removing-comments-absolutely-wordpress/
- * Text Domain:   remove_comments_absolute
- * Domain Path:   /languages
- * Description:   Deactivate comments functions and remove areas absolutely from the WordPress install
- * Author:        Frank Bültge
- * Version:       1.2.2
- * Last access:   2015-02-23
- * License:       GPLv2
- * Author URI:    http://bueltge.de/
+ * Plugin Name: Remove Comments Absolutely
+ * Plugin URI:  http://wpengineer.com/2230/removing-comments-absolutely-wordpress/
+ * Text Domain: remove_comments_absolute
+ * Domain Path: /languages
+ * Description: Deactivate comments functions and remove areas absolutely from the WordPress install
+ * Author:      Frank Bültge
+ * Version:     1.2.2
+ * Last access: 2015-08-16
+ * License:     GPLv2
+ * Author URI:  http://bueltge.de/
+ *
+ * @package WordPress
  */
 
 if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 	add_action( 'plugins_loaded', array( 'Remove_Comments_Absolute', 'get_object' ) );
 
+	/**
+	 * Class Remove_Comments_Absolute.
+	 *
+	 * Hint: It is a God class, but a newer version is a lot of work.
+	 * Maybe other users will refactoring the plugin for better code, that we can also include tests.
+	 */
 	class Remove_Comments_Absolute {
 
+		/**
+		 * Class object.
+		 *
+		 * @var null
+		 */
 		static private $classobj = NULL;
 
-		private $comment_pages = array(
+		/**
+		 * Back end pages for the hint, that comment are inactive.
+		 *
+		 * @var array
+		 */
+		private $comment_pages = [
 			'comment.php',
 			'edit-comments.php',
 			'moderation.php',
 			'options-discussion.php',
-		);
+		];
 
 		/**
-		 * Constructor, init on defined hooks of WP and include second class
+		 * Constructor, init on defined hooks of WP and include second class.
 		 *
 		 * @access  public
 		 * @since   0.0.1
 		 * @uses    add_filter, add_action
-		 * @return \Remove_Comments_Absolute
 		 */
 		public function __construct() {
 
-			// remove update check
+			// Remove update check.
 			add_filter( 'site_transient_update_plugins', array( $this, 'remove_update_nag' ) );
 
 			add_filter( 'the_posts', array( $this, 'set_comment_status' ) );
@@ -48,17 +65,17 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			add_action( 'admin_menu', array( $this, 'remove_menu_items' ) );
 			add_filter( 'add_menu_classes', array( $this, 'add_menu_classes' ) );
 
-			// remove items in dashboard
+			// Remove items in dashboard.
 			add_action( 'admin_footer-index.php', array( $this, 'remove_dashboard_comments_areas' ) );
 
-			// change admin bar items
+			// Change admin bar items.
 			add_action( 'admin_bar_menu', array( $this, 'remove_admin_bar_comment_items' ), 999 );
 			add_action( 'admin_bar_menu', array( $this, 'remove_network_comment_items' ), 999 );
 
-			// remove string on frontend in Theme
+			// Remove string on frontend in Theme.
 			add_filter( 'gettext', array( $this, 'remove_theme_string' ), 20, 2 );
 
-			// remove comment feed
+			// Remove comment feed.
 			remove_action( 'wp_head', 'feed_links', 2 );
 			remove_action( 'wp_head', 'feed_links_extra', 3 );
 			add_action( 'wp_head', array( $this, 'feed_links' ), 2 );
@@ -66,13 +83,13 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			add_action( 'template_redirect', array( $this, 'filter_query' ), 9 );
 			add_filter( 'wp_headers', array( $this, 'filter_wp_headers' ) );
 
-			// remove default comment widget
+			// Remove default comment widget.
 			add_action( 'widgets_init', array( $this, 'unregister_default_wp_widgets' ), 1 );
 
-			// remove comment options in profile page
+			// Remove comment options in profile page.
 			add_action( 'personal_options', array( $this, 'remove_profile_items' ) );
 
-			// replace xmlrpc methods
+			// Replace xmlrpc methods.
 			add_filter( 'xmlrpc_methods', array( $this, 'xmlrpc_replace_methods' ) );
 
 			// Set content of <wfw:commentRss> to empty string.
@@ -88,9 +105,9 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		/**
 		 * Handler for the action 'init'. Instantiates this class.
 		 *
-		 * @access  public
-		 * @since   0.0.1
-		 * @return  object $classobj
+		 * @access public
+		 * @since  0.0.1
+		 * @return null|Remove_Comments_Absolute $classobj object
 		 */
 		public static function get_object() {
 
@@ -102,12 +119,12 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		}
 
 		/**
-		 * Disable plugin update notifications
+		 * Disable plugin update notifications.
 		 *
 		 * @since  1.0.0  04/02/2012
 		 * @link   http://dd32.id.au/2011/03/01/disable-plugin-update-notification-for-a-specific-plugin-in-wordpress-3-1/
 		 *
-		 * @param  array|string $value
+		 * @param array|string $value
 		 *
 		 * @return array|string $value
 		 */
@@ -123,15 +140,15 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		}
 
 		/**
-		 * Set the status on posts and pages - is_singular ()
+		 * Set the status on posts and pages - is_singular().
 		 *
-		 * @access  public
-		 * @since   0.0.1
-		 * @uses    is_singular
+		 * @access public
+		 * @since  0.0.1
+		 * @uses   is_singular
 		 *
-		 * @param   string $posts
+		 * @param  string $posts
 		 *
-		 * @return  string $posts
+		 * @return string $posts
 		 */
 		public function set_comment_status( $posts ) {
 
@@ -144,25 +161,25 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		}
 
 		/**
-		 * Close comments, if open
+		 * Close comments, if open.
 		 *
-		 * @access  public
-		 * @since   0.0.1
+		 * @access public
+		 * @since  0.0.1
 		 *
-		 * @param   string|boolean $open
-		 * @param   string|integer $post_id
+		 * @param string|boolean $open
+		 * @param string|integer $post_id
 		 *
-		 * @return  bool|string $open
+		 * @return bool|string $open
 		 */
 		public function close_comments( $open, $post_id ) {
 
-			// if not open, than back
+			// If not open, than back.
 			if ( ! $open ) {
 				return $open;
 			}
 
 			$post = get_post( $post_id );
-			// all post types
+			// For all post types.
 			if ( $post->post_type ) {
 				return FALSE;
 			} // 'closed' don`t work; @see http://codex.wordpress.org/Option_Reference#Discussion
@@ -171,10 +188,10 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		}
 
 		/**
-		 * Return default closed comment status
+		 * Return default closed comment status.
 		 *
-		 * @since   04/08/2013
-		 * @return  String
+		 * @since  04/08/2013
+		 * @return string
 		 */
 		public function return_closed() {
 
@@ -182,87 +199,86 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		}
 
 		/**
-		 * Change options for don't use comments
-		 * Remove meta boxes on edit pages
-		 * Remove support on all post types for comments
-		 * Remove menu-entries
-		 * Disallow comments pages direct access
+		 * Change options for don't use comments.
+		 * Remove meta boxes on edit pages.
+		 * Remove support on all post types for comments.
+		 * Remove menu-entries.
+		 * Disallow comments pages direct access.
 		 *
-		 * @access  public
-		 * @since   0.0.1
-		 * @return  void
+		 * @access public
+		 * @since  0.0.1
+		 * @return void
 		 */
 		public function remove_comments() {
 
 			global $pagenow;
 
-			// int values
+			// For integer values.
 			foreach ( array( 'comments_notify', 'default_pingback_flag' ) as $option ) {
 				add_filter( 'pre_option_' . $option, '__return_zero' );
-				//update_option( $option, 1 );
 			}
-			// string false
+			// For string false.
 			foreach ( array( 'default_comment_status', 'default_ping_status' ) as $option ) {
 				add_filter( 'pre_option_' . $option, array( $this, 'return_closed' ) );
-				//update_option( $option, 'closed' );
 			}
-			// all post types
-			// alternative define an array( 'post', 'page' )
+			// For all post types.
+			// As alternative define an array( 'post', 'page' ).
 			foreach ( get_post_types() as $post_type ) {
-				// comment status
+				// Remove the comment status meta box.
 				remove_meta_box( 'commentstatusdiv', $post_type, 'normal' );
-				// remove trackbacks
+				// Remove the trackbacks meta box.
 				remove_meta_box( 'trackbacksdiv', $post_type, 'normal' );
-				// remove all comments/trackbacks from tables
+				// Remove all comments/trackbacks from tables.
 				if ( post_type_supports( $post_type, 'comments' ) ) {
 					remove_post_type_support( $post_type, 'comments' );
 					remove_post_type_support( $post_type, 'trackbacks' );
 				}
 			}
-			// filter for different pages
+			// Filter for different pages.
 			if ( in_array( $pagenow, $this->comment_pages ) ) {
 				wp_die(
-					__( 'Comments are disabled on this site.', 'remove_comments_absolute' ), '',
+					esc_html__( 'Comments are disabled on this site.', 'remove_comments_absolute' ),
+					'',
 					array( 'response' => 403 )
 				);
 				exit();
 			}
 
-			// remove dashboard meta box for recents comments
+			// Remove dashboard meta box for recents comments.
 			remove_meta_box( 'dashboard_recent_comments', 'dashboard', 'normal' );
 		}
 
 		/**
-		 * Remove menu-entries
+		 * Remove menu-entries.
 		 *
-		 * @access  public
-		 * @since   0.0.3
-		 * @uses    remove_meta_box, remove_post_type_support
-		 * @return  void
+		 * @access public
+		 * @since  0.0.3
+		 * @uses   remove_meta_box, remove_post_type_support
+		 * @return void
 		 */
 		public function remove_menu_items() {
 
-			// Remove menu entries with WP 3.1 and higher
+			// Remove menu entries with WP 3.1 and higher.
 			if ( function_exists( 'remove_menu_page' ) ) {
 				remove_menu_page( 'edit-comments.php' );
 				remove_submenu_page( 'options-general.php', 'options-discussion.php' );
 			} else {
-				// unset comments
+				// Unset menu item comments.
 				unset( $GLOBALS[ 'menu' ][ 25 ] );
-				// unset menuentry Discussion
+				// Unset menu entry Discussion.
 				unset( $GLOBALS[ 'submenu' ][ 'options-general.php' ][ 25 ] );
 			}
 		}
 
 		/**
-		 * Add class for last menu entry with no 20
+		 * Add class for last menu entry with no 20.
 		 *
 		 * @access  public
 		 * @since   0.0.1
 		 *
-		 * @param   array string $menu
+		 * @param array|string $menu
 		 *
-		 * @return  array string $menu
+		 * @return array|string $menu
 		 */
 		function add_menu_classes( $menu ) {
 
@@ -274,7 +290,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		}
 
 		/**
-		 * Remove comment related elements from the admin dashboard via JS
+		 * Remove comment related elements from the admin dashboard via JS.
 		 *
 		 * @access  public
 		 * @since   0.0.1
@@ -297,16 +313,16 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 				} );
 				//]]>
 			</script>
-		<?php
+			<?php
 		}
 
 		/**
-		 * Remove comment entry in Admin Bar
+		 * Remove comment entry in Admin Bar.
 		 *
 		 * @access  public
 		 * @since   0.0.1
 		 *
-		 * @param   $wp_admin_bar
+		 * @param  $wp_admin_bar
 		 * $return  void
 		 *
 		 * @return null
@@ -317,20 +333,20 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 				return NULL;
 			}
 
-			// remove comment item in blog -list for "My Sites" in Admin Bar
+			// Remove comment item in blog list for "My Sites" in Admin Bar.
 			if ( isset( $GLOBALS[ 'blog_id' ] ) ) {
 				$wp_admin_bar->remove_node( 'blog-' . $GLOBALS[ 'blog_id' ] . '-c' );
 			}
-			// remove entry in admin bar
+			// Remove entry in admin bar.
 			$wp_admin_bar->remove_node( 'comments' );
 		}
 
 		/**
-		 * Remove comments item on network admin bar
+		 * Remove comments item on network admin bar.
 		 *
 		 * @since    04/08/2013
 		 * @internal param Array $wp_admin_bar
-		 * @return   void
+		 * @return void
 		 */
 		public function remove_network_comment_items() {
 
@@ -353,15 +369,15 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		}
 
 		/**
-		 * Display the links to the general feeds, without comments
+		 * Display the links to the general feeds, without comments.
 		 *
-		 * @access  public
-		 * @since   0.0.4
-		 * @uses    current_theme_supports, wp_parse_args, feed_content_type, get_bloginfo, esc_attr, get_feed_link, _x, __
+		 * @access public
+		 * @since  0.0.4
+		 * @uses   current_theme_supports, wp_parse_args, feed_content_type, get_bloginfo, esc_attr, get_feed_link, _x, __
 		 *
-		 * @param   array $args Optional arguments
+		 * @param  array $args Optional arguments
 		 *
-		 * @return  string
+		 * @return string
 		 */
 		public function feed_links( $args = array() ) {
 
@@ -370,48 +386,53 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			}
 
 			$defaults = array(
-				// translators: Separator between blog name and feed type in feed links
-				'separator' => _x( '&raquo;', 'feed link', 'remove_comments_absolute' ),
-				// translators: 1: blog title, 2: separator (raquo)
+				// Translators: Separator between blog name and feed type in feed links.
+				'separator' => _x(
+					'&raquo;',
+					'feed link',
+					'remove_comments_absolute'
+				),
+				// Translators: 1: blog title, 2: separator (raquo).
 				'feedtitle' => __( '%1$s %2$s Feed', 'remove_comments_absolute' ),
 			);
 
 			$args = wp_parse_args( $args, $defaults );
 
-			echo '<link rel="alternate" type="' . feed_content_type() . '" title="' .
+			echo '<link rel="alternate" type="' . esc_attr( feed_content_type() ) . '" title="' .
 				esc_attr(
 					sprintf(
 						$args[ 'feedtitle' ],
 						get_bloginfo( 'name' ),
 						$args[ 'separator' ]
 					)
-				) . '" href="' . get_feed_link() . '"/>' . "\n";
+				) . '" href="' . esc_attr( get_feed_link() ) . '"/>' . "\n";
 		}
 
 		/**
 		 * Display the links to the extra feeds such as category feeds.
-		 * Copy from WP default, but without comment feed; no filter available
+		 *
+		 * Copy from WP default, but without comment feed; no filter available.
 		 *
 		 * @since 04/08/2013
 		 *
-		 * @param array $args Optional arguments.
+		 * @param array $args Optional argument.
 		 */
 		public function feed_links_extra( $args = array() ) {
 
-			$defaults = array(
-				/* translators: Separator between blog name and feed type in feed links */
+			$defaults = [
+				/* Translators: Separator between blog name and feed type in feed links. */
 				'separator'     => _x( '&raquo;', 'feed link' ),
-				/* translators: 1: blog name, 2: separator(raquo), 3: category name */
+				/* Translators: 1: blog name, 2: separator(raquo), 3: category name. */
 				'cattitle'      => __( '%1$s %2$s %3$s Category Feed' ),
-				/* translators: 1: blog name, 2: separator(raquo), 3: tag name */
+				/* Translators: 1: blog name, 2: separator(raquo), 3: tag name. */
 				'tagtitle'      => __( '%1$s %2$s %3$s Tag Feed' ),
-				/* translators: 1: blog name, 2: separator(raquo), 3: author name  */
+				/* Translators: 1: blog name, 2: separator(raquo), 3: author name.  */
 				'authortitle'   => __( '%1$s %2$s Posts by %3$s Feed' ),
-				/* translators: 1: blog name, 2: separator(raquo), 3: search phrase */
+				/* Translators: 1: blog name, 2: separator(raquo), 3: search phrase. */
 				'searchtitle'   => __( '%1$s %2$s Search Results for &#8220;%3$s&#8221; Feed' ),
-				/* translators: 1: blog name, 2: separator(raquo), 3: post type name */
+				/* Translators: 1: blog name, 2: separator(raquo), 3: post type name. */
 				'posttypetitle' => __( '%1$s %2$s %3$s Feed' ),
-			);
+			];
 
 			$args = wp_parse_args( $args, $defaults );
 
@@ -447,7 +468,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			}
 
 			if ( isset( $title ) && isset( $href ) ) {
-				echo '<link rel="alternate" type="' . feed_content_type() . '" title="' . esc_attr(
+				echo '<link rel="alternate" type="' . esc_attr( feed_content_type() ) . '" title="' . esc_attr(
 						$title
 					) . '" href="' . esc_url( $href ) . '" />' . "\n";
 			}
@@ -455,13 +476,10 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		}
 
 		/**
-		 * Redirect on comment feed, set status 301
+		 * Redirect on comment feed, set status 301.
 		 *
-		 * @since   04/08/2013
-		 *
-		 * @param   void
-		 *
-		 * @return  void
+		 * @since  04/08/2013
+		 * @return NULL
 		 */
 		public function filter_query() {
 
@@ -473,18 +491,18 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 				wp_redirect( remove_query_arg( 'feed' ), 301 );
 				exit();
 			}
-			// redirect_canonical will do the rest
+			// Redirect_canonical will do the rest.
 			set_query_var( 'feed', '' );
 		}
 
 		/**
-		 * Unset additional HTTP headers for pingback
+		 * Unset additional HTTP headers for pingback.
 		 *
 		 * @since   04/07/2013
 		 *
-		 * @param   Array $headers
+		 * @param array $headers
 		 *
-		 * @return  Array $headers
+		 * @return array $headers
 		 */
 		public function filter_wp_headers( $headers ) {
 
@@ -494,13 +512,9 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		}
 
 		/**
-		 * Unregister default comment widget
+		 * Unregister default comment widget.
 		 *
 		 * @since   07/16/2012
-		 *
-		 * @param   void
-		 *
-		 * @return  void
 		 */
 		public function unregister_default_wp_widgets() {
 
@@ -508,13 +522,11 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		}
 
 		/**
-		 * Remove options for Keyboard Shortcuts on profile page
+		 * Remove options for Keyboard Shortcuts on profile page.
 		 *
-		 * @since   09/03/2012
+		 * @since  09/03/2012
 		 *
-		 * @param   void
-		 *
-		 * @return  void
+		 * @return void
 		 */
 		public function remove_profile_items() {
 
@@ -526,19 +538,19 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 				} );
 				//]]>
 			</script>
-		<?php
+			<?php
 		}
 
 		/**
-		 * On posts where comments are closed, the plugin will remove the text 'Comments are closed.'
+		 * On posts where comments are closed, the plugin will remove the text 'Comments are closed.'.
 		 *
-		 * @access   public
-		 * @since    0.0.7
+		 * @access public
+		 * @since  0.0.7
 		 *
-		 * @param    $translation
-		 * @param    $text
+		 * @param  $translation
+		 * @param  $text
 		 *
-		 * @return   string empty
+		 * @return string empty
 		 */
 		public function remove_theme_string( $translation, $text ) {
 
@@ -556,16 +568,16 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		/**
 		 * Replace comment related XML_RPC methods.
 		 *
-		 * @access  public
-		 * @since   09/21/2013
+		 * @access public
+		 * @since  09/21/2013
 		 *
-		 * @param   array $methods
+		 * @param array $methods
 		 *
-		 * @return  array $methods
+		 * @return array $methods
 		 */
 		public function xmlrpc_replace_methods( $methods ) {
 
-			$comment_methods = array(
+			$comment_methods = [
 				'wp.getCommentCount',
 				'wp.getComment',
 				'wp.getComments',
@@ -573,14 +585,13 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 				'wp.editComment',
 				'wp.newComment',
 				'wp.getCommentStatusList',
-			);
+			];
 
 			foreach ( $comment_methods as $method_name ) {
 
 				if ( isset( $methods[ $method_name ] ) ) {
 					$methods[ $method_name ] = array( $this, 'xmlrpc_placeholder_method' );
 				}
-
 			}
 
 			return $methods;
@@ -589,9 +600,9 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		/**
 		 * XML_RPC placeholder method.
 		 *
-		 * @access  public
-		 * @since   09/21/2013
-		 * @return  object
+		 * @access public
+		 * @since  09/21/2013
+		 * @return object
 		 */
 		public function xmlrpc_placeholder_method() {
 
