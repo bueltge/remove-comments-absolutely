@@ -5,7 +5,7 @@ Deactivate comments functions and remove areas absolutely from the WordPress ins
 The comment feature in WordPress is an essential component of blogs - but not in all cases it's needed, 
 especially if you use it as a traditional CMS.
 
-Sure, you can just leave out the comment form while you creating a theme and disable the comment options 
+Sure, you can just leave out the comment form while you are creating a theme and disable the comment options 
 in your backend. But this is not the best way for everyone. In such a case, I turn the comments off completely, 
 making sure that the posts can not have that option and also remove the fields for the comments in the backend. 
 That way the user gets exactly what he needs. Meanwhile, I have needed this so often that I created a small 
