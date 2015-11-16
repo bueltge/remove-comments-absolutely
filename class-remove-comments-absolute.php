@@ -58,6 +58,12 @@ class Remove_Comments_Absolute {
 		// Set comment status to closed on posts and pages.
 		add_filter( 'the_posts', array( $this, 'filter_post_comment_status' ) );
 
+		// Return 'closed' status when using comments_open().
+		add_filter( 'comments_open', array( $this, 'close_comments' ), 20, 2 );
+
+		// Return 'closed' status when using pings_open().
+		add_filter( 'pings_open', array( $this, 'close_comments' ), 20, 2 );
+
 	}
 
 	/**
@@ -104,5 +110,32 @@ class Remove_Comments_Absolute {
 		}
 
 		return $posts;
+	}
+
+	/**
+	 * Close comments, if open.
+	 *
+	 * @access public
+	 * @since  0.0.1
+	 *
+	 * @param string|boolean $open
+	 * @param string|integer $post_id
+	 *
+	 * @return bool|string $open
+	 */
+	public function close_comments( $open, $post_id ) {
+
+		// If not open, then return.
+		if ( ! $open ) {
+			return $open;
+		}
+
+		$post = get_post( $post_id );
+		// For all post types.
+		if ( $post->post_type ) {
+			return FALSE;
+		} // 'closed' doesn't work; @see http://codex.wordpress.org/Option_Reference#Discussion
+
+		return $open;
 	}
 }

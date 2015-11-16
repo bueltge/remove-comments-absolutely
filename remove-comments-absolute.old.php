@@ -60,8 +60,8 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 
 			// add_filter( 'the_posts', array( $this, 'set_comment_status' ) );
 
-			add_filter( 'comments_open', array( $this, 'close_comments' ), 20, 2 );
-			add_filter( 'pings_open', array( $this, 'close_comments' ), 20, 2 );
+			// add_filter( 'comments_open', array( $this, 'close_comments' ), 20, 2 );
+			// add_filter( 'pings_open', array( $this, 'close_comments' ), 20, 2 );
 
 			add_action( 'admin_init', array( $this, 'remove_comments' ) );
 			add_action( 'admin_menu', array( $this, 'remove_menu_items' ) );
