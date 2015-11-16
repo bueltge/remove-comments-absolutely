@@ -39,12 +39,12 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 *
 		 * @var array
 		 */
-		private static $comment_pages = array(
-			'comment.php',
-			'edit-comments.php',
-			'moderation.php',
-			'options-discussion.php',
-		);
+		// private static $comment_pages = array(
+		// 	'comment.php',
+		// 	'edit-comments.php',
+		// 	'moderation.php',
+		// 	'options-discussion.php',
+		// );
 
 		/**
 		 * Constructor, init on defined hooks of WP and include second class.
@@ -238,14 +238,14 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 				// }
 			}
 			// Filter for different pages.
-			if ( in_array( $pagenow, self::$comment_pages, FALSE ) ) {
-				wp_die(
-					esc_html__( 'Comments are disabled on this site.', 'remove_comments_absolute' ),
-					'',
-					array( 'response' => 403 )
-				);
-				exit();
-			}
+			// if ( in_array( $pagenow, self::$comment_pages, FALSE ) ) {
+			// 	wp_die(
+			// 		esc_html__( 'Comments are disabled on this site.', 'remove_comments_absolute' ),
+			// 		'',
+			// 		array( 'response' => 403 )
+			// 	);
+			// 	exit();
+			// }
 
 			// Remove dashboard meta box for recents comments.
 			remove_meta_box( 'dashboard_recent_comments', 'dashboard', 'normal' );

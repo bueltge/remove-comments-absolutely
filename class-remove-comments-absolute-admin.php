@@ -36,6 +36,9 @@ class Remove_Comments_Absolute_Admin {
 
 		// Do not check for plugin updates.
 		add_filter( 'site_transient_update_plugins', array( $this, 'remove_update_nag' ) );
+
+		// Remove comment related admin pages.
+		add_action( 'admin_init', array( $this, 'remove_admin_pages' ) );
 	}
 
 	/**
@@ -73,5 +76,24 @@ class Remove_Comments_Absolute_Admin {
 		}
 
 		return $value;
+	}
+
+	/**
+	 * Remove comment related admin pages.
+	 *
+	 * @since 1.3.0
+	 */
+	public function remove_admin_pages() {
+
+		global $pagenow;
+
+		if ( in_array( $pagenow, array( 'comment.php', 'edit-comments.php', 'moderation.php', 'options-discussion.php' ) ) ) {
+			wp_die(
+				esc_html__( 'Comments are disabled on this site.', 'remove_comments_absolute' ),
+				'',
+				array( 'response' => 403 )
+			);
+			exit();
+		}
 	}
 }
