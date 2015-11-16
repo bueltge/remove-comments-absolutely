@@ -55,6 +55,9 @@ class Remove_Comments_Absolute {
 		// Remove post type support for comments and trackbacks.
 		add_action( 'init', array( $this, 'remove_post_type_support' ) );
 
+		// Set comment status to closed on posts and pages.
+		add_filter( 'the_posts', array( $this, 'filter_post_comment_status' ) );
+
 	}
 
 	/**
@@ -81,5 +84,25 @@ class Remove_Comments_Absolute {
 				remove_post_type_support( $post_type, 'trackbacks' );
 			}
 		}
+	}
+
+	/**
+	 * Set comment status to closed on posts and pages - is_singular().
+	 *
+	 * @access public
+	 * @since  0.0.1
+	 * @see   is_singular()
+	 *
+	 * @param string $posts
+	 *
+	 * @return string $posts
+	 */
+	public function filter_post_comment_status( $posts ) {
+		if ( ! empty( $posts ) && is_singular() ) {
+			$posts[ 0 ]->comment_status = 'closed';
+			$posts[ 0 ]->ping_status    = 'closed';
+		}
+
+		return $posts;
 	}
 }

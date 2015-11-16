@@ -58,7 +58,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			// Remove update check.
 			add_filter( 'site_transient_update_plugins', array( $this, 'remove_update_nag' ) );
 
-			add_filter( 'the_posts', array( $this, 'set_comment_status' ) );
+			// add_filter( 'the_posts', array( $this, 'set_comment_status' ) );
 
 			add_filter( 'comments_open', array( $this, 'close_comments' ), 20, 2 );
 			add_filter( 'pings_open', array( $this, 'close_comments' ), 20, 2 );
