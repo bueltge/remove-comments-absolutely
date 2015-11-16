@@ -78,11 +78,11 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			// add_filter( 'gettext', array( $this, 'remove_theme_string' ), 20, 2 );
 
 			// Remove comment feed.
-			remove_action( 'wp_head', 'feed_links', 2 );
-			remove_action( 'wp_head', 'feed_links_extra', 3 );
-			add_action( 'wp_head', array( $this, 'feed_links' ), 2 );
-			add_action( 'wp_head', array( $this, 'feed_links_extra' ), 3 );
-			add_action( 'template_redirect', array( $this, 'filter_query' ), 9 );
+			// remove_action( 'wp_head', 'feed_links', 2 );
+			// remove_action( 'wp_head', 'feed_links_extra', 3 );
+			// add_action( 'wp_head', array( $this, 'feed_links' ), 2 );
+			// add_action( 'wp_head', array( $this, 'feed_links_extra' ), 3 );
+			// add_action( 'template_redirect', array( $this, 'filter_query' ), 9 );
 			add_filter( 'wp_headers', array( $this, 'filter_wp_headers' ) );
 
 			// Remove default comment widget.
@@ -381,34 +381,34 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 *
 		 * @return string
 		 */
-		public function feed_links( $args ) {
+		// public function feed_links( $args ) {
 
-			if ( ! current_theme_supports( 'automatic-feed-links' ) ) {
-				return NULL;
-			}
+		// 	if ( ! current_theme_supports( 'automatic-feed-links' ) ) {
+		// 		return NULL;
+		// 	}
 
-			$defaults = [
-				// Translators: Separator between blog name and feed type in feed links.
-				'separator' => _x(
-					'&raquo;',
-					'feed link',
-					'remove_comments_absolute'
-				),
-				// Translators: 1: blog title, 2: separator (raquo).
-				'feedtitle' => __( '%1$s %2$s Feed', 'remove_comments_absolute' ),
-			];
+		// 	$defaults = [
+		// 		// Translators: Separator between blog name and feed type in feed links.
+		// 		'separator' => _x(
+		// 			'&raquo;',
+		// 			'feed link',
+		// 			'remove_comments_absolute'
+		// 		),
+		// 		// Translators: 1: blog title, 2: separator (raquo).
+		// 		'feedtitle' => __( '%1$s %2$s Feed', 'remove_comments_absolute' ),
+		// 	];
 
-			$args = wp_parse_args( $args, $defaults );
+		// 	$args = wp_parse_args( $args, $defaults );
 
-			echo '<link rel="alternate" type="' . esc_attr( feed_content_type() ) . '" title="' .
-				esc_attr(
-					sprintf(
-						$args[ 'feedtitle' ],
-						get_bloginfo( 'name' ),
-						$args[ 'separator' ]
-					)
-				) . '" href="' . esc_attr( get_feed_link() ) . '"/>' . "\n";
-		}
+		// 	echo '<link rel="alternate" type="' . esc_attr( feed_content_type() ) . '" title="' .
+		// 		esc_attr(
+		// 			sprintf(
+		// 				$args[ 'feedtitle' ],
+		// 				get_bloginfo( 'name' ),
+		// 				$args[ 'separator' ]
+		// 			)
+		// 		) . '" href="' . esc_attr( get_feed_link() ) . '"/>' . "\n";
+		// }
 
 		/**
 		 * Display the links to the extra feeds such as category feeds.
@@ -419,63 +419,63 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 *
 		 * @param array $args Optional argument.
 		 */
-		public function feed_links_extra( $args ) {
+		// public function feed_links_extra( $args ) {
 
-			$defaults = [
-				/* Translators: Separator between blog name and feed type in feed links. */
-				'separator'     => _x( '&raquo;', 'feed link' ),
-				/* Translators: 1: blog name, 2: separator(raquo), 3: category name. */
-				'cattitle'      => __( '%1$s %2$s %3$s Category Feed' ),
-				/* Translators: 1: blog name, 2: separator(raquo), 3: tag name. */
-				'tagtitle'      => __( '%1$s %2$s %3$s Tag Feed' ),
-				/* Translators: 1: blog name, 2: separator(raquo), 3: author name.  */
-				'authortitle'   => __( '%1$s %2$s Posts by %3$s Feed' ),
-				/* Translators: 1: blog name, 2: separator(raquo), 3: search phrase. */
-				'searchtitle'   => __( '%1$s %2$s Search Results for &#8220;%3$s&#8221; Feed' ),
-				/* Translators: 1: blog name, 2: separator(raquo), 3: post type name. */
-				'posttypetitle' => __( '%1$s %2$s %3$s Feed' ),
-			];
+		// 	$defaults = [
+		// 		/* Translators: Separator between blog name and feed type in feed links. */
+		// 		'separator'     => _x( '&raquo;', 'feed link' ),
+		// 		/* Translators: 1: blog name, 2: separator(raquo), 3: category name. */
+		// 		'cattitle'      => __( '%1$s %2$s %3$s Category Feed' ),
+		// 		/* Translators: 1: blog name, 2: separator(raquo), 3: tag name. */
+		// 		'tagtitle'      => __( '%1$s %2$s %3$s Tag Feed' ),
+		// 		/* Translators: 1: blog name, 2: separator(raquo), 3: author name.  */
+		// 		'authortitle'   => __( '%1$s %2$s Posts by %3$s Feed' ),
+		// 		/* Translators: 1: blog name, 2: separator(raquo), 3: search phrase. */
+		// 		'searchtitle'   => __( '%1$s %2$s Search Results for &#8220;%3$s&#8221; Feed' ),
+		// 		/* Translators: 1: blog name, 2: separator(raquo), 3: post type name. */
+		// 		'posttypetitle' => __( '%1$s %2$s %3$s Feed' ),
+		// 	];
 
-			$args = wp_parse_args( $args, $defaults );
+		// 	$args = wp_parse_args( $args, $defaults );
 
-			if ( is_category() ) {
-				$term = get_queried_object();
+		// 	if ( is_category() ) {
+		// 		$term = get_queried_object();
 
-				$title = sprintf( $args[ 'cattitle' ], get_bloginfo( 'name' ), $args[ 'separator' ], $term->name );
-				$href  = get_category_feed_link( $term->term_id );
-			} elseif ( is_tag() ) {
-				$term = get_queried_object();
+		// 		$title = sprintf( $args[ 'cattitle' ], get_bloginfo( 'name' ), $args[ 'separator' ], $term->name );
+		// 		$href  = get_category_feed_link( $term->term_id );
+		// 	} elseif ( is_tag() ) {
+		// 		$term = get_queried_object();
 
-				$title = sprintf( $args[ 'tagtitle' ], get_bloginfo( 'name' ), $args[ 'separator' ], $term->name );
-				$href  = get_tag_feed_link( $term->term_id );
-			} elseif ( is_author() ) {
-				$author_id = (int) get_query_var( 'author' );
+		// 		$title = sprintf( $args[ 'tagtitle' ], get_bloginfo( 'name' ), $args[ 'separator' ], $term->name );
+		// 		$href  = get_tag_feed_link( $term->term_id );
+		// 	} elseif ( is_author() ) {
+		// 		$author_id = (int) get_query_var( 'author' );
 
-				$title = sprintf(
-					$args[ 'authortitle' ], get_bloginfo( 'name' ), $args[ 'separator' ],
-					get_the_author_meta( 'display_name', $author_id )
-				);
-				$href  = get_author_feed_link( $author_id );
-			} elseif ( is_search() ) {
-				$title = sprintf(
-					$args[ 'searchtitle' ], get_bloginfo( 'name' ), $args[ 'separator' ], get_search_query( FALSE )
-				);
-				$href  = get_search_feed_link();
-			} elseif ( is_post_type_archive() ) {
-				$title = sprintf(
-					$args[ 'posttypetitle' ], get_bloginfo( 'name' ), $args[ 'separator' ],
-					post_type_archive_title( '', FALSE )
-				);
-				$href  = get_post_type_archive_feed_link( get_queried_object()->name );
-			}
+		// 		$title = sprintf(
+		// 			$args[ 'authortitle' ], get_bloginfo( 'name' ), $args[ 'separator' ],
+		// 			get_the_author_meta( 'display_name', $author_id )
+		// 		);
+		// 		$href  = get_author_feed_link( $author_id );
+		// 	} elseif ( is_search() ) {
+		// 		$title = sprintf(
+		// 			$args[ 'searchtitle' ], get_bloginfo( 'name' ), $args[ 'separator' ], get_search_query( FALSE )
+		// 		);
+		// 		$href  = get_search_feed_link();
+		// 	} elseif ( is_post_type_archive() ) {
+		// 		$title = sprintf(
+		// 			$args[ 'posttypetitle' ], get_bloginfo( 'name' ), $args[ 'separator' ],
+		// 			post_type_archive_title( '', FALSE )
+		// 		);
+		// 		$href  = get_post_type_archive_feed_link( get_queried_object()->name );
+		// 	}
 
-			if ( isset( $title, $href ) ) {
-				echo '<link rel="alternate" type="' . esc_attr( feed_content_type() ) . '" title="' . esc_attr(
-						$title
-					) . '" href="' . esc_url( $href ) . '" />' . "\n";
-			}
+		// 	if ( isset( $title, $href ) ) {
+		// 		echo '<link rel="alternate" type="' . esc_attr( feed_content_type() ) . '" title="' . esc_attr(
+		// 				$title
+		// 			) . '" href="' . esc_url( $href ) . '" />' . "\n";
+		// 	}
 
-		}
+		// }
 
 		/**
 		 * Redirect on comment feed, set status 301.
@@ -483,19 +483,19 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @since  04/08/2013
 		 * @return NULL
 		 */
-		public function filter_query() {
+		// public function filter_query() {
 
-			if ( ! is_comment_feed() ) {
-				return NULL;
-			}
+		// 	if ( ! is_comment_feed() ) {
+		// 		return NULL;
+		// 	}
 
-			if ( isset( $_GET[ 'feed' ] ) ) {
-				wp_redirect( remove_query_arg( 'feed' ), 301 );
-				exit();
-			}
-			// Redirect_canonical will do the rest.
-			set_query_var( 'feed', '' );
-		}
+		// 	if ( isset( $_GET[ 'feed' ] ) ) {
+		// 		wp_redirect( remove_query_arg( 'feed' ), 301 );
+		// 		exit();
+		// 	}
+		// 	// Redirect_canonical will do the rest.
+		// 	set_query_var( 'feed', '' );
+		// }
 
 		/**
 		 * Unset additional HTTP headers for pingback.
