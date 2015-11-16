@@ -42,6 +42,9 @@ class Remove_Comments_Absolute_Admin {
 
 		// Remove comment related admin menu items.
 		add_action( 'admin_menu', array( $this, 'remove_menu_items' ) );
+
+		// Remove commentsdiv meta box.
+		add_action( 'admin_init', array( $this, 'remove_commentsdiv_meta_box' ) );
 	}
 
 	/**
@@ -112,5 +115,23 @@ class Remove_Comments_Absolute_Admin {
 	public function remove_menu_items() {
 		remove_menu_page( 'edit-comments.php' );
 		remove_submenu_page( 'options-general.php', 'options-discussion.php' );
+	}
+
+	/**
+	 * Remove commentsdiv meta box.
+	 *
+	 * Note: Removing post type support for comments removes commentstatusdiv and trackbacksdiv.
+	 *       This does not affect commentsdiv as it is still registered if $post->comment_count is bigger than 0.
+	 *
+	 * @access public
+	 * @since  1.2.4
+	 * @see   get_post_types()
+	 * @see   remove_meta_box()
+	 * @return void
+	 */
+	public function remove_commentsdiv_meta_box() {
+		foreach ( get_post_types() as $post_type ) {
+			remove_meta_box( 'commentsdiv', $post_type, 'normal' );
+		}
 	}
 }
