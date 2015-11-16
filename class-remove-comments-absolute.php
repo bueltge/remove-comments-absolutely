@@ -86,6 +86,16 @@ class Remove_Comments_Absolute {
 
 		// Replace xmlrpc methods.
 		add_filter( 'xmlrpc_methods', array( $this, 'xmlrpc_replace_methods' ) );
+
+		// Set content of <wfw:commentRss> to empty string.
+		add_filter( 'post_comments_feed_link', '__return_empty_string' );
+
+		// Set content of <slash:comments> to zero.
+		// Note: Setting it to an empty string potentially causes problems.
+		add_filter( 'get_comments_number', '__return_zero' );
+
+		// Return empty string for post comment link, which takes care of <comments>.
+		add_filter( 'get_comments_link', '__return_empty_string' );
 	}
 
 	/**

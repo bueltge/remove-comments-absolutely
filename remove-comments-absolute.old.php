@@ -95,13 +95,13 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			// add_filter( 'xmlrpc_methods', array( $this, 'xmlrpc_replace_methods' ) );
 
 			// Set content of <wfw:commentRss> to empty string.
-			add_filter( 'post_comments_feed_link', '__return_empty_string' );
+			// add_filter( 'post_comments_feed_link', '__return_empty_string' );
 
 			// Set content of <slash:comments> to empty string.
-			add_filter( 'get_comments_number', '__return_empty_string' );
+			// add_filter( 'get_comments_number', '__return_empty_string' );
 
 			// Return empty string for post comment link, which takes care of <comments>.
-			add_filter( 'get_comments_link', '__return_empty_string' );
+			// add_filter( 'get_comments_link', '__return_empty_string' );
 		}
 
 		/**
