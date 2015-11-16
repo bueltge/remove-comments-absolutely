@@ -381,7 +381,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 *
 		 * @return string
 		 */
-		public function feed_links( array $args ) {
+		public function feed_links( $args ) {
 
 			if ( ! current_theme_supports( 'automatic-feed-links' ) ) {
 				return NULL;
@@ -419,7 +419,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 *
 		 * @param array $args Optional argument.
 		 */
-		public function feed_links_extra( array $args ) {
+		public function feed_links_extra( $args ) {
 
 			$defaults = [
 				/* Translators: Separator between blog name and feed type in feed links. */
