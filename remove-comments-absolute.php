@@ -39,12 +39,12 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 *
 		 * @var array
 		 */
-		private $comment_pages = [
+		private static $comment_pages = array(
 			'comment.php',
 			'edit-comments.php',
 			'moderation.php',
 			'options-discussion.php',
-		];
+		);
 
 		/**
 		 * Constructor, init on defined hooks of WP and include second class.
