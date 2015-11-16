@@ -306,7 +306,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 				//<![CDATA[
 				jQuery( document ).ready( function( $ ) {
 					// Welcome screen
-					$( '.welcome-comments' ).remove();
+					$( '.welcome-comments' ).parent().remove();
 					// 'Right Now' dashboard widget
 					$( 'div.table_discussion:first' ).remove();
 					// 'Right Now' dashbaord widget since WP version 3.8, second ID since WP 4.0
