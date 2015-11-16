@@ -25,6 +25,18 @@ class Remove_Comments_Absolute_Admin {
 	static private $classobj;
 
 	/**
+	 * Register actions and filters.
+	 *
+	 * @access  public
+	 * @since   0.0.1
+	 * @see    add_filter()
+	 * @see    add_action()
+	 */
+	public function __construct() {
+
+	}
+
+	/**
 	 * Get an instance of this class.
 	 *
 	 * @access public
