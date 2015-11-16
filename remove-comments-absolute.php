@@ -8,8 +8,8 @@
  * Domain Path: /languages
  * Description: Deactivate comments functions and remove areas absolutely from the WordPress install
  * Author:      Frank Bültge
- * Version:     1.2.2
- * Last access: 2015-08-16
+ * Version:     1.2.3
+ * Last access: 2015-11-16
  * License:     GPLv2
  * Author URI:  http://bueltge.de/
  *
@@ -32,7 +32,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 *
 		 * @var null
 		 */
-		static private $classobj = NULL;
+		static private $classobj;
 
 		/**
 		 * Back end pages for the hint, that comment are inactive.
@@ -238,7 +238,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 				}
 			}
 			// Filter for different pages.
-			if ( in_array( $pagenow, $this->comment_pages ) ) {
+			if ( in_array( $pagenow, $this->comment_pages, FALSE ) ) {
 				wp_die(
 					esc_html__( 'Comments are disabled on this site.', 'remove_comments_absolute' ),
 					'',
@@ -283,7 +283,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 *
 		 * @return array|string $menu
 		 */
-		function add_menu_classes( $menu ) {
+		public function add_menu_classes( $menu ) {
 
 			if ( isset( $menu[ 20 ][ 4 ] ) ) {
 				$menu[ 20 ][ 4 ] .= ' menu-top-last';
@@ -381,7 +381,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 *
 		 * @return string
 		 */
-		public function feed_links( $args = array() ) {
+		public function feed_links( array $args ) {
 
 			if ( ! current_theme_supports( 'automatic-feed-links' ) ) {
 				return NULL;
@@ -419,7 +419,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 *
 		 * @param array $args Optional argument.
 		 */
-		public function feed_links_extra( $args = array() ) {
+		public function feed_links_extra( array $args ) {
 
 			$defaults = [
 				/* Translators: Separator between blog name and feed type in feed links. */
@@ -449,7 +449,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 				$title = sprintf( $args[ 'tagtitle' ], get_bloginfo( 'name' ), $args[ 'separator' ], $term->name );
 				$href  = get_tag_feed_link( $term->term_id );
 			} elseif ( is_author() ) {
-				$author_id = intval( get_query_var( 'author' ) );
+				$author_id = (int) get_query_var( 'author' );
 
 				$title = sprintf(
 					$args[ 'authortitle' ], get_bloginfo( 'name' ), $args[ 'separator' ],
@@ -469,7 +469,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 				$href  = get_post_type_archive_feed_link( get_queried_object()->name );
 			}
 
-			if ( isset( $title ) && isset( $href ) ) {
+			if ( isset( $title, $href ) ) {
 				echo '<link rel="alternate" type="' . esc_attr( feed_content_type() ) . '" title="' . esc_attr(
 						$title
 					) . '" href="' . esc_url( $href ) . '" />' . "\n";
