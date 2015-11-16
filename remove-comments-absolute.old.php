@@ -86,7 +86,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			add_filter( 'wp_headers', array( $this, 'filter_wp_headers' ) );
 
 			// Remove default comment widget.
-			add_action( 'widgets_init', array( $this, 'unregister_default_wp_widgets' ), 1 );
+			// add_action( 'widgets_init', array( $this, 'unregister_default_wp_widgets' ), 1 );
 
 			// Remove comment options in profile page.
 			add_action( 'personal_options', array( $this, 'remove_profile_items' ) );
@@ -518,10 +518,10 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 *
 		 * @since   07/16/2012
 		 */
-		public function unregister_default_wp_widgets() {
+		// public function unregister_default_wp_widgets() {
 
-			unregister_widget( 'WP_Widget_Recent_Comments' );
-		}
+		// 	unregister_widget( 'WP_Widget_Recent_Comments' );
+		// }
 
 		/**
 		 * Remove options for Keyboard Shortcuts on profile page.

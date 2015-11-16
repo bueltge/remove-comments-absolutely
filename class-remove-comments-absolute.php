@@ -70,6 +70,9 @@ class Remove_Comments_Absolute {
 
 		// Remove string on frontend in theme.
 		add_filter( 'gettext', array( $this, 'remove_theme_string' ), 20, 2 );
+
+		// Unregister default comment widget.
+		add_action( 'widgets_init', array( $this, 'unregister_default_widgets' ), 1 );
 	}
 
 	/**
@@ -218,5 +221,14 @@ class Remove_Comments_Absolute {
 		}
 
 		return $translation;
+	}
+
+	/**
+	 * Unregister default comment widget.
+	 *
+	 * @since   07/16/2012
+	 */
+	public function unregister_default_widgets() {
+		unregister_widget( 'WP_Widget_Recent_Comments' );
 	}
 }
