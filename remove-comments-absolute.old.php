@@ -64,7 +64,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			// add_filter( 'pings_open', array( $this, 'close_comments' ), 20, 2 );
 
 			add_action( 'admin_init', array( $this, 'remove_comments' ) );
-			add_action( 'admin_menu', array( $this, 'remove_menu_items' ) );
+			// add_action( 'admin_menu', array( $this, 'remove_menu_items' ) );
 			add_filter( 'add_menu_classes', array( $this, 'add_menu_classes' ) );
 
 			// Remove items in dashboard.

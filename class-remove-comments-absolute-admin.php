@@ -39,6 +39,9 @@ class Remove_Comments_Absolute_Admin {
 
 		// Remove comment related admin pages.
 		add_action( 'admin_init', array( $this, 'remove_admin_pages' ) );
+
+		// Remove comment related admin menu items.
+		add_action( 'admin_menu', array( $this, 'remove_menu_items' ) );
 	}
 
 	/**
@@ -95,5 +98,19 @@ class Remove_Comments_Absolute_Admin {
 			);
 			exit();
 		}
+	}
+
+	/**
+	 * Remove admin menu items.
+	 *
+	 * @access public
+	 * @since  0.0.3
+	 * @see   remove_menu_page()
+	 * @see   remove_submenu_page()
+	 * @return void
+	 */
+	public function remove_menu_items() {
+		remove_menu_page( 'edit-comments.php' );
+		remove_submenu_page( 'options-general.php', 'options-discussion.php' );
 	}
 }
