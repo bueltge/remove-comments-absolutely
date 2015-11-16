@@ -238,7 +238,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 				}
 			}
 			// Filter for different pages.
-			if ( in_array( $pagenow, $this->comment_pages, FALSE ) ) {
+			if ( in_array( $pagenow, self::$comment_pages, FALSE ) ) {
 				wp_die(
 					esc_html__( 'Comments are disabled on this site.', 'remove_comments_absolute' ),
 					'',
