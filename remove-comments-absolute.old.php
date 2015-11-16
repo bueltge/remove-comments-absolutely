@@ -83,7 +83,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			// add_action( 'wp_head', array( $this, 'feed_links' ), 2 );
 			// add_action( 'wp_head', array( $this, 'feed_links_extra' ), 3 );
 			// add_action( 'template_redirect', array( $this, 'filter_query' ), 9 );
-			add_filter( 'wp_headers', array( $this, 'filter_wp_headers' ) );
+			// add_filter( 'wp_headers', array( $this, 'filter_wp_headers' ) );
 
 			// Remove default comment widget.
 			// add_action( 'widgets_init', array( $this, 'unregister_default_wp_widgets' ), 1 );
@@ -506,12 +506,12 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 *
 		 * @return array $headers
 		 */
-		public function filter_wp_headers( $headers ) {
+		// public function filter_wp_headers( $headers ) {
 
-			unset( $headers[ 'X-Pingback' ] );
+		// 	unset( $headers[ 'X-Pingback' ] );
 
-			return $headers;
-		}
+		// 	return $headers;
+		// }
 
 		/**
 		 * Unregister default comment widget.

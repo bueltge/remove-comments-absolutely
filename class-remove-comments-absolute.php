@@ -80,6 +80,9 @@ class Remove_Comments_Absolute {
 		add_action( 'wp_head', array( $this, 'feed_links' ), 2 );
 		add_action( 'wp_head', array( $this, 'feed_links_extra' ), 3 );
 		add_action( 'template_redirect', array( $this, 'filter_query' ), 9 );
+
+		// Unset comment feed pingback HTTP headers.
+		add_filter( 'wp_headers', array( $this, 'filter_wp_headers' ) );
 	}
 
 	/**
@@ -363,5 +366,19 @@ class Remove_Comments_Absolute {
 		}
 		// Redirect_canonical will do the rest.
 		set_query_var( 'feed', '' );
+	}
+
+	/**
+	 * Unset comment feed pingback HTTP headers.
+	 *
+	 * @since   04/07/2013
+	 *
+	 * @param array $headers
+	 *
+	 * @return array $headers
+	 */
+	public function filter_wp_headers( $headers ) {
+		unset( $headers[ 'X-Pingback' ] );
+		return $headers;
 	}
 }
