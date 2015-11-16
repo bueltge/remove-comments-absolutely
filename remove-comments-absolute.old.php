@@ -56,7 +56,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		public function __construct() {
 
 			// Remove update check.
-			add_filter( 'site_transient_update_plugins', array( $this, 'remove_update_nag' ) );
+			// add_filter( 'site_transient_update_plugins', array( $this, 'remove_update_nag' ) );
 
 			// add_filter( 'the_posts', array( $this, 'set_comment_status' ) );
 
@@ -130,16 +130,16 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 *
 		 * @return array|string $value
 		 */
-		public function remove_update_nag( $value ) {
+		// public function remove_update_nag( $value ) {
 
-			if ( isset( $value->response[ plugin_basename( __FILE__ ) ] )
-				&& ! empty( $value->response[ plugin_basename( __FILE__ ) ] )
-			) {
-				unset( $value->response[ plugin_basename( __FILE__ ) ] );
-			}
+		// 	if ( isset( $value->response[ plugin_basename( __FILE__ ) ] )
+		// 		&& ! empty( $value->response[ plugin_basename( __FILE__ ) ] )
+		// 	) {
+		// 		unset( $value->response[ plugin_basename( __FILE__ ) ] );
+		// 	}
 
-			return $value;
-		}
+		// 	return $value;
+		// }
 
 		/**
 		 * Set the status on posts and pages - is_singular().

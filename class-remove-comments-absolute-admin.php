@@ -34,6 +34,8 @@ class Remove_Comments_Absolute_Admin {
 	 */
 	public function __construct() {
 
+		// Do not check for plugin updates.
+		add_filter( 'site_transient_update_plugins', array( $this, 'remove_update_nag' ) );
 	}
 
 	/**
@@ -50,5 +52,26 @@ class Remove_Comments_Absolute_Admin {
 		}
 
 		return self::$classobj;
+	}
+
+	/**
+	 * Do not check for plugin updates.
+	 *
+	 * @since  1.0.0  04/02/2012
+	 * @link   http://dd32.id.au/2011/03/01/disable-plugin-update-notification-for-a-specific-plugin-in-wordpress-3-1/
+	 *
+	 * @param array|string $value
+	 *
+	 * @return array|string $value
+	 */
+	public function remove_update_nag( $value ) {
+
+		if ( isset( $value->response[ plugin_basename( __FILE__ ) ] )
+			&& ! empty( $value->response[ plugin_basename( __FILE__ ) ] )
+		) {
+			unset( $value->response[ plugin_basename( __FILE__ ) ] );
+		}
+
+		return $value;
 	}
 }
