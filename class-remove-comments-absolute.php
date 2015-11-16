@@ -83,6 +83,9 @@ class Remove_Comments_Absolute {
 
 		// Unset comment feed pingback HTTP headers.
 		add_filter( 'wp_headers', array( $this, 'filter_wp_headers' ) );
+
+		// Replace xmlrpc methods.
+		add_filter( 'xmlrpc_methods', array( $this, 'xmlrpc_replace_methods' ) );
 	}
 
 	/**
@@ -380,5 +383,52 @@ class Remove_Comments_Absolute {
 	public function filter_wp_headers( $headers ) {
 		unset( $headers[ 'X-Pingback' ] );
 		return $headers;
+	}
+
+	/**
+	 * Replace comment related XML_RPC methods.
+	 *
+	 * @access public
+	 * @since  09/21/2013
+	 *
+	 * @param array $methods
+	 *
+	 * @return array $methods
+	 */
+	public function xmlrpc_replace_methods( $methods ) {
+
+		$comment_methods = [
+			'wp.getCommentCount',
+			'wp.getComment',
+			'wp.getComments',
+			'wp.deleteComment',
+			'wp.editComment',
+			'wp.newComment',
+			'wp.getCommentStatusList',
+		];
+
+		foreach ( $comment_methods as $method_name ) {
+
+			if ( isset( $methods[ $method_name ] ) ) {
+				$methods[ $method_name ] = array( $this, 'xmlrpc_placeholder_method' );
+			}
+		}
+
+		return $methods;
+	}
+
+	/**
+	 * XML_RPC placeholder method.
+	 *
+	 * @access public
+	 * @since  09/21/2013
+	 * @return object
+	 */
+	public function xmlrpc_placeholder_method() {
+
+		return new IXR_Error(
+			403,
+			__( 'Comments are disabled on this site.', 'remove_comments_absolute' )
+		);
 	}
 }

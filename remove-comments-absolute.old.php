@@ -92,7 +92,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			add_action( 'personal_options', array( $this, 'remove_profile_items' ) );
 
 			// Replace xmlrpc methods.
-			add_filter( 'xmlrpc_methods', array( $this, 'xmlrpc_replace_methods' ) );
+			// add_filter( 'xmlrpc_methods', array( $this, 'xmlrpc_replace_methods' ) );
 
 			// Set content of <wfw:commentRss> to empty string.
 			add_filter( 'post_comments_feed_link', '__return_empty_string' );
@@ -577,27 +577,27 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 *
 		 * @return array $methods
 		 */
-		public function xmlrpc_replace_methods( $methods ) {
+		// public function xmlrpc_replace_methods( $methods ) {
 
-			$comment_methods = [
-				'wp.getCommentCount',
-				'wp.getComment',
-				'wp.getComments',
-				'wp.deleteComment',
-				'wp.editComment',
-				'wp.newComment',
-				'wp.getCommentStatusList',
-			];
+		// 	$comment_methods = [
+		// 		'wp.getCommentCount',
+		// 		'wp.getComment',
+		// 		'wp.getComments',
+		// 		'wp.deleteComment',
+		// 		'wp.editComment',
+		// 		'wp.newComment',
+		// 		'wp.getCommentStatusList',
+		// 	];
 
-			foreach ( $comment_methods as $method_name ) {
+		// 	foreach ( $comment_methods as $method_name ) {
 
-				if ( isset( $methods[ $method_name ] ) ) {
-					$methods[ $method_name ] = array( $this, 'xmlrpc_placeholder_method' );
-				}
-			}
+		// 		if ( isset( $methods[ $method_name ] ) ) {
+		// 			$methods[ $method_name ] = array( $this, 'xmlrpc_placeholder_method' );
+		// 		}
+		// 	}
 
-			return $methods;
-		}
+		// 	return $methods;
+		// }
 
 		/**
 		 * XML_RPC placeholder method.
@@ -606,13 +606,13 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @since  09/21/2013
 		 * @return object
 		 */
-		public function xmlrpc_placeholder_method() {
+		// public function xmlrpc_placeholder_method() {
 
-			return new IXR_Error(
-				403,
-				__( 'Comments are disabled on this site.', 'remove_comments_absolute' )
-			);
-		}
+		// 	return new IXR_Error(
+		// 		403,
+		// 		__( 'Comments are disabled on this site.', 'remove_comments_absolute' )
+		// 	);
+		// }
 
 	} // end class
 
