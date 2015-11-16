@@ -71,8 +71,8 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			add_action( 'admin_footer-index.php', array( $this, 'remove_dashboard_comments_areas' ) );
 
 			// Change admin bar items.
-			add_action( 'admin_bar_menu', array( $this, 'remove_admin_bar_comment_items' ), 999 );
-			add_action( 'admin_bar_menu', array( $this, 'remove_network_comment_items' ), 999 );
+			// add_action( 'admin_bar_menu', array( $this, 'remove_admin_bar_comment_items' ), 999 );
+			// add_action( 'admin_bar_menu', array( $this, 'remove_network_comment_items' ), 999 );
 
 			// Remove string on frontend in Theme.
 			add_filter( 'gettext', array( $this, 'remove_theme_string' ), 20, 2 );
@@ -329,19 +329,19 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 *
 		 * @return null
 		 */
-		public function remove_admin_bar_comment_items( $wp_admin_bar ) {
+		// public function remove_admin_bar_comment_items( $wp_admin_bar ) {
 
-			if ( ! is_admin_bar_showing() ) {
-				return NULL;
-			}
+		// 	if ( ! is_admin_bar_showing() ) {
+		// 		return NULL;
+		// 	}
 
-			// Remove comment item in blog list for "My Sites" in Admin Bar.
-			if ( isset( $GLOBALS[ 'blog_id' ] ) ) {
-				$wp_admin_bar->remove_node( 'blog-' . $GLOBALS[ 'blog_id' ] . '-c' );
-			}
-			// Remove entry in admin bar.
-			$wp_admin_bar->remove_node( 'comments' );
-		}
+		// 	// Remove comment item in blog list for "My Sites" in Admin Bar.
+		// 	if ( isset( $GLOBALS[ 'blog_id' ] ) ) {
+		// 		$wp_admin_bar->remove_node( 'blog-' . $GLOBALS[ 'blog_id' ] . '-c' );
+		// 	}
+		// 	// Remove entry in admin bar.
+		// 	$wp_admin_bar->remove_node( 'comments' );
+		// }
 
 		/**
 		 * Remove comments item on network admin bar.
@@ -350,25 +350,25 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @internal param Array $wp_admin_bar
 		 * @return void
 		 */
-		public function remove_network_comment_items() {
+		// public function remove_network_comment_items() {
 
-			if ( ! is_admin_bar_showing() ) {
-				return NULL;
-			}
+		// 	if ( ! is_admin_bar_showing() ) {
+		// 		return NULL;
+		// 	}
 
-			global $wp_admin_bar;
+		// 	global $wp_admin_bar;
 
-			if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
-				require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
-			}
+		// 	if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
+		// 		require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
+		// 	}
 
-			if ( is_multisite() && is_plugin_active_for_network( plugin_basename( __FILE__ ) ) ) {
+		// 	if ( is_multisite() && is_plugin_active_for_network( plugin_basename( __FILE__ ) ) ) {
 
-				foreach ( (array) $wp_admin_bar->user->blogs as $blog ) {
-					$wp_admin_bar->remove_node( 'blog-' . $blog->userblog_id . '-c' );
-				}
-			}
-		}
+		// 		foreach ( (array) $wp_admin_bar->user->blogs as $blog ) {
+		// 			$wp_admin_bar->remove_node( 'blog-' . $blog->userblog_id . '-c' );
+		// 		}
+		// 	}
+		// }
 
 		/**
 		 * Display the links to the general feeds, without comments.

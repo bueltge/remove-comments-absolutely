@@ -30,6 +30,7 @@ require_once( 'class-remove-comments-absolute.php' );
 add_action( 'plugins_loaded', array( 'Remove_Comments_Absolute', 'get_object' ), 0 );
 
 if ( is_admin() ) {
+	define( 'REMOVE_COMMENTS_ABSOLUTE_BASENAME', plugin_basename( __FILE__ ) );
 	require_once( 'class-remove-comments-absolute-admin.php' );
 	add_action( 'plugins_loaded', array( 'Remove_Comments_Absolute_Admin', 'get_object' ), 1 );
 }

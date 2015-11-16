@@ -64,6 +64,10 @@ class Remove_Comments_Absolute {
 		// Return 'closed' status when using pings_open().
 		add_filter( 'pings_open', array( $this, 'close_comments' ), 20, 2 );
 
+		// Remove comments from the admin bar.
+		add_action( 'admin_bar_menu', array( $this, 'remove_admin_bar_comment_items' ), 999 );
+		add_action( 'admin_bar_menu', array( $this, 'remove_admin_bar_network_comment_items' ), 999 );
+
 	}
 
 	/**
@@ -137,5 +141,56 @@ class Remove_Comments_Absolute {
 		} // 'closed' doesn't work; @see http://codex.wordpress.org/Option_Reference#Discussion
 
 		return $open;
+	}
+
+	/**
+	 * Remove comment items from the admin bar.
+	 *
+	 * @access  public
+	 * @since   0.0.1
+	 *
+	 * @param $wp_admin_bar WP_Admin_Bar instance, passed by reference.
+	 *
+	 * @return null
+	 */
+	public function remove_admin_bar_comment_items( $wp_admin_bar ) {
+
+		if ( ! is_admin_bar_showing() ) {
+			return NULL;
+		}
+
+		// Remove comment item in blog list for "My Sites" in Admin Bar.
+		if ( isset( $GLOBALS[ 'blog_id' ] ) ) {
+			$wp_admin_bar->remove_node( 'blog-' . $GLOBALS[ 'blog_id' ] . '-c' );
+		}
+		// Remove entry in admin bar.
+		$wp_admin_bar->remove_node( 'comments' );
+	}
+
+	/**
+	 * Remove comment items from the network admin bar.
+	 *
+	 * @since    04/08/2013
+	 * @internal param Array $wp_admin_bar
+	 * @return void
+	 */
+	public function remove_admin_bar_network_comment_items() {
+
+		if ( ! is_admin_bar_showing() ) {
+			return NULL;
+		}
+
+		global $wp_admin_bar;
+
+		if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
+			require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
+		}
+
+		if ( is_multisite() && is_plugin_active_for_network( REMOVE_COMMENTS_ABSOLUTE_BASENAME ) ) {
+
+			foreach ( (array) $wp_admin_bar->user->blogs as $blog ) {
+				$wp_admin_bar->remove_node( 'blog-' . $blog->userblog_id . '-c' );
+			}
+		}
 	}
 }
