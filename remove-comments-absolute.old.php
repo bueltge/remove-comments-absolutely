@@ -308,11 +308,11 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 					// Welcome screen
 					$( '.welcome-comments' ).parent().remove();
 					// 'Right Now' dashboard widget
-					$( 'div.table_discussion:first' ).remove();
+					// $( 'div.table_discussion:first' ).remove();
 					// 'Right Now' dashbaord widget since WP version 3.8, second ID since WP 4.0
-					$( 'div#dash-right-now, #dashboard_right_now' ).find( '.comment-count' ).remove();
+					// $( 'div#dash-right-now, #dashboard_right_now' ).find( '.comment-count' ).remove();
 					// 'Activity' dashboard widget, since WP version 3.8
-					$( 'div#dashboard_activity' ).find( '#latest-comments' ).remove();
+					// $( 'div#dashboard_activity' ).find( '#latest-comments' ).remove();
 				} );
 				//]]>
 			</script>

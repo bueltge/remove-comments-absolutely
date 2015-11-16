@@ -49,6 +49,22 @@ class Remove_Comments_Absolute {
 	 */
 	public function __construct() {
 
+		// Return empty array when querying comments.
+		add_filter( 'the_comments', array( $this, 'filter_the_comments' ) );
 
+	}
+
+	/**
+	 * Return an empty array when retrieving comments via get_comments().
+	 *
+	 * Eg. Takes care of the 'Activity' dashboard widget.
+	 *
+	 * Note: Maybe it is better to add an action to 'pre_get_comments'?
+	 *
+	 * @param  array $comments Comments
+	 * @return array
+	 */
+	public function filter_the_comments( $comments ) {
+		return array();
 	}
 }
