@@ -48,6 +48,9 @@ class Remove_Comments_Absolute_Admin {
 
 		// Remove "Turn comments on or off" from the Welcome Panel.
 		add_action( 'admin_footer-index.php', array( $this, 'remove_welcome_panel_item' ) );
+
+		// Remove comment options from profile page.
+		add_action( 'personal_options', array( $this, 'remove_profile_items' ) );
 	}
 
 	/**
@@ -156,5 +159,16 @@ class Remove_Comments_Absolute_Admin {
 			//]]>
 		</script>
 		<?php
+	}
+
+	/**
+	 * Remove options for Keyboard Shortcuts from profile page.
+	 *
+	 * @since  09/03/2012
+	 *
+	 * @return void
+	 */
+	public function remove_profile_items() {
+		echo '<style type="text/css">.user-comment-shortcuts-wrap{display:none;}</style>';
 	}
 }

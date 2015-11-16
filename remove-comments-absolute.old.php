@@ -89,7 +89,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			// add_action( 'widgets_init', array( $this, 'unregister_default_wp_widgets' ), 1 );
 
 			// Remove comment options in profile page.
-			add_action( 'personal_options', array( $this, 'remove_profile_items' ) );
+			// add_action( 'personal_options', array( $this, 'remove_profile_items' ) );
 
 			// Replace xmlrpc methods.
 			// add_filter( 'xmlrpc_methods', array( $this, 'xmlrpc_replace_methods' ) );
@@ -530,18 +530,18 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 *
 		 * @return void
 		 */
-		public function remove_profile_items() {
+		// public function remove_profile_items() {
 
-			?>
-			<script type="text/javascript">
-				//<![CDATA[
-				jQuery( document ).ready( function( $ ) {
-					$( '#your-profile' ).find( '.form-table' ).first().find( 'tr:nth-child(3)' ).remove();
-				} );
-				//]]>
-			</script>
-			<?php
-		}
+		// 	?>
+		// 	<script type="text/javascript">
+		// 		//<![CDATA[
+		// 		jQuery( document ).ready( function( $ ) {
+		// 			$( '#your-profile' ).find( '.form-table' ).first().find( 'tr:nth-child(3)' ).remove();
+		// 		} );
+		// 		//]]>
+		// 	</script>
+		// 	<?php
+		// }
 
 		/**
 		 * On posts where comments are closed, the plugin will remove the text 'Comments are closed.'.
