@@ -228,14 +228,14 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			// As alternative define an array( 'post', 'page' ).
 			foreach ( get_post_types() as $post_type ) {
 				// Remove the comment status meta box.
-				remove_meta_box( 'commentstatusdiv', $post_type, 'normal' );
+				// remove_meta_box( 'commentstatusdiv', $post_type, 'normal' );
 				// Remove the trackbacks meta box.
-				remove_meta_box( 'trackbacksdiv', $post_type, 'normal' );
+				// remove_meta_box( 'trackbacksdiv', $post_type, 'normal' );
 				// Remove all comments/trackbacks from tables.
-				if ( post_type_supports( $post_type, 'comments' ) ) {
-					remove_post_type_support( $post_type, 'comments' );
-					remove_post_type_support( $post_type, 'trackbacks' );
-				}
+				// if ( post_type_supports( $post_type, 'comments' ) ) {
+				// 	remove_post_type_support( $post_type, 'comments' );
+				// 	remove_post_type_support( $post_type, 'trackbacks' );
+				// }
 			}
 			// Filter for different pages.
 			if ( in_array( $pagenow, self::$comment_pages, FALSE ) ) {

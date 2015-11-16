@@ -52,6 +52,9 @@ class Remove_Comments_Absolute {
 		// Return empty array when querying comments.
 		add_filter( 'the_comments', array( $this, 'filter_the_comments' ) );
 
+		// Remove post type support for comments and trackbacks.
+		add_action( 'init', array( $this, 'remove_post_type_support' ) );
+
 	}
 
 	/**
@@ -66,5 +69,17 @@ class Remove_Comments_Absolute {
 	 */
 	public function filter_the_comments( $comments ) {
 		return array();
+	}
+
+	/**
+	 * Remove post type support for comments and trackbacks.
+	 */
+	public function remove_post_type_support() {
+		foreach ( get_post_types() as $post_type ) {
+			if ( post_type_supports( $post_type, 'comments' ) ) {
+				remove_post_type_support( $post_type, 'comments' );
+				remove_post_type_support( $post_type, 'trackbacks' );
+			}
+		}
 	}
 }
