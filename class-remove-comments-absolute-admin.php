@@ -45,6 +45,9 @@ class Remove_Comments_Absolute_Admin {
 
 		// Remove commentsdiv meta box.
 		add_action( 'admin_init', array( $this, 'remove_commentsdiv_meta_box' ) );
+
+		// Remove "Turn comments on or off" from the Welcome Panel.
+		add_action( 'admin_footer-index.php', array( $this, 'remove_welcome_panel_item' ) );
 	}
 
 	/**
@@ -133,5 +136,25 @@ class Remove_Comments_Absolute_Admin {
 		foreach ( get_post_types() as $post_type ) {
 			remove_meta_box( 'commentsdiv', $post_type, 'normal' );
 		}
+	}
+
+	/**
+	 * Remove "Turn comments on or off" from the Welcome Panel.
+	 *
+	 * @access  public
+	 * @since   0.0.1
+	 * @return  string with js
+	 */
+	public function remove_welcome_panel_item() {
+		?>
+		<script type="text/javascript">
+			//<![CDATA[
+			jQuery( document ).ready( function( $ ) {
+				// Welcome screen action "Turn comments on or off"
+				$( '.welcome-comments' ).parent().remove();
+			} );
+			//]]>
+		</script>
+		<?php
 	}
 }

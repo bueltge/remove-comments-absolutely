@@ -68,7 +68,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			add_filter( 'add_menu_classes', array( $this, 'add_menu_classes' ) );
 
 			// Remove items in dashboard.
-			add_action( 'admin_footer-index.php', array( $this, 'remove_dashboard_comments_areas' ) );
+			// add_action( 'admin_footer-index.php', array( $this, 'remove_dashboard_comments_areas' ) );
 
 			// Change admin bar items.
 			// add_action( 'admin_bar_menu', array( $this, 'remove_admin_bar_comment_items' ), 999 );
@@ -306,7 +306,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 				//<![CDATA[
 				jQuery( document ).ready( function( $ ) {
 					// Welcome screen
-					$( '.welcome-comments' ).parent().remove();
+					// $( '.welcome-comments' ).parent().remove();
 					// 'Right Now' dashboard widget
 					// $( 'div.table_discussion:first' ).remove();
 					// 'Right Now' dashbaord widget since WP version 3.8, second ID since WP 4.0
