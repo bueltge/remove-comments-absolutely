@@ -68,6 +68,8 @@ class Remove_Comments_Absolute {
 		add_action( 'admin_bar_menu', array( $this, 'remove_admin_bar_comment_items' ), 999 );
 		add_action( 'admin_bar_menu', array( $this, 'remove_admin_bar_network_comment_items' ), 999 );
 
+		// Remove string on frontend in theme.
+		add_filter( 'gettext', array( $this, 'remove_theme_string' ), 20, 2 );
 	}
 
 	/**
@@ -192,5 +194,29 @@ class Remove_Comments_Absolute {
 				$wp_admin_bar->remove_node( 'blog-' . $blog->userblog_id . '-c' );
 			}
 		}
+	}
+
+	/**
+	 * Do not display the 'Comments are closed.' string in theme templates.
+	 *
+	 * @access public
+	 * @since  0.0.7
+	 *
+	 * @param string $translation Translated text.
+	 * @param string $text        Text to translate.
+	 *
+	 * @return string empty
+	 */
+	public function remove_theme_string( $translation, $text ) {
+
+		if ( is_admin() ) {
+			return $translation;
+		}
+
+		if ( 'Comments are closed.' === $text ) {
+			return '';
+		}
+
+		return $translation;
 	}
 }

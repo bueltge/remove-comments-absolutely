@@ -75,7 +75,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			// add_action( 'admin_bar_menu', array( $this, 'remove_network_comment_items' ), 999 );
 
 			// Remove string on frontend in Theme.
-			add_filter( 'gettext', array( $this, 'remove_theme_string' ), 20, 2 );
+			// add_filter( 'gettext', array( $this, 'remove_theme_string' ), 20, 2 );
 
 			// Remove comment feed.
 			remove_action( 'wp_head', 'feed_links', 2 );
@@ -554,18 +554,18 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 *
 		 * @return string empty
 		 */
-		public function remove_theme_string( $translation, $text ) {
+		// public function remove_theme_string( $translation, $text ) {
 
-			if ( is_admin() ) {
-				return $translation;
-			}
+		// 	if ( is_admin() ) {
+		// 		return $translation;
+		// 	}
 
-			if ( 'Comments are closed.' === $text ) {
-				return '';
-			}
+		// 	if ( 'Comments are closed.' === $text ) {
+		// 		return '';
+		// 	}
 
-			return $translation;
-		}
+		// 	return $translation;
+		// }
 
 		/**
 		 * Replace comment related XML_RPC methods.
