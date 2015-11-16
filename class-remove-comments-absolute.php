@@ -39,4 +39,16 @@ class Remove_Comments_Absolute {
 
 		return self::$classobj;
 	}
+
+	/**
+	 * Register actions and filters.
+	 *
+	 * @access  public
+	 * @since   0.0.1
+	 * @see     add_filter(), add_action()
+	 */
+	public function __construct() {
+
+
+	}
 }
