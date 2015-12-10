@@ -102,6 +102,9 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 
 			// Return empty string for post comment link, which takes care of <comments>.
 			add_filter( 'get_comments_link', '__return_empty_string' );
+			
+			// Remove comments popup.
+			add_filter( 'query_vars', array( $this, 'filter_query_vars' ) );
 		}
 
 		/**
@@ -612,6 +615,24 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 				403,
 				__( 'Comments are disabled on this site.', 'remove_comments_absolute' )
 			);
+		}
+		
+		/**
+		 * Remove comments popup.
+		 *
+		 * @see https://core.trac.wordpress.org/ticket/28617
+		 *
+		 * @since Todo
+		 *
+		 * @param  array $public_query_vars The array of whitelisted query variables.
+		 * @return array
+		 */
+		function filter_query_vars( $public_query_vars ) {
+			$key = array_search( 'comments_popup', $public_query_vars );
+			if ( false !== $key ) {
+				unset( $public_query_vars[$key] );
+			}
+			return $public_query_vars;
 		}
 
 	} // end class
