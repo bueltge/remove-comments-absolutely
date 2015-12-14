@@ -8,8 +8,8 @@
  * Domain Path: /languages
  * Description: Deactivate comments functions and remove areas absolutely from the WordPress install
  * Author:      Frank Bültge
- * Version:     1.2.3
- * Last access: 2015-11-16
+ * Version:     1.3.0
+ * Last access: 2015-12-14
  * License:     GPLv2
  * Author URI:  http://bueltge.de/
  *
@@ -613,25 +613,27 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 
 			return new IXR_Error(
 				403,
-				__( 'Comments are disabled on this site.', 'remove_comments_absolute' )
+				esc_attr__( 'Comments are disabled on this site.', 'remove_comments_absolute' )
 			);
 		}
-		
+
 		/**
 		 * Remove comments popup.
 		 *
 		 * @see https://core.trac.wordpress.org/ticket/28617
 		 *
-		 * @since Todo
+		 * @since  12/14/2015
 		 *
 		 * @param  array $public_query_vars The array of whitelisted query variables.
 		 * @return array
 		 */
 		function filter_query_vars( $public_query_vars ) {
+
 			$key = array_search( 'comments_popup', $public_query_vars );
-			if ( false !== $key ) {
-				unset( $public_query_vars[$key] );
+			if ( FALSE !== $key ) {
+				unset( $public_query_vars[ $key ] );
 			}
+
 			return $public_query_vars;
 		}
 
