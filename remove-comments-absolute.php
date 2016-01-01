@@ -105,6 +105,9 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			
 			// Remove comments popup.
 			add_filter( 'query_vars', array( $this, 'filter_query_vars' ) );
+
+			// Remove 'Discussion Settings' help tab from post edit screen.
+			add_action( 'admin_head-post.php', array( $this, 'remove_help_tabs' ), 10, 3 );
 		}
 
 		/**
@@ -635,6 +638,22 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			}
 
 			return $public_query_vars;
+		}
+
+		/**
+		 * Remove 'Discussion Settings' help tab from post edit screen.
+		 *
+		 * @since 01/01/2016
+		 *
+		 * @access private
+		 */
+		public function remove_help_tabs() {
+
+			$current_screen = get_current_screen();
+
+			if ( $current_screen->get_help_tab( 'discussion-settings' ) ) {
+				$current_screen->remove_help_tab( 'discussion-settings' );
+			}
 		}
 
 	} // end class
