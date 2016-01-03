@@ -29,8 +29,8 @@ class Remove_Comments_Absolute_Admin {
 	 *
 	 * @access  public
 	 * @since   0.0.1
-	 * @see    add_filter()
-	 * @see    add_action()
+	 * @see     add_filter()
+	 * @see     add_action()
 	 */
 	public function __construct() {
 
@@ -51,6 +51,9 @@ class Remove_Comments_Absolute_Admin {
 
 		// Remove comment options from profile page.
 		add_action( 'personal_options', array( $this, 'remove_profile_items' ) );
+
+		// Remove 'Discussion Settings' help tab from post edit screen.
+		add_action( 'admin_head-post.php', array( $this, 'remove_help_tabs' ), 10, 3 );
 	}
 
 	/**
@@ -99,7 +102,9 @@ class Remove_Comments_Absolute_Admin {
 
 		global $pagenow;
 
-		if ( in_array( $pagenow, array( 'comment.php', 'edit-comments.php', 'moderation.php', 'options-discussion.php' ) ) ) {
+		if ( in_array(
+			$pagenow, array( 'comment.php', 'edit-comments.php', 'moderation.php', 'options-discussion.php' )
+		) ) {
 			wp_die(
 				esc_html__( 'Comments are disabled on this site.', 'remove_comments_absolute' ),
 				'',
@@ -114,11 +119,12 @@ class Remove_Comments_Absolute_Admin {
 	 *
 	 * @access public
 	 * @since  0.0.3
-	 * @see   remove_menu_page()
-	 * @see   remove_submenu_page()
+	 * @see    remove_menu_page()
+	 * @see    remove_submenu_page()
 	 * @return void
 	 */
 	public function remove_menu_items() {
+
 		remove_menu_page( 'edit-comments.php' );
 		remove_submenu_page( 'options-general.php', 'options-discussion.php' );
 	}
@@ -131,11 +137,12 @@ class Remove_Comments_Absolute_Admin {
 	 *
 	 * @access public
 	 * @since  1.2.4
-	 * @see   get_post_types()
-	 * @see   remove_meta_box()
+	 * @see    get_post_types()
+	 * @see    remove_meta_box()
 	 * @return void
 	 */
 	public function remove_commentsdiv_meta_box() {
+
 		foreach ( get_post_types() as $post_type ) {
 			remove_meta_box( 'commentsdiv', $post_type, 'normal' );
 		}
@@ -149,6 +156,7 @@ class Remove_Comments_Absolute_Admin {
 	 * @return  string with js
 	 */
 	public function remove_welcome_panel_item() {
+
 		?>
 		<script type="text/javascript">
 			//<![CDATA[
@@ -169,6 +177,22 @@ class Remove_Comments_Absolute_Admin {
 	 * @return void
 	 */
 	public function remove_profile_items() {
+
 		echo '<style type="text/css">.user-comment-shortcuts-wrap{display:none;}</style>';
+	}
+
+	/**
+	 * Remove 'Discussion Settings' help tab from post edit screen.
+	 *
+	 * @since  2016-01-01
+	 *
+	 * @access private
+	 */
+	public function remove_help_tabs() {
+
+		$current_screen = get_current_screen();
+		if ( $current_screen->get_help_tab( 'discussion-settings' ) ) {
+			$current_screen->remove_help_tab( 'discussion-settings' );
+		}
 	}
 }
