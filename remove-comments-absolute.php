@@ -267,16 +267,8 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 */
 		public function remove_menu_items() {
 
-			// Remove menu entries with WP 3.1 and higher.
-			if ( function_exists( 'remove_menu_page' ) ) {
-				remove_menu_page( 'edit-comments.php' );
-				remove_submenu_page( 'options-general.php', 'options-discussion.php' );
-			} else {
-				// Unset menu item comments.
-				unset( $GLOBALS[ 'menu' ][ 25 ] );
-				// Unset menu entry Discussion.
-				unset( $GLOBALS[ 'submenu' ][ 'options-general.php' ][ 25 ] );
-			}
+			remove_menu_page( 'edit-comments.php' );
+			remove_submenu_page( 'options-general.php', 'options-discussion.php' );
 		}
 
 		/**
