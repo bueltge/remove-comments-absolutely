@@ -8,8 +8,8 @@
  * Domain Path: /languages
  * Description: Deactivate comments functions and remove areas absolutely from the WordPress install
  * Author:      Frank Bültge
- * Version:     1.3.0
- * Last access: 2015-12-14
+ * Version:     1.4.0
+ * Last access: 2016-01-03
  * License:     GPLv2
  * Author URI:  http://bueltge.de/
  *
@@ -102,7 +102,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 
 			// Return empty string for post comment link, which takes care of <comments>.
 			add_filter( 'get_comments_link', '__return_empty_string' );
-			
+
 			// Remove comments popup.
 			add_filter( 'query_vars', array( $this, 'filter_query_vars' ) );
 
@@ -610,7 +610,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 *
 		 * @access public
 		 * @since  09/21/2013
-		 * @return object
+		 * @return IXR_Error object
 		 */
 		public function xmlrpc_placeholder_method() {
 
@@ -623,16 +623,17 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		/**
 		 * Remove comments popup.
 		 *
-		 * @see https://core.trac.wordpress.org/ticket/28617
+		 * @see    https://core.trac.wordpress.org/ticket/28617
 		 *
 		 * @since  12/14/2015
 		 *
 		 * @param  array $public_query_vars The array of whitelisted query variables.
+		 *
 		 * @return array
 		 */
-		function filter_query_vars( $public_query_vars ) {
+		public function filter_query_vars( $public_query_vars ) {
 
-			$key = array_search( 'comments_popup', $public_query_vars );
+			$key = array_search( 'comments_popup', $public_query_vars, FALSE );
 			if ( FALSE !== $key ) {
 				unset( $public_query_vars[ $key ] );
 			}
@@ -643,7 +644,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		/**
 		 * Remove 'Discussion Settings' help tab from post edit screen.
 		 *
-		 * @since 01/01/2016
+		 * @since  01/01/2016
 		 *
 		 * @access private
 		 */
