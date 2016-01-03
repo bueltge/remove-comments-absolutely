@@ -3,14 +3,14 @@
  * This is plugin for WordPress to remove the comment functions and his views.
  *
  * Plugin Name: Remove Comments Absolutely
- * Plugin URI:  http://wpengineer.com/2230/removing-comments-absolutely-wordpress/
+ * Plugin URI:  https://github.com/bueltge/Remove-Comments-Absolutely
  * Text Domain: remove_comments_absolute
  * Domain Path: /languages
  * Description: Deactivate comments functions and remove areas absolutely from the WordPress install
  * Author:      Frank Bültge
  * Version:     1.4.0
  * Last access: 2016-01-03
- * License:     GPLv2
+ * License:     GPLv2+
  * Author URI:  http://bueltge.de/
  *
  * @package WordPress
