@@ -34,6 +34,8 @@ And I really don't want to know how many hours of my life this plugin has alread
 ### Contact & Feedback
 The plugin is designed and developed by me ([Frank Bültge](http://bueltge.de)), [G+ Page](https://plus.google.com/111291152590065605567/about?rel=author)
 
+The plugin was also maintained about the last time with the help from [barryceelen](https://github.com/barryceelen) - Thanks a lot.
+
 Please let me know if you like the plugin or you hate it or whatever ... 
 Please fork it, add an issue for ideas and bugs.
 
