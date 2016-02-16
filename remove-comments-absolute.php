@@ -669,13 +669,12 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		/**
 		 * Remove rewrite rules for the legacy comment feed and post type comment pages.
 		 *
-		 * @access private
-		 * @since TODO
+		 * @since  2016-02-16
 		 *
-		 * @param array $rules The compiled array of rewrite rules.
+		 * @param  array $rules The compiled array of rewrite rules.
 		 * @return array The filtered array of rewrite rules.
 		 */
-		function filter_rewrite_rules_array( $rules ) {
+		private function filter_rewrite_rules_array( $rules ) {
 
 			if ( is_array( $rules ) ) {
 
@@ -691,7 +690,6 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 				// Remove all other comment related rules.
 				foreach( $rules as $k => $v ) {
 					if ( false !== strpos( $k, 'comment-page-' ) ) {
-					// if ( false !== strpos( $k, 'comment' ) ) {
 						unset( $rules[ $k ] );
 					}
 				}
