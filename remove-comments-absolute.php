@@ -657,13 +657,12 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		/**
 		 * Remove rewrite rules used for comment feed archives.
 		 *
-		 * @access private
-		 * @since TODO
+		 * @since  2016-02-16
 		 *
-		 * @param array $comments_rewrite The rewrite rules for the site-wide comments feeds.
 		 * @return array Empty array.
 		 */
-		function remove_comments_rewrite_rules( $comments_rewrite ) {
+		private function remove_comments_rewrite_rules() {
+
 			return array();
 		}
 
