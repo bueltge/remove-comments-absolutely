@@ -108,6 +108,11 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 
 			// Remove 'Discussion Settings' help tab from post edit screen.
 			add_action( 'admin_head-post.php', array( $this, 'remove_help_tabs' ), 10, 3 );
+
+			// Remove rewrite rules used for comment feed archives.
+			add_filter( 'comments_rewrite_rules', array( $this, 'remove_comments_rewrite_rules' ), 99 );
+			// Remove rewrite rules for the legacy comment feed and post type comment pages.
+			add_filter( 'rewrite_rules_array', array( $this, 'filter_rewrite_rules_array' ), 99 );
 		}
 
 		/**
@@ -647,6 +652,53 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			if ( $current_screen->get_help_tab( 'discussion-settings' ) ) {
 				$current_screen->remove_help_tab( 'discussion-settings' );
 			}
+		}
+
+		/**
+		 * Remove rewrite rules used for comment feed archives.
+		 *
+		 * @access private
+		 * @since TODO
+		 *
+		 * @param array $comments_rewrite The rewrite rules for the site-wide comments feeds.
+		 * @return array Empty array.
+		 */
+		function remove_comments_rewrite_rules( $comments_rewrite ) {
+			return array();
+		}
+
+		/**
+		 * Remove rewrite rules for the legacy comment feed and post type comment pages.
+		 *
+		 * @access private
+		 * @since TODO
+		 *
+		 * @param array $rules The compiled array of rewrite rules.
+		 * @return array The filtered array of rewrite rules.
+		 */
+		function filter_rewrite_rules_array( $rules ) {
+
+			if ( is_array( $rules ) ) {
+
+				// Remove the legacy comment feed rule.
+				foreach( $rules as $k => $v ) {
+					if ( false !== strpos( $k, '|commentsrss2' ) ) {
+						$new_k = str_replace( '|commentsrss2', '', $k );
+						unset( $rules[ $k ] );
+						$rules[ $new_k ] = $v;
+					}
+				}
+
+				// Remove all other comment related rules.
+				foreach( $rules as $k => $v ) {
+					if ( false !== strpos( $k, 'comment-page-' ) ) {
+					// if ( false !== strpos( $k, 'comment' ) ) {
+						unset( $rules[ $k ] );
+					}
+				}
+			}
+
+			return $rules;
 		}
 
 	} // end class
