@@ -8,9 +8,9 @@
  * Domain Path: /languages
  * Description: Deactivate comments functions and remove areas absolutely from the WordPress install
  * Author:      Frank Bültge
- * Version:     1.4.0
- * Last access: 2016-01-03
- * License:     GPLv2+
+ * Version:     1.5.0
+ * Last access: 2016-02-16
+ * License:     GPLv3+
  * Author URI:  http://bueltge.de/
  *
  * @package WordPress
@@ -549,12 +549,11 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		/**
 		 * Replace the theme's or the core comments template with an empty one.
 		 *
-		 * @access private
-		 * @since TODO
-		 *
+		 * @since  2016-02-16
 		 * @return string The path to the empty template file.
 		 */
 		public function comments_template() {
+
 			return plugin_dir_path( __FILE__ ) . 'comments.php';
 		}
 
