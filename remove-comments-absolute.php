@@ -658,7 +658,6 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * Remove rewrite rules used for comment feed archives.
 		 *
 		 * @since  2016-02-16
-		 *
 		 * @return array Empty array.
 		 */
 		private function remove_comments_rewrite_rules() {
@@ -672,6 +671,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @since  2016-02-16
 		 *
 		 * @param  array $rules The compiled array of rewrite rules.
+		 *
 		 * @return array The filtered array of rewrite rules.
 		 */
 		private function filter_rewrite_rules_array( $rules ) {
@@ -679,8 +679,8 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			if ( is_array( $rules ) ) {
 
 				// Remove the legacy comment feed rule.
-				foreach( $rules as $k => $v ) {
-					if ( false !== strpos( $k, '|commentsrss2' ) ) {
+				foreach ( $rules as $k => $v ) {
+					if ( FALSE !== strpos( $k, '|commentsrss2' ) ) {
 						$new_k = str_replace( '|commentsrss2', '', $k );
 						unset( $rules[ $k ] );
 						$rules[ $new_k ] = $v;
@@ -688,8 +688,8 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 				}
 
 				// Remove all other comment related rules.
-				foreach( $rules as $k => $v ) {
-					if ( false !== strpos( $k, 'comment-page-' ) ) {
+				foreach ( $rules as $k => $v ) {
+					if ( FALSE !== strpos( $k, 'comment-page-' ) ) {
 						unset( $rules[ $k ] );
 					}
 				}
