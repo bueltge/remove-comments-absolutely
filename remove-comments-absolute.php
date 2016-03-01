@@ -110,7 +110,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			add_action( 'admin_head-post.php', array( $this, 'remove_help_tabs' ), 10, 3 );
 
 			// Remove rewrite rules used for comment feed archives.
-			add_filter( 'comments_rewrite_rules', array( $this, 'remove_comments_rewrite_rules' ), 99 );
+			add_filter( 'comments_rewrite_rules', '__return_empty_array', 99 );
 			// Remove rewrite rules for the legacy comment feed and post type comment pages.
 			add_filter( 'rewrite_rules_array', array( $this, 'filter_rewrite_rules_array' ), 99 );
 		}
@@ -642,17 +642,6 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		}
 
 		/**
-		 * Remove rewrite rules used for comment feed archives.
-		 *
-		 * @since  2016-02-16
-		 * @return array Empty array.
-		 */
-		private function remove_comments_rewrite_rules() {
-
-			return array();
-		}
-
-		/**
 		 * Remove rewrite rules for the legacy comment feed and post type comment pages.
 		 *
 		 * @since  2016-02-16
@@ -661,7 +650,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 *
 		 * @return array The filtered array of rewrite rules.
 		 */
-		private function filter_rewrite_rules_array( $rules ) {
+		public function filter_rewrite_rules_array( $rules ) {
 
 			if ( is_array( $rules ) ) {
 
