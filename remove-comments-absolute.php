@@ -650,7 +650,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 *
 		 * @return array The filtered array of rewrite rules.
 		 */
-		private function filter_rewrite_rules_array( $rules ) {
+		public function filter_rewrite_rules_array( $rules ) {
 
 			if ( is_array( $rules ) ) {
 
