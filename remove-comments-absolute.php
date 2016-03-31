@@ -390,7 +390,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 				return NULL;
 			}
 
-			$defaults = [
+			$defaults = array(
 				// Translators: Separator between blog name and feed type in feed links.
 				'separator' => _x(
 					'&raquo;',
@@ -399,7 +399,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 				),
 				// Translators: 1: blog title, 2: separator (raquo).
 				'feedtitle' => __( '%1$s %2$s Feed', 'remove_comments_absolute' ),
-			];
+			);
 
 			$args = wp_parse_args( $args, $defaults );
 
@@ -424,7 +424,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 */
 		public function feed_links_extra( $args ) {
 
-			$defaults = [
+			$defaults = array(
 				/* Translators: Separator between blog name and feed type in feed links. */
 				'separator'     => _x( '&raquo;', 'feed link' ),
 				/* Translators: 1: blog name, 2: separator(raquo), 3: category name. */
@@ -437,7 +437,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 				'searchtitle'   => __( '%1$s %2$s Search Results for &#8220;%3$s&#8221; Feed' ),
 				/* Translators: 1: blog name, 2: separator(raquo), 3: post type name. */
 				'posttypetitle' => __( '%1$s %2$s %3$s Feed' ),
-			];
+			);
 
 			$args = wp_parse_args( $args, $defaults );
 
@@ -569,7 +569,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 */
 		public function xmlrpc_replace_methods( $methods ) {
 
-			$comment_methods = [
+			$comment_methods = array(
 				'wp.getCommentCount',
 				'wp.getComment',
 				'wp.getComments',
@@ -577,7 +577,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 				'wp.editComment',
 				'wp.newComment',
 				'wp.getCommentStatusList',
-			];
+			);
 
 			foreach ( $comment_methods as $method_name ) {
 
