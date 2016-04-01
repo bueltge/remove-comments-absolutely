@@ -68,8 +68,8 @@ class Remove_Comments_Absolute {
 		add_action( 'admin_bar_menu', array( $this, 'remove_admin_bar_comment_items' ), 999 );
 		add_action( 'admin_bar_menu', array( $this, 'remove_admin_bar_network_comment_items' ), 999 );
 
-		// Remove string on frontend in theme.
-		add_filter( 'gettext', array( $this, 'remove_theme_string' ), 20, 2 );
+		// Replace the theme's or the core comments template with an empty one.
+ 		add_filter( 'comments_template', array( $this, 'comments_template' ) );
 
 		// Unregister default comment widget.
 		add_action( 'widgets_init', array( $this, 'unregister_default_widgets' ), 1 );
@@ -401,6 +401,17 @@ class Remove_Comments_Absolute {
 	public function filter_wp_headers( $headers ) {
 		unset( $headers[ 'X-Pingback' ] );
 		return $headers;
+	}
+
+	/**
+	 * Replace the theme's or the core comments template with an empty one.
+	 *
+	 * @since  2016-02-16
+	 * @return string The path to the empty template file.
+	 */
+	public function comments_template() {
+
+		return plugin_dir_path( __FILE__ ) . 'comments.php';
 	}
 
 	/**
