@@ -4,7 +4,7 @@
  *
  * @package   Remove_Comments_Absolutely
  * @author    Frank Bültge
- * @license   GPL-2.0+
+ * @license   GPLv3+
  * @link      https://github.com/bueltge/Remove-Comments-Absolutely/
  * @copyright 2015 Frank Bültge
  *
@@ -14,7 +14,7 @@
  * Version:     1.2.4
  * Author:      Frank Bültge
  * Author URI:  http://bueltge.de/
- * License:     GPL-2.0+
+ * License:     GPLv3+
  * Domain Path: /languages
  * Text Domain: remove_comments_absolute
  * Last access: 2015-11-16
