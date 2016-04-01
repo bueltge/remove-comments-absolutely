@@ -4,7 +4,7 @@
  *
  * @package   Remove_Comments_Absolutely
  * @author    Frank Bültge
- * @license   GPL-2.0+
+ * @license   GPLv3+
  * @link      https://github.com/bueltge/Remove-Comments-Absolutely/
  * @copyright 2015 Frank Bültge
  */
@@ -22,7 +22,7 @@ class Remove_Comments_Absolute_Admin {
 	 *
 	 * @var null
 	 */
-	static private $classobj;
+	static private $_classobj;
 
 	/**
 	 * Register actions and filters.
@@ -61,15 +61,15 @@ class Remove_Comments_Absolute_Admin {
 	 *
 	 * @access public
 	 * @since  0.0.1
-	 * @return null|Remove_Comments_Absolute $classobj object
+	 * @return null|Remove_Comments_Absolute $_classobj object
 	 */
 	public static function get_object() {
 
-		if ( NULL === self::$classobj ) {
-			self::$classobj = new self;
+		if ( null === self::$_classobj ) {
+			self::$_classobj = new self;
 		}
 
-		return self::$classobj;
+		return self::$_classobj;
 	}
 
 	/**
@@ -78,7 +78,7 @@ class Remove_Comments_Absolute_Admin {
 	 * @since  1.0.0  04/02/2012
 	 * @link   http://dd32.id.au/2011/03/01/disable-plugin-update-notification-for-a-specific-plugin-in-wordpress-3-1/
 	 *
-	 * @param array|string $value
+	 * @param array|string $value Value of site transient.
 	 *
 	 * @return array|string $value
 	 */
@@ -103,7 +103,7 @@ class Remove_Comments_Absolute_Admin {
 		global $pagenow;
 
 		if ( in_array(
-			$pagenow, array( 'comment.php', 'edit-comments.php', 'moderation.php', 'options-discussion.php' )
+			$pagenow, array( 'comment.php', 'edit-comments.php', 'moderation.php', 'options-discussion.php' ), true
 		) ) {
 			wp_die(
 				esc_html__( 'Comments are disabled on this site.', 'remove_comments_absolute' ),
@@ -153,7 +153,7 @@ class Remove_Comments_Absolute_Admin {
 	 *
 	 * @access  public
 	 * @since   0.0.1
-	 * @return  string with js
+	 * @return  void
 	 */
 	public function remove_welcome_panel_item() {
 
