@@ -460,7 +460,7 @@ class Remove_Comments_Absolute {
 	 * @param  array $public_query_vars The array of whitelisted query variables.
 	 * @return array
 	 */
-	function filter_query_vars( $public_query_vars ) {
+	public function filter_query_vars( $public_query_vars ) {
 
 		$key = array_search( 'comments_popup', $public_query_vars );
 		if ( FALSE !== $key ) {
