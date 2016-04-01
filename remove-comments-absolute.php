@@ -23,7 +23,7 @@
  * http://wpengineer.com/2230/removing-comments-absolutely-wordpress/
  */
 
-// don't load directly
+// Don't load directly.
 defined( 'ABSPATH' ) or die();
 
 require_once( 'class-remove-comments-absolute.php' );

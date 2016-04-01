@@ -22,22 +22,22 @@ class Remove_Comments_Absolute {
 	 *
 	 * @var null
 	 */
-	static private $classobj;
+	static private $_classobj;
 
 	/**
 	 * Get an instance of this class.
 	 *
 	 * @access public
 	 * @since  0.0.1
-	 * @return null|Remove_Comments_Absolute $classobj object
+	 * @return null|Remove_Comments_Absolute $_classobj object
 	 */
 	public static function get_object() {
 
-		if ( NULL === self::$classobj ) {
-			self::$classobj = new self;
+		if ( null === self::$_classobj ) {
+			self::$_classobj = new self;
 		}
 
-		return self::$classobj;
+		return self::$_classobj;
 	}
 
 	/**
@@ -69,7 +69,7 @@ class Remove_Comments_Absolute {
 		add_action( 'admin_bar_menu', array( $this, 'remove_admin_bar_network_comment_items' ), 999 );
 
 		// Replace the theme's or the core comments template with an empty one.
- 		add_filter( 'comments_template', array( $this, 'comments_template' ) );
+		add_filter( 'comments_template', array( $this, 'comments_template' ) );
 
 		// Unregister default comment widget.
 		add_action( 'widgets_init', array( $this, 'unregister_default_widgets' ), 1 );
@@ -113,7 +113,7 @@ class Remove_Comments_Absolute {
 	 *
 	 * Note: Maybe it is better to add an action to 'pre_get_comments'?
 	 *
-	 * @param  array $comments Comments
+	 * @param  array $comments Comments.
 	 * @return array
 	 */
 	public function filter_the_comments( $comments ) {
@@ -139,14 +139,14 @@ class Remove_Comments_Absolute {
 	 * @since  0.0.1
 	 * @see   is_singular()
 	 *
-	 * @param string $posts
+	 * @param array $posts The array of retrieved posts.
 	 *
-	 * @return string $posts
+	 * @return array $posts
 	 */
 	public function filter_post_comment_status( $posts ) {
 		if ( ! empty( $posts ) && is_singular() ) {
-			$posts[ 0 ]->comment_status = 'closed';
-			$posts[ 0 ]->ping_status    = 'closed';
+			$posts[0]->comment_status = 'closed';
+			$posts[0]->ping_status    = 'closed';
 		}
 
 		return $posts;
@@ -158,8 +158,8 @@ class Remove_Comments_Absolute {
 	 * @access public
 	 * @since  0.0.1
 	 *
-	 * @param string|boolean $open
-	 * @param string|integer $post_id
+	 * @param string|boolean $open Whether the current post is open for comments.
+	 * @param string|integer $post_id The post ID or WP_Post object.
 	 *
 	 * @return bool|string $open
 	 */
@@ -173,7 +173,7 @@ class Remove_Comments_Absolute {
 		$post = get_post( $post_id );
 		// For all post types.
 		if ( $post->post_type ) {
-			return FALSE;
+			return false;
 		} // 'closed' doesn't work; @see http://codex.wordpress.org/Option_Reference#Discussion
 
 		return $open;
@@ -185,19 +185,19 @@ class Remove_Comments_Absolute {
 	 * @access  public
 	 * @since   0.0.1
 	 *
-	 * @param $wp_admin_bar WP_Admin_Bar instance, passed by reference.
+	 * @param WP_Admin_Bar $wp_admin_bar WP_Admin_Bar instance, passed by reference.
 	 *
 	 * @return null
 	 */
 	public function remove_admin_bar_comment_items( $wp_admin_bar ) {
 
 		if ( ! is_admin_bar_showing() ) {
-			return NULL;
+			return null;
 		}
 
 		// Remove comment item in blog list for "My Sites" in Admin Bar.
-		if ( isset( $GLOBALS[ 'blog_id' ] ) ) {
-			$wp_admin_bar->remove_node( 'blog-' . $GLOBALS[ 'blog_id' ] . '-c' );
+		if ( isset( $GLOBALS['blog_id'] ) ) {
+			$wp_admin_bar->remove_node( 'blog-' . $GLOBALS['blog_id'] . '-c' );
 		}
 		// Remove entry in admin bar.
 		$wp_admin_bar->remove_node( 'comments' );
@@ -207,13 +207,13 @@ class Remove_Comments_Absolute {
 	 * Remove comment items from the network admin bar.
 	 *
 	 * @since    04/08/2013
-	 * @internal param Array $wp_admin_bar
+	 * @internal param WP_Admin_Bar $wp_admin_bar WP_Admin_Bar instance.
 	 * @return void
 	 */
 	public function remove_admin_bar_network_comment_items() {
 
 		if ( ! is_admin_bar_showing() ) {
-			return NULL;
+			return;
 		}
 
 		global $wp_admin_bar;
@@ -228,30 +228,6 @@ class Remove_Comments_Absolute {
 				$wp_admin_bar->remove_node( 'blog-' . $blog->userblog_id . '-c' );
 			}
 		}
-	}
-
-	/**
-	 * Do not display the 'Comments are closed.' string in theme templates.
-	 *
-	 * @access public
-	 * @since  0.0.7
-	 *
-	 * @param string $translation Translated text.
-	 * @param string $text        Text to translate.
-	 *
-	 * @return string empty
-	 */
-	public function remove_theme_string( $translation, $text ) {
-
-		if ( is_admin() ) {
-			return $translation;
-		}
-
-		if ( 'Comments are closed.' === $text ) {
-			return '';
-		}
-
-		return $translation;
 	}
 
 	/**
@@ -270,14 +246,14 @@ class Remove_Comments_Absolute {
 	 * @since  0.0.4
 	 * @see   current_theme_supports(), wp_parse_args(), feed_content_type(), get_bloginfo(), esc_attr(), get_feed_link(), _x(), __()
 	 *
-	 * @param  array $args Optional arguments
+	 * @param  array $args Optional arguments.
 	 *
 	 * @return string
 	 */
 	public function feed_links( $args = array() ) {
 
 		if ( ! current_theme_supports( 'automatic-feed-links' ) ) {
-			return NULL;
+			return;
 		}
 
 		$defaults = array(
@@ -296,9 +272,9 @@ class Remove_Comments_Absolute {
 		echo '<link rel="alternate" type="' . esc_attr( feed_content_type() ) . '" title="' .
 			esc_attr(
 				sprintf(
-					$args[ 'feedtitle' ],
+					$args['feedtitle'],
 					get_bloginfo( 'name' ),
-					$args[ 'separator' ]
+					$args['separator']
 				)
 			) . '" href="' . esc_attr( get_feed_link() ) . '"/>' . "\n";
 	}
@@ -334,38 +310,41 @@ class Remove_Comments_Absolute {
 		if ( is_category() ) {
 			$term = get_queried_object();
 
-			$title = sprintf( $args[ 'cattitle' ], get_bloginfo( 'name' ), $args[ 'separator' ], $term->name );
+			$title = sprintf( $args['cattitle'], get_bloginfo( 'name' ), $args['separator'], $term->name );
 			$href  = get_category_feed_link( $term->term_id );
 		} elseif ( is_tag() ) {
 			$term = get_queried_object();
 
-			$title = sprintf( $args[ 'tagtitle' ], get_bloginfo( 'name' ), $args[ 'separator' ], $term->name );
+			$title = sprintf( $args['tagtitle'], get_bloginfo( 'name' ), $args['separator'], $term->name );
 			$href  = get_tag_feed_link( $term->term_id );
 		} elseif ( is_author() ) {
 			$author_id = intval( get_query_var( 'author' ) );
 
 			$title = sprintf(
-				$args[ 'authortitle' ], get_bloginfo( 'name' ), $args[ 'separator' ],
+				$args['authortitle'], get_bloginfo( 'name' ), $args['separator'],
 				get_the_author_meta( 'display_name', $author_id )
 			);
 			$href  = get_author_feed_link( $author_id );
 		} elseif ( is_search() ) {
 			$title = sprintf(
-				$args[ 'searchtitle' ], get_bloginfo( 'name' ), $args[ 'separator' ], get_search_query( FALSE )
+				$args['searchtitle'], get_bloginfo( 'name' ), $args['separator'], get_search_query( false )
 			);
 			$href  = get_search_feed_link();
 		} elseif ( is_post_type_archive() ) {
 			$title = sprintf(
-				$args[ 'posttypetitle' ], get_bloginfo( 'name' ), $args[ 'separator' ],
-				post_type_archive_title( '', FALSE )
+				$args['posttypetitle'], get_bloginfo( 'name' ), $args['separator'],
+				post_type_archive_title( '', false )
 			);
 			$href  = get_post_type_archive_feed_link( get_queried_object()->name );
 		}
 
 		if ( isset( $title ) && isset( $href ) ) {
-			echo '<link rel="alternate" type="' . esc_attr( feed_content_type() ) . '" title="' . esc_attr(
-					$title
-				) . '" href="' . esc_url( $href ) . '" />' . "\n";
+			printf(
+				'<link rel="alternate" type="%s" title="%s" href="%s" />"\n"',
+				esc_attr( feed_content_type() ),
+				esc_attr( $title ),
+				esc_url( $href )
+			);
 		}
 	}
 
@@ -373,15 +352,14 @@ class Remove_Comments_Absolute {
 	 * Redirect on comment feed, set status 301.
 	 *
 	 * @since  04/08/2013
-	 * @return NULL
 	 */
 	public function filter_query() {
 
 		if ( ! is_comment_feed() ) {
-			return NULL;
+			return;
 		}
 
-		if ( isset( $_GET[ 'feed' ] ) ) {
+		if ( isset( $_GET['feed'] ) ) {
 			wp_redirect( remove_query_arg( 'feed' ), 301 );
 			exit();
 		}
@@ -394,12 +372,12 @@ class Remove_Comments_Absolute {
 	 *
 	 * @since   04/07/2013
 	 *
-	 * @param array $headers
+	 * @param array $headers The list of headers to be sent.
 	 *
 	 * @return array $headers
 	 */
 	public function filter_wp_headers( $headers ) {
-		unset( $headers[ 'X-Pingback' ] );
+		unset( $headers['X-Pingback'] );
 		return $headers;
 	}
 
@@ -420,7 +398,7 @@ class Remove_Comments_Absolute {
 	 * @access public
 	 * @since  09/21/2013
 	 *
-	 * @param array $methods
+	 * @param array $methods An array of XML-RPC methods.
 	 *
 	 * @return array $methods
 	 */
@@ -474,7 +452,7 @@ class Remove_Comments_Absolute {
 	public function filter_query_vars( $public_query_vars ) {
 
 		$key = array_search( 'comments_popup', $public_query_vars );
-		if ( FALSE !== $key ) {
+		if ( false !== $key ) {
 			unset( $public_query_vars[ $key ] );
 		}
 
@@ -496,7 +474,7 @@ class Remove_Comments_Absolute {
 
 			// Remove the legacy comment feed rule.
 			foreach ( $rules as $k => $v ) {
-				if ( FALSE !== strpos( $k, '|commentsrss2' ) ) {
+				if ( false !== strpos( $k, '|commentsrss2' ) ) {
 					$new_k = str_replace( '|commentsrss2', '', $k );
 					unset( $rules[ $k ] );
 					$rules[ $new_k ] = $v;
@@ -505,7 +483,7 @@ class Remove_Comments_Absolute {
 
 			// Remove all other comment related rules.
 			foreach ( $rules as $k => $v ) {
-				if ( FALSE !== strpos( $k, 'comment-page-' ) ) {
+				if ( false !== strpos( $k, 'comment-page-' ) ) {
 					unset( $rules[ $k ] );
 				}
 			}
