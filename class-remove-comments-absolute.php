@@ -96,9 +96,14 @@ class Remove_Comments_Absolute {
 
 		// Return empty string for post comment link, which takes care of <comments>.
 		add_filter( 'get_comments_link', '__return_empty_string' );
-		
+
 		// Remove comments popup.
 		add_filter( 'query_vars', array( $this, 'filter_query_vars' ) );
+
+		// Remove rewrite rules used for comment feed archives.
+		add_filter( 'comments_rewrite_rules', '__return_empty_array', 99 );
+		// Remove rewrite rules for the legacy comment feed and post type comment pages.
+		add_filter( 'rewrite_rules_array', array( $this, 'filter_rewrite_rules_array' ), 99 );
 	}
 
 	/**
@@ -444,7 +449,7 @@ class Remove_Comments_Absolute {
 			__( 'Comments are disabled on this site.', 'remove_comments_absolute' )
 		);
 	}
-	
+
 	/**
 	 * Remove comments popup.
 	 *
@@ -463,5 +468,38 @@ class Remove_Comments_Absolute {
 		}
 
 		return $public_query_vars;
+	}
+
+	/**
+	 * Remove rewrite rules for the legacy comment feed and post type comment pages.
+	 *
+	 * @since  2016-02-16
+	 *
+	 * @param  array $rules The compiled array of rewrite rules.
+	 *
+	 * @return array The filtered array of rewrite rules.
+	 */
+	public function filter_rewrite_rules_array( $rules ) {
+
+		if ( is_array( $rules ) ) {
+
+			// Remove the legacy comment feed rule.
+			foreach ( $rules as $k => $v ) {
+				if ( FALSE !== strpos( $k, '|commentsrss2' ) ) {
+					$new_k = str_replace( '|commentsrss2', '', $k );
+					unset( $rules[ $k ] );
+					$rules[ $new_k ] = $v;
+				}
+			}
+
+			// Remove all other comment related rules.
+			foreach ( $rules as $k => $v ) {
+				if ( FALSE !== strpos( $k, 'comment-page-' ) ) {
+					unset( $rules[ $k ] );
+				}
+			}
+		}
+
+		return $rules;
 	}
 }
