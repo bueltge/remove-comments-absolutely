@@ -684,7 +684,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 *
 		 * @since TODO
 		 * @see wp_count_comments
-		 * @return object|array Comment stats.
+		 * @return object Comment stats.
 		 */
 		public function filter_count_comments() {
 			return (object) array( 'approved' => 0, 'spam' => 0, 'trash' => 0, 'post-trashed' => 0, 'total_comments' => 0, 'all' => 0, 'moderated' => 0 );
