@@ -8,8 +8,8 @@
  * Domain Path: /languages
  * Description: Deactivate comments functions and remove areas absolutely from the WordPress install
  * Author:      Frank Bültge
- * Version:     1.5.1
- * Last access: 2016-03-01
+ * Version:     1.5.2
+ * Last access: 2016-08-29
  * License:     GPLv3+
  * Author URI:  http://bueltge.de/
  *
@@ -682,12 +682,20 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 *
 		 * Prevents 'wp_count_comments' form performing a database query.
 		 *
-		 * @since TODO
-		 * @see wp_count_comments
+		 * @since  2016-08-29
+		 * @see    wp_count_comments
 		 * @return object Comment stats.
 		 */
 		public function filter_count_comments() {
-			return (object) array( 'approved' => 0, 'spam' => 0, 'trash' => 0, 'post-trashed' => 0, 'total_comments' => 0, 'all' => 0, 'moderated' => 0 );
+
+			return (object) array( 'approved'       => 0,
+			                       'spam'           => 0,
+			                       'trash'          => 0,
+			                       'post-trashed'   => 0,
+			                       'total_comments' => 0,
+			                       'all'            => 0,
+			                       'moderated'      => 0
+			);
 		}
 
 	} // end class
