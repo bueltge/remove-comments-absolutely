@@ -113,6 +113,9 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			add_filter( 'comments_rewrite_rules', '__return_empty_array', 99 );
 			// Remove rewrite rules for the legacy comment feed and post type comment pages.
 			add_filter( 'rewrite_rules_array', array( $this, 'filter_rewrite_rules_array' ), 99 );
+
+			// Return an object with each comment stat set to zero.
+			add_filter( 'wp_count_comments', array( $this, 'filter_count_comments' ) );
 		}
 
 		/**
@@ -672,6 +675,19 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			}
 
 			return $rules;
+		}
+
+		/**
+		 * Return an object with each comment stat set to zero.
+		 *
+		 * Prevents 'wp_count_comments' form performing a database query.
+		 *
+		 * @since TODO
+		 * @see wp_count_comments
+		 * @return object Comment stats.
+		 */
+		public function filter_count_comments() {
+			return (object) array( 'approved' => 0, 'spam' => 0, 'trash' => 0, 'post-trashed' => 0, 'total_comments' => 0, 'all' => 0, 'moderated' => 0 );
 		}
 
 	} // end class
