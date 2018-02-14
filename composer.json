@@ -1,23 +1,27 @@
 {
-    "name": "bueltge/remove-comments-absolutely",
-    "description": "Deactivate comments functions and remove areas absolutely from the WordPress install",
-    "license": "GPL-3.0-or-later",
-    "keywords": ["wordpress", "plugin", "comments"],
-    "homepage": "https://github.com/bueltge/remove-comments-absolutely",
-    "type": "wordpress-plugin",
-    "authors": [
-        {
-            "name": "Frank Bültge",
-            "email": "frank@bueltge.de",
-            "homepage": "https://bueltge.de",
-            "role": "Developer"
-        }
-    ],
-    "require": {
-        "php": ">=5.3"
-    },
-    "require-dev": {
-        "inpsyde/php-coding-standards": "^0.8",
-        "dg/composer-cleaner": "^1.1"
+  "name": "bueltge/remove-comments-absolutely",
+  "description": "Deactivate comments functions and remove areas absolutely from the WordPress install",
+  "license": "GPL-3.0-or-later",
+  "keywords": [
+    "wordpress",
+    "plugin",
+    "comments"
+  ],
+  "homepage": "https://github.com/bueltge/remove-comments-absolutely",
+  "type": "wordpress-plugin",
+  "authors": [
+    {
+      "name": "Frank Bültge",
+      "email": "frank@bueltge.de",
+      "homepage": "https://bueltge.de",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": ">=5.3"
+  },
+  "require-dev": {
+    "inpsyde/php-coding-standards": "^0.8",
+    "dg/composer-cleaner": "^1.1"
   }
 }
