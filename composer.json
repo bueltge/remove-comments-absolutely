@@ -21,7 +21,7 @@
     "php": ">=5.3"
   },
   "require-dev": {
-    "inpsyde/php-coding-standards": "^0.11",
+    "inpsyde/php-coding-standards": "^0.13",
     "dg/composer-cleaner": "^2.1"
   }
 }
