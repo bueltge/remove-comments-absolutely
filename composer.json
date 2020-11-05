@@ -28,6 +28,6 @@
   },
   "scripts": {
     "ci": "vendor/bin/phpcs",
-    "cf": "vendor/bin/php-cs-fixer fix remove-comments-absolute.php --diff --dry-run"
+    "cf": "vendor/bin/php-cs-fixer fix remove-comments-absolute.php --diff"
   }
 }
