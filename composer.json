@@ -21,12 +21,13 @@
     "php": ">=5.3"
   },
   "require-dev": {
-    "dealerdirect/phpcodesniffer-composer-installer": "*",
+    "dealerdirect/phpcodesniffer-composer-installer": "^0.7",
     "phpcompatibility/phpcompatibility-wp": "*",
     "wp-coding-standards/wpcs": "*",
     "dg/composer-cleaner": "^2"
   },
   "scripts": {
+    "ci": "vendor/bin/phpcs",
     "cs": "@php ./vendor/squizlabs/php_codesniffer/bin/phpcs",
     "pu": "@php ./vendor/bin/phpunit",
     "qa": [
