@@ -17,6 +17,12 @@ jobs:
     - name: Validate composer.json and composer.lock
       run: composer validate
 
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '7.3'
+        tools: composer:v1
+    
     - name: Cache Composer packages
       id: composer-cache
       uses: actions/cache@v2
