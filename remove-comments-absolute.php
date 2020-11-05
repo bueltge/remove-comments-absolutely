@@ -15,7 +15,6 @@
  *
  * @package WordPress
  */
-
 if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 	add_action( 'plugins_loaded', array( 'Remove_Comments_Absolute', 'get_object' ) );
 
@@ -126,7 +125,6 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @return null|Remove_Comments_Absolute $classobj object
 		 */
 		public static function get_object() {
-
 			if ( null === self::$classobj ) {
 				self::$classobj = new self;
 			}
@@ -145,7 +143,6 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @return array|string $value
 		 */
 		public function remove_update_nag( $value ) {
-
 			if ( isset( $value->response[ plugin_basename( __FILE__ ) ] )
 				&& ! empty( $value->response[ plugin_basename( __FILE__ ) ] )
 			) {
@@ -167,10 +164,9 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @return string $posts
 		 */
 		public function set_comment_status( $posts ) {
-
 			if ( ! empty( $posts ) && is_singular() ) {
 				$posts[ 0 ]->comment_status = 'closed';
-				$posts[ 0 ]->ping_status    = 'closed';
+				$posts[ 0 ]->ping_status = 'closed';
 			}
 
 			return $posts;
@@ -210,7 +206,6 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @return string
 		 */
 		public function return_closed() {
-
 			return 'closed';
 		}
 
@@ -227,7 +222,6 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @return void
 		 */
 		public function remove_comments() {
-
 			global $pagenow;
 
 			// For integer values.
@@ -275,7 +269,6 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @return void
 		 */
 		public function remove_menu_items() {
-
 			remove_menu_page( 'edit-comments.php' );
 			remove_submenu_page( 'options-general.php', 'options-discussion.php' );
 		}
@@ -291,7 +284,6 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @return array|string $menu
 		 */
 		public function add_menu_classes( $menu ) {
-
 			if ( isset( $menu[ 20 ][ 4 ] ) ) {
 				$menu[ 20 ][ 4 ] .= ' menu-top-last';
 			}
@@ -307,7 +299,6 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * $return  string with js
 		 */
 		public function remove_dashboard_comments_areas() {
-
 			?>
 			<script type="text/javascript">
 				//<![CDATA[
@@ -337,7 +328,6 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @return null
 		 */
 		public function remove_admin_bar_comment_items( $wp_admin_bar ) {
-
 			if ( ! is_admin_bar_showing() ) {
 				return null;
 			}
@@ -358,7 +348,6 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @return void
 		 */
 		public function remove_network_comment_items() {
-
 			if ( ! is_admin_bar_showing() ) {
 				return null;
 			}
@@ -370,7 +359,6 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			}
 
 			if ( is_multisite() && is_plugin_active_for_network( plugin_basename( __FILE__ ) ) ) {
-
 				foreach ( (array) $wp_admin_bar->user->blogs as $blog ) {
 					$wp_admin_bar->remove_node( 'blog-' . $blog->userblog_id . '-c' );
 				}
@@ -389,7 +377,6 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @return string
 		 */
 		public function feed_links( $args ) {
-
 			if ( ! current_theme_supports( 'automatic-feed-links' ) ) {
 				return null;
 			}
@@ -427,18 +414,17 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @param array $args Optional argument.
 		 */
 		public function feed_links_extra( $args ) {
-
 			$defaults = array(
 				/* Translators: Separator between blog name and feed type in feed links. */
-				'separator'     => _x( '&raquo;', 'feed link' ),
+				'separator' => _x( '&raquo;', 'feed link' ),
 				/* Translators: 1: blog name, 2: separator(raquo), 3: category name. */
-				'cattitle'      => __( '%1$s %2$s %3$s Category Feed' ),
+				'cattitle' => __( '%1$s %2$s %3$s Category Feed' ),
 				/* Translators: 1: blog name, 2: separator(raquo), 3: tag name. */
-				'tagtitle'      => __( '%1$s %2$s %3$s Tag Feed' ),
+				'tagtitle' => __( '%1$s %2$s %3$s Tag Feed' ),
 				/* Translators: 1: blog name, 2: separator(raquo), 3: author name.  */
-				'authortitle'   => __( '%1$s %2$s Posts by %3$s Feed' ),
+				'authortitle' => __( '%1$s %2$s Posts by %3$s Feed' ),
 				/* Translators: 1: blog name, 2: separator(raquo), 3: search phrase. */
-				'searchtitle'   => __( '%1$s %2$s Search Results for &#8220;%3$s&#8221; Feed' ),
+				'searchtitle' => __( '%1$s %2$s Search Results for &#8220;%3$s&#8221; Feed' ),
 				/* Translators: 1: blog name, 2: separator(raquo), 3: post type name. */
 				'posttypetitle' => __( '%1$s %2$s %3$s Feed' ),
 			);
@@ -449,12 +435,12 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 				$term = get_queried_object();
 
 				$title = sprintf( $args['cattitle' ], get_bloginfo( 'name' ), $args['separator' ], $term->name );
-				$href  = get_category_feed_link( $term->term_id );
+				$href = get_category_feed_link( $term->term_id );
 			} elseif ( is_tag() ) {
 				$term = get_queried_object();
 
 				$title = sprintf( $args['tagtitle' ], get_bloginfo( 'name' ), $args['separator' ], $term->name );
-				$href  = get_tag_feed_link( $term->term_id );
+				$href = get_tag_feed_link( $term->term_id );
 			} elseif ( is_author() ) {
 				$author_id = (int) get_query_var( 'author' );
 
@@ -462,18 +448,18 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 					$args['authortitle' ], get_bloginfo( 'name' ), $args['separator' ],
 					get_the_author_meta( 'display_name', $author_id )
 				);
-				$href  = get_author_feed_link( $author_id );
+				$href = get_author_feed_link( $author_id );
 			} elseif ( is_search() ) {
 				$title = sprintf(
 					$args['searchtitle' ], get_bloginfo( 'name' ), $args['separator' ], get_search_query( false )
 				);
-				$href  = get_search_feed_link();
+				$href = get_search_feed_link();
 			} elseif ( is_post_type_archive() ) {
 				$title = sprintf(
 					$args['posttypetitle' ], get_bloginfo( 'name' ), $args['separator' ],
 					post_type_archive_title( '', false )
 				);
-				$href  = get_post_type_archive_feed_link( get_queried_object()->name );
+				$href = get_post_type_archive_feed_link( get_queried_object()->name );
 			}
 
 			if ( isset( $title, $href ) ) {
@@ -481,7 +467,6 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 						$title
 					) . '" href="' . esc_url( $href ) . '" />' . "\n";
 			}
-
 		}
 
 		/**
@@ -491,7 +476,6 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @return null
 		 */
 		public function filter_query() {
-
 			if ( ! is_comment_feed() ) {
 				return null;
 			}
@@ -514,7 +498,6 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @return array $headers
 		 */
 		public function filter_wp_headers( $headers ) {
-
 			unset( $headers['X-Pingback'] );
 
 			return $headers;
@@ -526,7 +509,6 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @since   07/16/2012
 		 */
 		public function unregister_default_wp_widgets() {
-
 			unregister_widget( 'WP_Widget_Recent_Comments' );
 		}
 
@@ -538,7 +520,6 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @return void
 		 */
 		public function remove_profile_items() {
-
 			?>
 			<script type="text/javascript">
 				//<![CDATA[
@@ -557,7 +538,6 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @return string The path to the empty template file.
 		 */
 		public function comments_template() {
-
 			return plugin_dir_path( __FILE__ ) . 'comments.php';
 		}
 
@@ -572,7 +552,6 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @return array $methods
 		 */
 		public function xmlrpc_replace_methods( $methods ) {
-
 			$comment_methods = array(
 				'wp.getCommentCount',
 				'wp.getComment',
@@ -584,7 +563,6 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			);
 
 			foreach ( $comment_methods as $method_name ) {
-
 				if ( isset( $methods[ $method_name ] ) ) {
 					$methods[ $method_name ] = array( $this, 'xmlrpc_placeholder_method' );
 				}
@@ -601,7 +579,6 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @return IXR_Error object
 		 */
 		public function xmlrpc_placeholder_method() {
-
 			return new IXR_Error(
 				403,
 				esc_attr__( 'Comments are disabled on this site.', 'remove_comments_absolute' )
@@ -620,7 +597,6 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @return array
 		 */
 		public function filter_query_vars( $public_query_vars ) {
-
 			$key = array_search( 'comments_popup', $public_query_vars, false );
 			if ( false !== $key ) {
 				unset( $public_query_vars[ $key ] );
@@ -637,7 +613,6 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @access private
 		 */
 		public function remove_help_tabs() {
-
 			$current_screen = get_current_screen();
 
 			if ( $current_screen->get_help_tab( 'discussion-settings' ) ) {
@@ -655,7 +630,6 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @return array The filtered array of rewrite rules.
 		 */
 		public function filter_rewrite_rules_array( $rules ) {
-
 			if ( is_array( $rules ) ) {
 
 				// Remove the legacy comment feed rule.
@@ -688,17 +662,14 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @return object Comment stats.
 		 */
 		public function filter_count_comments() {
-
-			return (object) array( 'approved'       => 0,
-			                       'spam'           => 0,
-			                       'trash'          => 0,
-			                       'post-trashed'   => 0,
-			                       'total_comments' => 0,
-			                       'all'            => 0,
-			                       'moderated'      => 0
+			return (object) array( 'approved' => 0,
+				'spam' => 0,
+				'trash' => 0,
+				'post-trashed' => 0,
+				'total_comments' => 0,
+				'all' => 0,
+				'moderated' => 0,
 			);
 		}
-
 	} // end class
-
 } // end if class exists
