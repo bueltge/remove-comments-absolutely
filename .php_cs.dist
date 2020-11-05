@@ -28,6 +28,7 @@ return PhpCsFixer\Config::create()
         'cast_spaces' => ['space' => 'single'],
         'no_spaces_after_function_name' => true,
         'no_spaces_inside_parenthesis' => false,
+        'no_blank_lines_after_phpdoc' => true,
     ])
     ->setIndent("\t")
     ->setLineEnding("\r\n")
