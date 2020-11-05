@@ -32,7 +32,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 *
 		 * @var null
 		 */
-		static private $classobj;
+		private static $classobj;
 
 		/**
 		 * Back end pages for the hint, that comment are inactive.
@@ -127,7 +127,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 */
 		public static function get_object() {
 
-			if ( NULL === self::$classobj ) {
+			if ( null === self::$classobj ) {
 				self::$classobj = new self;
 			}
 
@@ -197,7 +197,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			$post = get_post( $post_id );
 			// For all post types.
 			if ( $post->post_type ) {
-				return FALSE;
+				return false;
 			} // 'closed' don`t work; @see http://codex.wordpress.org/Option_Reference#Discussion
 
 			return $open;
@@ -253,7 +253,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 				}
 			}
 			// Filter for different pages.
-			if ( in_array( $pagenow, self::$comment_pages, FALSE ) ) {
+			if ( in_array( $pagenow, self::$comment_pages, false ) ) {
 				wp_die(
 					esc_html__( 'Comments are disabled on this site.', 'remove_comments_absolute' ),
 					'',
@@ -339,12 +339,12 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		public function remove_admin_bar_comment_items( $wp_admin_bar ) {
 
 			if ( ! is_admin_bar_showing() ) {
-				return NULL;
+				return null;
 			}
 
 			// Remove comment item in blog list for "My Sites" in Admin Bar.
-			if ( isset( $GLOBALS[ 'blog_id' ] ) ) {
-				$wp_admin_bar->remove_node( 'blog-' . $GLOBALS[ 'blog_id' ] . '-c' );
+			if ( isset( $GLOBALS['blog_id'] ) ) {
+				$wp_admin_bar->remove_node( 'blog-' . $GLOBALS['blog_id'] . '-c' );
 			}
 			// Remove entry in admin bar.
 			$wp_admin_bar->remove_node( 'comments' );
@@ -360,7 +360,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		public function remove_network_comment_items() {
 
 			if ( ! is_admin_bar_showing() ) {
-				return NULL;
+				return null;
 			}
 
 			global $wp_admin_bar;
@@ -391,7 +391,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		public function feed_links( $args ) {
 
 			if ( ! current_theme_supports( 'automatic-feed-links' ) ) {
-				return NULL;
+				return null;
 			}
 
 			$defaults = array(
@@ -410,9 +410,9 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			echo '<link rel="alternate" type="' . esc_attr( feed_content_type() ) . '" title="' .
 				esc_attr(
 					sprintf(
-						$args[ 'feedtitle' ],
+						$args['feedtitle' ],
 						get_bloginfo( 'name' ),
-						$args[ 'separator' ]
+						$args['separator']
 					)
 				) . '" href="' . esc_attr( get_feed_link() ) . '"/>' . "\n";
 		}
@@ -448,30 +448,30 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			if ( is_category() ) {
 				$term = get_queried_object();
 
-				$title = sprintf( $args[ 'cattitle' ], get_bloginfo( 'name' ), $args[ 'separator' ], $term->name );
+				$title = sprintf( $args['cattitle' ], get_bloginfo( 'name' ), $args['separator' ], $term->name );
 				$href  = get_category_feed_link( $term->term_id );
 			} elseif ( is_tag() ) {
 				$term = get_queried_object();
 
-				$title = sprintf( $args[ 'tagtitle' ], get_bloginfo( 'name' ), $args[ 'separator' ], $term->name );
+				$title = sprintf( $args['tagtitle' ], get_bloginfo( 'name' ), $args['separator' ], $term->name );
 				$href  = get_tag_feed_link( $term->term_id );
 			} elseif ( is_author() ) {
 				$author_id = (int) get_query_var( 'author' );
 
 				$title = sprintf(
-					$args[ 'authortitle' ], get_bloginfo( 'name' ), $args[ 'separator' ],
+					$args['authortitle' ], get_bloginfo( 'name' ), $args['separator' ],
 					get_the_author_meta( 'display_name', $author_id )
 				);
 				$href  = get_author_feed_link( $author_id );
 			} elseif ( is_search() ) {
 				$title = sprintf(
-					$args[ 'searchtitle' ], get_bloginfo( 'name' ), $args[ 'separator' ], get_search_query( FALSE )
+					$args['searchtitle' ], get_bloginfo( 'name' ), $args['separator' ], get_search_query( false )
 				);
 				$href  = get_search_feed_link();
 			} elseif ( is_post_type_archive() ) {
 				$title = sprintf(
-					$args[ 'posttypetitle' ], get_bloginfo( 'name' ), $args[ 'separator' ],
-					post_type_archive_title( '', FALSE )
+					$args['posttypetitle' ], get_bloginfo( 'name' ), $args['separator' ],
+					post_type_archive_title( '', false )
 				);
 				$href  = get_post_type_archive_feed_link( get_queried_object()->name );
 			}
@@ -488,16 +488,16 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * Redirect on comment feed, set status 301.
 		 *
 		 * @since  04/08/2013
-		 * @return NULL
+		 * @return null
 		 */
 		public function filter_query() {
 
 			if ( ! is_comment_feed() ) {
-				return NULL;
+				return null;
 			}
 
-			if ( isset( $_GET[ 'feed' ] ) ) {
-				wp_redirect( remove_query_arg( 'feed' ), 301 );
+			if ( isset( $_GET['feed'] ) ) {
+				wp_safe_redirect( remove_query_arg( 'feed' ), 301 );
 				exit();
 			}
 			// Redirect_canonical will do the rest.
@@ -515,7 +515,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 */
 		public function filter_wp_headers( $headers ) {
 
-			unset( $headers[ 'X-Pingback' ] );
+			unset( $headers['X-Pingback'] );
 
 			return $headers;
 		}
@@ -621,8 +621,8 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 */
 		public function filter_query_vars( $public_query_vars ) {
 
-			$key = array_search( 'comments_popup', $public_query_vars, FALSE );
-			if ( FALSE !== $key ) {
+			$key = array_search( 'comments_popup', $public_query_vars, false );
+			if ( false !== $key ) {
 				unset( $public_query_vars[ $key ] );
 			}
 
@@ -660,7 +660,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 
 				// Remove the legacy comment feed rule.
 				foreach ( $rules as $k => $v ) {
-					if ( FALSE !== strpos( $k, '|commentsrss2' ) ) {
+					if ( false !== strpos( $k, '|commentsrss2' ) ) {
 						$new_k = str_replace( '|commentsrss2', '', $k );
 						unset( $rules[ $k ] );
 						$rules[ $new_k ] = $v;
@@ -669,7 +669,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 
 				// Remove all other comment related rules.
 				foreach ( $rules as $k => $v ) {
-					if ( FALSE !== strpos( $k, 'comment-page-' ) ) {
+					if ( false !== strpos( $k, 'comment-page-' ) ) {
 						unset( $rules[ $k ] );
 					}
 				}
