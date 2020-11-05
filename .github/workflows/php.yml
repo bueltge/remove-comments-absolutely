@@ -1,0 +1,42 @@
+name: PHP Composer
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Validate composer.json and composer.lock
+      run: composer validate
+
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v2
+      with:
+        path: vendor
+        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-php-
+
+    - name: Install dependencies
+      if: steps.composer-cache.outputs.cache-hit != 'true'
+      run: composer install --prefer-dist --no-progress --no-suggest
+
+    - name: Install wpcs project
+      run: composer create-project wp-coding-standards/wpcs --no-dev
+
+    # Docs: https://getcomposer.org/doc/articles/scripts.md
+    # Run QA
+    - name: Run QA Scripts from composer.json
+      run: composer run-script cs
+      
+    # - name: Run test suite
+    #   run: composer run-script test
