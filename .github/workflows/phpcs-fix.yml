@@ -1,12 +1,23 @@
 name: PHP CS Fixer
-on: [push, pull_request]
+on:
+    push:
+        paths:
+            - '**.php'
+    pull_request:
+        paths:
+            - '**.php'
 jobs:
   php-cs-fixer:
     name: PHP-CS-Fixer
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: PHP-CS-Fixer
-      uses: docker://oskarstark/php-cs-fixer-ga
       with:
-        args: --diff --dry-run
+        ref: ${{ github.head_ref }}
+    - name: Run PHP-CS-Fixer
+      uses: docker://oskarstark/php-cs-fixer-ga
+        
+    - name: Apply the fix
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: Apply php-cs-fixer changes
