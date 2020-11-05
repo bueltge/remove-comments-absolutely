@@ -27,7 +27,7 @@ return PhpCsFixer\Config::create()
         'method_argument_space' => true,
         'cast_spaces' => ['space' => 'single'],
         'no_spaces_after_function_name' => true,
-        'space_inside_parenthesis' => true,
+        'no_spaces_inside_parenthesis' => false,
     ])
     ->setIndent("\t")
     ->setLineEnding("\r\n")
