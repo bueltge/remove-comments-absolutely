@@ -36,7 +36,7 @@ jobs:
     # Docs: https://getcomposer.org/doc/articles/scripts.md
     # Run QA
     - name: Run QA Scripts from composer.json
-      run: composer run-script qa
+      run: composer run-script cs
       
     # - name: Run test suite
     #   run: composer run-script test
