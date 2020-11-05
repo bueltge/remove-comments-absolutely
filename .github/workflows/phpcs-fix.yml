@@ -8,7 +8,6 @@ on:
             - '**.php'
 jobs:
   php-cs-fixer:
-    name: PHP-CS-Fixer
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
