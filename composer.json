@@ -22,16 +22,12 @@
   },
   "require-dev": {
     "dealerdirect/phpcodesniffer-composer-installer": "*",
+	"friendsofphp/php-cs-fixer": "*",
     "phpcompatibility/phpcompatibility-wp": "*",
     "wp-coding-standards/wpcs": "*"
   },
   "scripts": {
     "ci": "vendor/bin/phpcs",
-    "cs": "@php ./vendor/squizlabs/php_codesniffer/bin/phpcs",
-    "pu": "@php ./vendor/bin/phpunit",
-    "qa": [
-      "@cs",
-      "@pu"
-    ]
+    "cf": "vendor/bin/php-cs-fixer fix"
   }
 }

@@ -14,9 +14,24 @@ jobs:
     - uses: actions/checkout@v2
       with:
         ref: ${{ github.head_ref }}
-    - name: Run PHP-CS-Fixer
-      uses: docker://oskarstark/php-cs-fixer-ga
-        
+      
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '7.3'
+        tools: composer:v1
+      
+    - name: Validate composer.json
+      run: composer validate
+      
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress --no-suggest
+    
+      # Docs: https://getcomposer.org/doc/articles/scripts.md
+      # Run QA
+    - name: Run PHPCS Fixer
+      run: composer cf
+
     - name: Apply the fix
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
