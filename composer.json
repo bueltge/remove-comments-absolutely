@@ -21,7 +21,7 @@
     "php": ">=5.3"
   },
   "require-dev": {
-    "dealerdirect/phpcodesniffer-composer-installer": "^0.7",
+    "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
     "phpcompatibility/phpcompatibility-wp": "*",
     "wp-coding-standards/wpcs": "*",
     "dg/composer-cleaner": "^2"
