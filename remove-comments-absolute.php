@@ -15,7 +15,6 @@
  *
  * @package WordPress
  */
-
 if (! class_exists('Remove_Comments_Absolute')) {
 	add_action('plugins_loaded', array( 'Remove_Comments_Absolute', 'get_object' ));
 
