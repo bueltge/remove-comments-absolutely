@@ -8,10 +8,10 @@
  * Domain Path: /languages
  * Description: Deactivate comments functions and remove areas absolutely from the WordPress install
  * Author:      Frank Bültge
- * Version:     1.5.3
- * Last access: 2017-01-08
+ * Version:     1.5.4
+ * Last access: 2020-11-05
  * License:     GPLv3+
- * Author URI:  http://bueltge.de/
+ * Author URI:  https://bueltge.de/
  *
  * @package WordPress
  */
@@ -241,8 +241,9 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			// For all post types.
 			// As alternative define an array( 'post', 'page' ).
 			foreach ( get_post_types() as $post_type ) {
-				// Remove the comment status meta box.
+				// Remove the comments and comments status meta box.
 				remove_meta_box( 'commentstatusdiv', $post_type, 'normal' );
+				remove_meta_box( 'commentsdiv', $post_type, 'normal' );
 				// Remove the trackbacks meta box.
 				remove_meta_box( 'trackbacksdiv', $post_type, 'normal' );
 				// Remove all comments/trackbacks from tables.
