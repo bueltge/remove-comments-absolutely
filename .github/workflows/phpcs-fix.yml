@@ -26,12 +26,10 @@ jobs:
       
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress --no-suggest
-    
-      # Docs: https://getcomposer.org/doc/articles/scripts.md
-      # Run QA
+      
     - name: Run PHPCS Fixer
       run: composer cf
-
+      
     - name: Apply the fix
       uses: stefanzweifel/git-auto-commit-action@v4
       with:

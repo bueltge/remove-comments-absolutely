@@ -22,7 +22,7 @@
   },
   "require-dev": {
     "dealerdirect/phpcodesniffer-composer-installer": "*",
-	"friendsofphp/php-cs-fixer": "*",
+    "friendsofphp/php-cs-fixer": "*",
     "phpcompatibility/phpcompatibility-wp": "*",
     "wp-coding-standards/wpcs": "*"
   },
