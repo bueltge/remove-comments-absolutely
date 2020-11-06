@@ -15,10 +15,11 @@ return PhpCsFixer\Config::create()
         'single_quote' => true,
         'indentation_type' => true,
         'array_indentation' => true,
-        'trailing_comma_in_multiline_array' => ['after_heredoc' => true],
+        'trailing_comma_in_multiline_array' => [
+            'after_heredoc' => true
+        ],
         'braces' => [
-            'position_after_functions_and_oop_constructs' => 'same',
-            'allow_single_line_closure' => true,
+            'position_after_functions_and_oop_constructs' => 'same'
         ],
         'class_attributes_separation' => [
             'elements' => [
