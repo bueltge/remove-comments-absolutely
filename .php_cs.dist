@@ -20,7 +20,12 @@ return PhpCsFixer\Config::create()
             'position_after_functions_and_oop_constructs' => 'same',
             'allow_single_line_closure' => true,
         ],
-        'class_attributes_separation' => ['const', 'property'],
+        'class_attributes_separation' => [
+            'elements' => [
+                'const',
+                'property',
+            ],
+        ],
         'elseif' => true,
         'full_opening_tag' => true,
         'no_trailing_whitespace' => true,
@@ -35,7 +40,9 @@ return PhpCsFixer\Config::create()
         'switch_case_space' => true,
         'whitespace_after_comma_in_array' => true,
         'method_argument_space' => true,
-        'cast_spaces' => ['space' => 'single'],
+        'cast_spaces' => [
+            'space' => 'single'
+        ],
         'no_spaces_after_function_name' => true,
         'no_spaces_inside_parenthesis' => false,
     ])
