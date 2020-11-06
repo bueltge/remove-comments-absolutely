@@ -16,6 +16,15 @@ return PhpCsFixer\Config::create()
         'indentation_type' => true,
         'array_indentation' => true,
         'trailing_comma_in_multiline_array' => ['after_heredoc' => true],
+        'braces' => [
+            'allow_single_line_closure' => true,
+        ],
+        'class_attributes_separation' => [
+            'elements' => [
+                'const',
+                'property',
+            ],
+        ],
         'elseif' => true,
         'full_opening_tag' => true,
         'no_trailing_whitespace' => true,
