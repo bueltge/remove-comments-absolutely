@@ -1,5 +1,8 @@
 <?php
 /**
+ * Ruleset for PHP CS Fixer
+ * 
+ * @see https://cs.symfony.com/
  * @see https://mlocati.github.io/php-cs-fixer-configurator/
  */
 $finder = PhpCsFixer\Finder::create()
