@@ -1,4 +1,55 @@
-.settings/*
+## PhpStorm
+.idea/
+.idea/*
+out/
+.idea_modules/
+atlassian-ide-plugin.xml
+
+## File-based project format
+*.ipr
+*.iws
+*.iml
+*.sh
+
+## Composer
+composer.phar
+vendor/
+wpcs/
+
+## Dot files
+.sass-cache
+.DS_Store
+.cproject
 .buildpath
+
+## Grunt, NPM
+node_modules/
+
+## Eclipse / Aptana IDE
+*.pydevproject
 .project
-.idea
+.metadata
+bin/**
+tmp/**
+tmp/**/*
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.classpath
+.settings/
+.loadpath
+
+# External tool builders
+.externalToolBuilders/
+
+# Locally stored "Eclipse launch configurations"
+*.launch
+
+## Windows
+Thumbs.db
+Desktop.ini
+
+# WordPress
+wordpress/
