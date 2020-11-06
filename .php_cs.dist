@@ -6,6 +6,7 @@
  * @see https://mlocati.github.io/php-cs-fixer-configurator/
  */
 $finder = PhpCsFixer\Finder::create()
+    ->setUsingCache(false)
     ->exclude('.github')
     ->in(__DIR__)
 ;
