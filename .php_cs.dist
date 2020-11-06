@@ -9,7 +9,6 @@ $finder = PhpCsFixer\Finder::create()
 
 return PhpCsFixer\Config::create()
     ->setRules([
-        '@WordPress' => true,
     	'single_quote' => true,
     	'indentation_type' => true,
     	'array_indentation' => true,
