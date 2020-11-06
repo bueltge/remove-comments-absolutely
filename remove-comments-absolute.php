@@ -52,6 +52,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @since   0.0.1
 		 * @uses    add_filter, add_action
 		 */
+
 		public function __construct() {
 
 			// Remove update check.
