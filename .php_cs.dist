@@ -12,6 +12,10 @@ $finder = PhpCsFixer\Finder::create()
 
 return PhpCsFixer\Config::create()
     ->setRules([
+        'single_quote' => true,
+        'indentation_type' => true,
+        'array_indentation' => true,
+        'trailing_comma_in_multiline_array' => ['after_heredoc' => true],
         'elseif' => true,
         'full_opening_tag' => true,
         'no_trailing_whitespace' => true,
