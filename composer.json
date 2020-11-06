@@ -28,6 +28,6 @@
   },
   "scripts": {
     "ci": "vendor/bin/phpcs",
-    "cf": "vendor/bin/php-cs-fixer fix --diff --verbose --dry-run"
+    "cf": "vendor/bin/php-cs-fixer --diff --v --dry-run fix"
   }
 }
