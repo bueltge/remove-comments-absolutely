@@ -12,13 +12,13 @@ $finder = PhpCsFixer\Finder::create()
 
 return PhpCsFixer\Config::create()
     ->setRules([
-    	'single_quote' => true,
-    	'indentation_type' => true,
-    	'array_indentation' => true,
+        'single_quote' => true,
+        'indentation_type' => true,
+        'array_indentation' => true,
         'trailing_comma_in_multiline_array' => ['after_heredoc' => true],
         'braces' => [
-        	'position_after_functions_and_oop_constructs' => 'same',
-        	'allow_single_line_closure' => true,
+            'position_after_functions_and_oop_constructs' => 'same',
+            'allow_single_line_closure' => false,
         ],
         'elseif' => true,
         'full_opening_tag' => true,
@@ -30,7 +30,7 @@ return PhpCsFixer\Config::create()
         'no_closing_tag' => true,
         'not_operator_with_successor_space' => true,
         'ternary_operator_spaces' => true,
-        'unary_operator_spaces' => false,
+        'unary_operator_spaces' => true,
         'binary_operator_spaces' => true,
         'switch_case_space' => true,
         'whitespace_after_comma_in_array' => true,
