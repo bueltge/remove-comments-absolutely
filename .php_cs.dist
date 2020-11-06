@@ -1,10 +1,15 @@
 <?php
+/**
+ * @see https://mlocati.github.io/php-cs-fixer-configurator/
+ */
 $finder = PhpCsFixer\Finder::create()
+    ->exclude('.github')
     ->in(__DIR__)
 ;
 
 return PhpCsFixer\Config::create()
     ->setRules([
+        '@WordPress' => true,
     	'single_quote' => true,
     	'indentation_type' => true,
     	'array_indentation' => true,
