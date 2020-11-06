@@ -28,6 +28,6 @@
   },
   "scripts": {
     "ci": "vendor/bin/phpcs",
-    "cf": "vendor/bin/php-cs-fixer --diff --dry-run fix"
+    "cf": "vendor/bin/php-cs-fixer --diff --dry-run --path-mode=intersection -v fix"
   }
 }
