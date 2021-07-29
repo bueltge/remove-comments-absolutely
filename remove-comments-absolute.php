@@ -434,13 +434,17 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			if ( is_category() ) {
 				$term = get_queried_object();
 
-				$title = sprintf( $args['cattitle' ], get_bloginfo( 'name' ), $args['separator' ], $term->name );
-				$href = get_category_feed_link( $term->term_id );
+				if ( $term && is_object($term) ) {
+					$title = sprintf( $args['cattitle' ], get_bloginfo( 'name' ), $args['separator' ], $term->name );
+					$href = get_category_feed_link( $term->term_id );
+				}
 			} elseif ( is_tag() ) {
 				$term = get_queried_object();
 
-				$title = sprintf( $args['tagtitle' ], get_bloginfo( 'name' ), $args['separator' ], $term->name );
-				$href = get_tag_feed_link( $term->term_id );
+				if ( $term && is_object($term) ) {
+					$title = sprintf( $args['tagtitle' ], get_bloginfo( 'name' ), $args['separator' ], $term->name );
+					$href = get_tag_feed_link( $term->term_id );
+				}
 			} elseif ( is_author() ) {
 				$author_id = (int) get_query_var( 'author' );
 
