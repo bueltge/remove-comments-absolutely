@@ -160,9 +160,9 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @since  0.0.1
 		 * @uses   is_singular
 		 *
-		 * @param string $posts
+		 * @param WP_Post[] $posts
 		 *
-		 * @return string $posts
+		 * @return WP_Post[] $posts Possibly empty array of post objects.
 		 */
 		public function set_comment_status( $posts ) {
 			
