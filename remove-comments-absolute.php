@@ -98,7 +98,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			add_filter( 'post_comments_feed_link', '__return_empty_string' );
 
 			// Set content of <slash:comments> to empty string.
-			add_filter( 'get_comments_number', '__return_empty_string' );
+			add_filter( 'get_comments_number', '__return_zero' );
 
 			// Return empty string for post comment link, which takes care of <comments>.
 			add_filter( 'get_comments_link', '__return_empty_string' );
