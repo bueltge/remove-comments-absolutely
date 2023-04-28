@@ -167,20 +167,24 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		public function set_comment_status( $posts ) {
 			
 			// 1. if no posts at all
-			if ( empty( $posts ) ) 
+			if ( empty( $posts ) ) {
 				return $posts;
+			}
 
 			// 2. if not a WP_Post, we can act on
-			if ( isset( $posts[ 0 ] ) && ! is_a( $posts[ 0 ], 'WP_Post') ) 
+			if ( isset( $posts[ 0 ] ) && ! is_a( $posts[ 0 ], 'WP_Post') ) {
 				return $posts;
+			}
 
 			// 3. if comments aren't supported at all by that post_type
-			if ( ! post_type_supports( get_post_type( $posts[ 0 ] ), 'comments' ))
+			if ( ! post_type_supports( get_post_type( $posts[ 0 ] ), 'comments' )){
 				return $posts;
+			}
 
 			// x. if is_singular()
-			if ( ! is_singular() )
+			if ( ! is_singular() ){
 				return $posts;
+			}
 
 			$posts[ 0 ]->comment_status = 'closed';
 			$posts[ 0 ]->ping_status = 'closed';
