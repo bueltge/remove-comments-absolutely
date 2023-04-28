@@ -98,7 +98,7 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			add_filter( 'post_comments_feed_link', '__return_empty_string' );
 
 			// Set content of <slash:comments> to empty string.
-			add_filter( 'get_comments_number', '__return_empty_string' );
+			add_filter( 'get_comments_number', '__return_zero' );
 
 			// Return empty string for post comment link, which takes care of <comments>.
 			add_filter( 'get_comments_link', '__return_empty_string' );
@@ -160,15 +160,34 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 		 * @since  0.0.1
 		 * @uses   is_singular
 		 *
-		 * @param string $posts
+		 * @param WP_Post[] $posts
 		 *
-		 * @return string $posts
+		 * @return WP_Post[] $posts Possibly empty array of post objects.
 		 */
 		public function set_comment_status( $posts ) {
-			if ( ! empty( $posts ) && is_singular() ) {
-				$posts[ 0 ]->comment_status = 'closed';
-				$posts[ 0 ]->ping_status = 'closed';
+			
+			// 1. if no posts at all
+			if ( empty( $posts ) ) {
+				return $posts;
 			}
+
+			// 2. if not a WP_Post, we can act on
+			if ( isset( $posts[ 0 ] ) && ! is_a( $posts[ 0 ], 'WP_Post') ) {
+				return $posts;
+			}
+
+			// 3. if comments aren't supported at all by that post_type
+			if ( ! post_type_supports( get_post_type( $posts[ 0 ] ), 'comments' )){
+				return $posts;
+			}
+
+			// x. if is_singular()
+			if ( ! is_singular() ){
+				return $posts;
+			}
+
+			$posts[ 0 ]->comment_status = 'closed';
+			$posts[ 0 ]->ping_status = 'closed';
 
 			return $posts;
 		}
