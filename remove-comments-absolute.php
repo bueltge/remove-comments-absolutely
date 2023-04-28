@@ -177,12 +177,12 @@ if ( ! class_exists( 'Remove_Comments_Absolute' ) ) {
 			}
 
 			// 3. if comments aren't supported at all by that post_type
-			if ( ! post_type_supports( get_post_type( $posts[ 0 ] ), 'comments' )){
+			if ( ! post_type_supports( get_post_type( $posts[ 0 ] ), 'comments' ) ) {
 				return $posts;
 			}
 
 			// x. if is_singular()
-			if ( ! is_singular() ){
+			if ( ! is_singular() ) {
 				return $posts;
 			}
 
