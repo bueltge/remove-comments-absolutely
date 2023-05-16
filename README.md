@@ -1,6 +1,9 @@
 # Remove Comments Absolutely
 Deactivate comments functions and remove areas absolutely from the WordPress install
 
+## Note
+Remove Comments Absolutely is abandoned. Please use https://github.com/inpsyde/disable-comments instead. This plugin supports all new features, like Gutenberg blocks to remove all comments features.
+
 ## Description
 The comment feature in WordPress is an essential component of blogs - but not in all cases it's needed, 
 especially if you use it as a traditional CMS.
