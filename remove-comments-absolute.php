@@ -7,10 +7,10 @@
  * GitHub Plugin URI: https://github.com/bueltge/remove-comments-absolutely
  * Text Domain:       remove_comments_absolute
  * Domain Path:       /languages
- * Description:       Deactivate comments functions and remove areas absolutely from the WordPress install
+ * Description:       Note: Remove Comments Absolutely is abandoned. Please use https://github.com/inpsyde/disable-comments instead.
  * Author:            Frank Bültge
- * Version:           1.5.6
- * Last access:       2023-04-28
+ * Version:           1.5.7
+ * Last access:       2023-05-16
  * License:           GPLv3+
  * Author URI:        https://bueltge.de/
  *
